@@ -12,8 +12,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     fun cliuck(demo : View){
-        val intent = Intent(this, Act2::class.java)
-        intent.putExtra("te",texxt.text)
+        val intent = Intent(this, Menu::class.java)
         startActivity(intent)
 
     }
@@ -22,12 +21,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         bot.setOnClickListener(::cliuck)
-
-        val data = arrayOf("1", "2", "3", "4")
-        val adapter = ArrayAdapter<String>(this, R.layout.botton_list, data)
-
-        list.adapter = adapter
-        list.setOnItemClickListener{ parent, view, position, id -> Toast(this, "$id clicked", Toast.LENGTH_LONG).show()}
 
     }
 
