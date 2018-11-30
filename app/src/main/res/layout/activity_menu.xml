@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Menu">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="300dp"
+            android:layout_marginStart="150dp"
+            android:id="@+id/settings"
+            android:text="Settings"
+            />
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="150dp"
+            android:layout_marginTop="175dp"
+            android:id="@+id/play"
+            android:text="Play"
+            />
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginStart="333dp"
+            android:id="@+id/Exit"
+            android:text="exit"
+            />
+
+
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
