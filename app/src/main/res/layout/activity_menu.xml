@@ -5,34 +5,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Menu">
+
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:id="@+id/relativeLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <Button
+            android:id="@+id/settings"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginTop="300dp"
             android:layout_marginStart="150dp"
-            android:id="@+id/settings"
-            android:text="Settings"
-            />
+            android:layout_marginTop="300dp"
+            android:text="Settings" />
+
         <Button
+            android:id="@+id/play"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="150dp"
             android:layout_marginTop="175dp"
-            android:id="@+id/play"
-            android:text="Play"
-            />
+            android:text="Play" />
+
         <Button
+            android:id="@+id/Exit"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="0dp"
             android:layout_marginStart="333dp"
-            android:id="@+id/Exit"
-            android:text="Exit"
-            />
-
+            android:layout_marginTop="0dp"
+            android:text="Exit" />
 
 
     </RelativeLayout>
