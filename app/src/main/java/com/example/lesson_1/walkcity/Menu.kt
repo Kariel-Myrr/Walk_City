@@ -12,7 +12,7 @@ class Menu : AppCompatActivity() {
         startActivity(intent)
 
     }
-    fun changeActtoGame_Map(demo : View){
+    fun changeActtoGameMap(demo : View){
         val intent = Intent(this,Game_Map::class.java)
         startActivity(intent)
 
@@ -20,7 +20,7 @@ class Menu : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
-        play.setOnClickListener(::changeActtoGame_Map)
+        play.setOnClickListener(::changeActtoGameMap)
         settings.setOnClickListener(::changeActtoSettings)
     }
 }
