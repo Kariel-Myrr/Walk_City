@@ -7,16 +7,22 @@
     tools:context=".Game_Map">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/map">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Inventory"
+            android:id="@+id/inv"/>
 
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="20dp"
-            android:text="It's Game_Map"
-            android:layout_marginStart="150dp"
-            android:layout_marginTop="150dp"
-            />
+        <Button
+            android:id="@+id/nt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="Next Turn" />
 
     </RelativeLayout>
+
 
 </android.support.constraint.ConstraintLayout>
