@@ -9,18 +9,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/map">
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Inventory"
-            android:id="@+id/inv"/>
+            android:id="@+id/inv"
+            android:src="@mipmap/ic_launcher_foreground"
+            android:layout_alignParentRight="true"
+            android:contentDescription="TODO" />
 
-        <Button
+        <ImageButton
             android:id="@+id/nt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:text="Next Turn" />
+            android:layout_marginBottom="0dp"
+            android:contentDescription="TODO"
+            android:src="@mipmap/nt_button" />
 
     </RelativeLayout>
 

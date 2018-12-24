@@ -10,19 +10,18 @@ class Menu : AppCompatActivity() {
     fun changeActtoSettings(demo : View){
         val intent = Intent(this,Settings::class.java)
         startActivity(intent)
-
     }
     fun changeActtoGameMap(demo : View){
         val intent = Intent(this,Game_Map::class.java)
         startActivity(intent)
-
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
         play.setOnClickListener(::changeActtoGameMap)
         settings.setOnClickListener(::changeActtoSettings)
-        Exit.setOnClickListener {
+        finish();
+        exit.setOnClickListener {
             System.exit(0)
         }
     }
