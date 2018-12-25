@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import kotlinx.android.synthetic.main.menu.*
+import kotlin.system.exitProcess
 
 class Menu : AppCompatActivity() {
     fun changeActtoSettings(demo : View){
@@ -20,9 +21,9 @@ class Menu : AppCompatActivity() {
         setContentView(R.layout.menu)
         play.setOnClickListener(::changeActtoGameMap)
         settings.setOnClickListener(::changeActtoSettings)
-        finish();
+
         exit.setOnClickListener {
-            System.exit(0)
+            exitProcess(0)
         }
     }
 }
