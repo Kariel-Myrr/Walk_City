@@ -1,5 +1,6 @@
 package com.example.lesson_1.walkcity
 
+import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -18,21 +19,27 @@ class Game_Map_Class : AppCompatActivity() {
             startActivity(intent)
         }
         nt.setOnClickListener{
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Confirm Turn")
-            builder.setMessage("Are you sure you want to confirm Turn?")
-            builder.setPositiveButton("YES"){dialog, which ->
-                Toast.makeText(applicationContext,"Ok, turn made, game saved.",Toast.LENGTH_SHORT).show()
+            val flag = getSharedPreferences(localClassName, Context.MODE_PRIVATE).getBoolean(Settings_Class.checkMoveDialog, false)
+            if(flag == true) {}
+            else {
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Confirm Turn")
+                builder.setMessage("Are you sure you want to confirm Turn?")
+                builder.setPositiveButton("YES") { dialog, which ->
+                    Toast.makeText(applicationContext, "Ok, turn made, game saved.", Toast.LENGTH_SHORT).show()
+                }
+                builder.setNegativeButton("No") { dialog, which ->
+                    Toast.makeText(applicationContext, "Turn not confirmed", Toast.LENGTH_SHORT).show()
+                }
+                val dialog: AlertDialog = builder.create()
+                dialog.show()
             }
-            builder.setNegativeButton("No"){dialog,which ->
-                Toast.makeText(applicationContext,"Turn not confirmed",Toast.LENGTH_SHORT).show()
-            }
-            val dialog: AlertDialog = builder.create()
-            dialog.show()
         }
     }
 
     override fun onBackPressed() {
+        val flag = getSharedPreferences(localClassName, Context.MODE_PRIVATE).getBoolean(Settings_Class.checkBackDialog, false)
+        if(flag == true) exitProcess(0)
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Exit")
         builder.setMessage("Are you sure you want to Exit game?\nAll unsaved progress will be lost.")

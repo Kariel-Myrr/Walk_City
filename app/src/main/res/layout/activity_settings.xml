@@ -1,20 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Settings_Class">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="150dp"
-            android:layout_marginStart="150dp"
-            android:text="It's settings"
-            />
+    tools:context=".Settings_Class"
+    android:background="@drawable/wrenches2">
 
-    </RelativeLayout>
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/settings_back"
+        android:text="Back to menu"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"/>
+
+    <LinearLayout
+        android:background="#ffffff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+        <Switch
+            android:id="@+id/switch_turns"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Disable switch turn dialog" />
+
+        <Switch
+            android:id="@+id/switch_back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Disable switch exiting dialog" />
+    </LinearLayout>
+</RelativeLayout>
