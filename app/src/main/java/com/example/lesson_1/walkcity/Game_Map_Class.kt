@@ -5,6 +5,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
+import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_game__map.*
 import kotlin.system.exitProcess
@@ -19,7 +20,8 @@ class Game_Map_Class : AppCompatActivity() {
             startActivity(intent)
         }
         nt.setOnClickListener{
-            val flag = getSharedPreferences(localClassName, Context.MODE_PRIVATE).getBoolean(Settings_Class.checkMoveDialog, false)
+            val flag = getSharedPreferences(Settings_Class.resFile, Context.MODE_PRIVATE).getBoolean(Settings_Class.checkMoveDialog, false)
+            Log.d("FLAG_TAG", flag.toString())
             if(flag == true) {}
             else {
                 val builder = AlertDialog.Builder(this)
@@ -38,7 +40,7 @@ class Game_Map_Class : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val flag = getSharedPreferences(localClassName, Context.MODE_PRIVATE).getBoolean(Settings_Class.checkBackDialog, false)
+        val flag = getSharedPreferences(Settings_Class.resFile, Context.MODE_PRIVATE).getBoolean(Settings_Class.checkBackDialog, false)
         if(flag == true) exitProcess(0)
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Exit")
