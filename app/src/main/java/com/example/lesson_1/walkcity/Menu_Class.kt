@@ -21,6 +21,7 @@ class Menu_Class : AppCompatActivity() {
         setContentView(R.layout.activity_menu)
         play.setOnClickListener(::changeActtoGameMap)
         settings.setOnClickListener(::changeActtoSettings)
+        new_game.setOnClickListener(::changeActtoSettings)
 
         exit.setOnClickListener {
             exitProcess(0)
