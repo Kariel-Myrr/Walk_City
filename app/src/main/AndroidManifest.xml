@@ -4,23 +4,23 @@
     package="com.example.lesson_1.walkcity">
 
     <application
+        android:theme="@style/Theme.AppCompat.Light"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Menu"
+        <activity android:name=".Menu_Class"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Settings" />
-        <activity android:name=".Game_Map" />
-        <activity android:name=".inventory" />
+        <activity android:name=".Settings_Class" />
+        <activity android:name=".Game_Map_Class" />
+        <activity android:name=".Inventory_Class" />
     </application>
 
 </manifest>
