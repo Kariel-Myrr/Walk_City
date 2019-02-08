@@ -8,6 +8,7 @@ import kotlinx.android.synthetic.main.activity_menu.*
 import kotlin.system.exitProcess
 
 class Menu_Class : AppCompatActivity() {
+    
     fun changeActtoSettings(demo : View){
         val intent = Intent(this,Settings_Class::class.java)
         startActivity(intent)

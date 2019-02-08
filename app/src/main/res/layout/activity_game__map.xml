@@ -26,10 +26,10 @@
                    />
             </ScrollView>
             <ImageButton
+                android:background="@drawable/inv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/inv"
-                android:src="@drawable/inv"
                 android:layout_alignParentRight="true"
                 android:contentDescription="TODO" />
 
@@ -37,12 +37,12 @@
 
 
     <ImageButton
+        android:background="@drawable/nt"
         android:id="@+id/nt"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_alignParentBottom="true"
         android:contentDescription="TODO"
-        android:src="@drawable/nt"
         android:layout_weight="1"
         />
 
