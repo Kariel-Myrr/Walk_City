@@ -19,6 +19,13 @@ class Settings_Class : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
+        val flag_move = getSharedPreferences(Settings_Class.resFile, Context.MODE_PRIVATE).getBoolean(Settings_Class.checkMoveDialog, false)
+        val flag_back = getSharedPreferences(Settings_Class.resFile, Context.MODE_PRIVATE).getBoolean(Settings_Class.checkBackDialog, false)
+
+        switch_back_button.isChecked = flag_back
+        switch_turns.isChecked = flag_move
+
+
         switch_back_button.setOnCheckedChangeListener{_, isChecked->
             val spInstance = getSharedPreferences(resFile, MODE_PRIVATE)
             val editor = spInstance.edit()

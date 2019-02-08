@@ -22,7 +22,9 @@ class Game_Map_Class : AppCompatActivity() {
         nt.setOnClickListener{
             val flag = getSharedPreferences(Settings_Class.resFile, Context.MODE_PRIVATE).getBoolean(Settings_Class.checkMoveDialog, false)
             Log.d("FLAG_TAG", flag.toString())
-            if(flag == true) {}
+            if(flag == true) {
+                Toast.makeText(applicationContext, "Turn made, game saved.", Toast.LENGTH_SHORT).show()
+            }
             else {
                 val builder = AlertDialog.Builder(this)
                 builder.setTitle("Confirm Turn")
