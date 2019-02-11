@@ -1,4 +1,4 @@
 package com.example.lesson_1.walkcity.DataBase
 
-class CityData (var id : Int, var name : String, var hp : Int, var type : String,
-                var active : Int, var people : Int, var damage : Int, var idInventory : Int)
+class CityData (var id : Int = 0, var name : String = "", var hp : Int = 0, var type : String = "",
+                var active : Int = 0, var people : Int = 0, var damage : Int = 0, var idInventory : Int = 0)

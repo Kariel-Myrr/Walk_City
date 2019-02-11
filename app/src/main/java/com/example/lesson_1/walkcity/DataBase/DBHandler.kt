@@ -49,6 +49,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
         var y = "y"
         var idPlace = "idPlace"
     }
+
     var sqlObj: SQLiteDatabase = this.writableDatabase // Сущность SQLiteDatabase
 
     override fun onCreate(p0: SQLiteDatabase?) { // Вызывается при генерации БД
@@ -103,4 +104,114 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
     fun updateMap(values: ContentValues, id: Int) = sqlObj.update(MapName, values, "id=?", arrayOf(id.toString()))
     fun updatePlace(values: ContentValues, id: Int) = sqlObj.update(PlaceName, values, "id=?", arrayOf(id.toString()))
 
+    fun CityList(key: String): ArrayList<CityData> {
+        var arraylist = ArrayList<CityData>()
+        var sqlQB = SQLiteQueryBuilder()
+        sqlQB.tables = CityDataName
+        var cols = arrayOf(id, name, hp, type, active, people, damage, idInventory)
+        var selectArgs = arrayOf(key)
+        var cursor = sqlQB.query(sqlObj, cols, "$id like ?", selectArgs, null, null, id)
+        if (cursor.moveToFirst()) {
+            do {
+                val id = cursor.getInt(cursor.getColumnIndex(id))
+                val name = cursor.getString(cursor.getColumnIndex(name))
+                val hp = cursor.getInt(cursor.getColumnIndex(hp))
+                val type = cursor.getString(cursor.getColumnIndex(type))
+                val active = cursor.getInt(cursor.getColumnIndex(active))
+                val people = cursor.getInt(cursor.getColumnIndex(people))
+                val damage = cursor.getInt(cursor.getColumnIndex(damage))
+                val idInventory = cursor.getInt(cursor.getColumnIndex(idInventory))
+
+                arraylist.add(CityData(id, name, hp, type, active, people, damage, idInventory))
+
+            } while (cursor.moveToNext())
+        }
+        return arraylist
+    }
+
+    fun InventoryList(key: String): ArrayList<InventoryData> {
+        var arraylist = ArrayList<InventoryData>()
+        var sqlQB = SQLiteQueryBuilder()
+        sqlQB.tables = InventoryDataName
+        var cols = arrayOf(id, idItemResource, idItemWeapon, idItemProtection)
+        var selectArgs = arrayOf(key)
+        var cursor = sqlQB.query(sqlObj, cols, "$id like ?", selectArgs, null, null, id)
+        if (cursor.moveToFirst()) {
+            do {
+                val id = cursor.getInt(cursor.getColumnIndex(id))
+                val idItemResource = cursor.getInt(cursor.getColumnIndex(idItemResource))
+                val idItemWeapon = cursor.getInt(cursor.getColumnIndex(idItemWeapon))
+                val idItemProtection = cursor.getInt(cursor.getColumnIndex(idItemProtection))
+
+                arraylist.add(InventoryData(id, idItemResource, idItemWeapon, idItemProtection))
+
+            } while (cursor.moveToNext())
+        }
+        return arraylist
+    }
+
+    fun ItemWeaponList(key: String): ArrayList<ItemWeapon> {
+        var arraylist = ArrayList<ItemWeapon>()
+        var sqlQB = SQLiteQueryBuilder()
+        sqlQB.tables = ItemWeaponName
+        var cols = arrayOf(id, slots, storage)
+        var selectArgs = arrayOf(key)
+        var cursor = sqlQB.query(sqlObj, cols, "$id like ?", selectArgs, null, null, id)
+        if (cursor.moveToFirst()) {
+            do {
+                val id = cursor.getInt(cursor.getColumnIndex(id))
+                val slots = cursor.getString(cursor.getColumnIndex(slots))
+                val storage = cursor.getString(cursor.getColumnIndex(storage))
+                val _slots: MutableList<Int> = mutableListOf(slots.split(" ") as Int)
+                val _storage: MutableList<Int> = mutableListOf(storage.split(" ") as Int)
+
+                arraylist.add(ItemWeapon(id, _slots, _storage))
+
+            } while (cursor.moveToNext())
+        }
+        return arraylist
+    }
+
+    fun ItemResourceList(key: String): ArrayList<ItemResource> {
+        var arraylist = ArrayList<ItemResource>()
+        var sqlQB = SQLiteQueryBuilder()
+        sqlQB.tables = ItemResourceName
+        var cols = arrayOf(id, tree, stone, iron, food, water)
+        var selectArgs = arrayOf(key)
+        var cursor = sqlQB.query(sqlObj, cols, "$id like ?", selectArgs, null, null, id)
+        if (cursor.moveToFirst()) {
+            do {
+                val id = cursor.getInt(cursor.getColumnIndex(id))
+                val tree = cursor.getInt(cursor.getColumnIndex(tree))
+                val stone = cursor.getInt(cursor.getColumnIndex(stone))
+                val iron = cursor.getInt(cursor.getColumnIndex(iron))
+                val food = cursor.getInt(cursor.getColumnIndex(food))
+                val water = cursor.getInt(cursor.getColumnIndex(water))
+
+                arraylist.add(ItemResource(id, tree, stone, iron, food, water))
+
+            } while (cursor.moveToNext())
+        }
+        return arraylist
+    }
+
+
+    fun ItemProtectionList(key: String): ArrayList<ItemProtection> {
+        var arraylist = ArrayList<ItemProtection>()
+        var sqlQB = SQLiteQueryBuilder()
+        sqlQB.tables = ItemProtectionName
+        var cols = arrayOf(id, name, hp, type, active, people, damage, idInventory)
+        var selectArgs = arrayOf(key)
+        var cursor = sqlQB.query(sqlObj, cols, "$id like ?", selectArgs, null, null, id)
+        if (cursor.moveToFirst()) {
+            do {
+                val id = cursor.getInt(cursor.getColumnIndex(id))
+                val slot = cursor.getInt(cursor.getColumnIndex(slot))
+
+                arraylist.add(ItemProtection(id, slot))
+
+            } while (cursor.moveToNext())
+        }
+        return arraylist
+    }
 }

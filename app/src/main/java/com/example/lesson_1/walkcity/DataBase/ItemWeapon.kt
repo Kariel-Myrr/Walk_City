@@ -1,6 +1,6 @@
 package com.example.lesson_1.walkcity.DataBase
 
-class ItemWeapon(var id : Int, var slots : MutableList<Int>, var storage : MutableList<Int> )
+class ItemWeapon(var id : Int = 0, var slots : MutableList<Int> = mutableListOf(), var storage : MutableList<Int> = mutableListOf())
 
 
 /*fun demo(){
