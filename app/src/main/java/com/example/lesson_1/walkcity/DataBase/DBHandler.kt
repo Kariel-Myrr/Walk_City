@@ -5,6 +5,10 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.database.sqlite.SQLiteQueryBuilder
+import com.example.lesson_1.walkcity.DataBase.DBHandler.Companion.SettingsName
+import com.example.lesson_1.walkcity.DataBase.DBHandler.Companion.backDialog
+import com.example.lesson_1.walkcity.DataBase.DBHandler.Companion.id
+import com.example.lesson_1.walkcity.DataBase.DBHandler.Companion.nextTurnDialog
 
 class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVersion) {
 
@@ -19,6 +23,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
         var ItemProtectionName = "ItemProtection"
         var MapName = "Map"
         var PlaceName = "Place"
+        var SettingsName = "Settings"
 
 
         var id = "id"
@@ -48,6 +53,9 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
         var x = "x"
         var y = "y"
         var idPlace = "idPlace"
+
+        var backDialog = "backDialog"
+        var nextTurnDialog = "nextTurnDialog"
     }
 
     var sqlObj: SQLiteDatabase = this.writableDatabase // Сущность SQLiteDatabase
@@ -87,6 +95,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
     fun addItemProtection(values: ContentValues) = sqlObj.insert(ItemProtectionName, "", values)
     fun addMap(values: ContentValues) = sqlObj.insert(MapName, "", values)
     fun addPlace(values: ContentValues) = sqlObj.insert(PlaceName, "", values)
+    fun addSettings(values: ContentValues) = sqlObj.insert(SettingsName, "", values)
 
     fun removeCity(id: Int) = sqlObj.delete(CityDataName, "id=?", arrayOf(id.toString()))
     fun removeInventoryData(id: Int) = sqlObj.delete(InventoryDataName, "id=?", arrayOf(id.toString()))
@@ -95,6 +104,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
     fun removeItemProtection(id: Int) = sqlObj.delete(ItemProtectionName, "id=?", arrayOf(id.toString()))
     fun removeMap(id: Int) = sqlObj.delete(MapName, "id=?", arrayOf(id.toString()))
     fun removePlace(id: Int) = sqlObj.delete(PlaceName, "id=?", arrayOf(id.toString()))
+    fun removeSettings(id: Int) = sqlObj.delete(SettingsName, "id=?", arrayOf(id.toString()))
 
     fun updateCity(values: ContentValues, id: Int) = sqlObj.update(CityDataName, values, "id=?", arrayOf(id.toString()))
     fun updateInventoryData(values: ContentValues, id: Int) = sqlObj.update(InventoryDataName, values, "id=?", arrayOf(id.toString()))
@@ -103,6 +113,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
     fun updateItemProtection(values: ContentValues, id: Int) = sqlObj.update(ItemProtectionName, values, "id=?", arrayOf(id.toString()))
     fun updateMap(values: ContentValues, id: Int) = sqlObj.update(MapName, values, "id=?", arrayOf(id.toString()))
     fun updatePlace(values: ContentValues, id: Int) = sqlObj.update(PlaceName, values, "id=?", arrayOf(id.toString()))
+    fun updateSettings(values: ContentValues, id: Int) = sqlObj.update(SettingsName, values, "id=?", arrayOf(id.toString()))
 
     fun CityList(key: String): ArrayList<CityData> {
         var arraylist = ArrayList<CityData>()
@@ -200,7 +211,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
         var arraylist = ArrayList<ItemProtection>()
         var sqlQB = SQLiteQueryBuilder()
         sqlQB.tables = ItemProtectionName
-        var cols = arrayOf(id, name, hp, type, active, people, damage, idInventory)
+        var cols = arrayOf(id, slot)
         var selectArgs = arrayOf(key)
         var cursor = sqlQB.query(sqlObj, cols, "$id like ?", selectArgs, null, null, id)
         if (cursor.moveToFirst()) {
@@ -209,6 +220,27 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
                 val slot = cursor.getInt(cursor.getColumnIndex(slot))
 
                 arraylist.add(ItemProtection(id, slot))
+
+            } while (cursor.moveToNext())
+        }
+        return arraylist
+    }
+
+
+    fun SettingsList(key: String): ArrayList<Settings> {
+        var arraylist = ArrayList<Settings>()
+        var sqlQB = SQLiteQueryBuilder()
+        sqlQB.tables = SettingsName
+        var cols = arrayOf(id, backDialog, nextTurnDialog)
+        var selectArgs = arrayOf(key)
+        var cursor = sqlQB.query(sqlObj, cols, "$id like ?", selectArgs, null, null, id)
+        if (cursor.moveToFirst()) {
+            do {
+                val id = cursor.getInt(cursor.getColumnIndex(id))
+                val backDialog = cursor.getInt(cursor.getColumnIndex(backDialog))
+                val nextTurnDialog = cursor.getInt(cursor.getColumnIndex(nextTurnDialog))
+
+                arraylist.add(Settings(id, backDialog, nextTurnDialog))
 
             } while (cursor.moveToNext())
         }

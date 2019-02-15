@@ -1,9 +1,8 @@
 package com.example.lesson_1.walkcity
 
-import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import com.example.lesson_1.walkcity.DataBase.Manager
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlin.system.exitProcess
 
@@ -19,28 +18,28 @@ class Settings_Class : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        val flag_move = getSharedPreferences(Settings_Class.resFile, Context.MODE_PRIVATE).getBoolean(Settings_Class.checkMoveDialog, false)
-        val flag_back = getSharedPreferences(Settings_Class.resFile, Context.MODE_PRIVATE).getBoolean(Settings_Class.checkBackDialog, false)
+        var manager = Manager(this, 1)
+        var settings = manager.settings()
+
+        var flag_move : Boolean = false
+        var flag_back :Boolean = false
+
+        if(settings.backDialog == 0) flag_back = false
+        if(settings.nextTurnDialog == 0) flag_move = false
+        if(settings.backDialog == 1) flag_back = true
+        if(settings.nextTurnDialog == 1) flag_move = true
+
 
         switch_back_button.isChecked = flag_back
         switch_turns.isChecked = flag_move
 
 
         switch_back_button.setOnCheckedChangeListener{_, isChecked->
-            val spInstance = getSharedPreferences(resFile, MODE_PRIVATE)
-            val editor = spInstance.edit()
-            editor.putBoolean(checkBackDialog, isChecked)
-            editor.commit()
+            settings.backDialog = 1
         }
 
         switch_turns.setOnCheckedChangeListener { _, isChecked ->
-            val spInstance = getSharedPreferences(resFile, MODE_PRIVATE)
-            val editor = spInstance.edit()
-            editor.putBoolean(checkMoveDialog, isChecked)
-            editor.commit()
-
-            val flag = getSharedPreferences(resFile, Context.MODE_PRIVATE).getBoolean(Settings_Class.checkMoveDialog, false)
-            Log.d("FLAG_TAG", flag.toString())
+            settings.nextTurnDialog = 1
         }
 
         settings_back.setOnClickListener {

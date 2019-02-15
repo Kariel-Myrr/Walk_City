@@ -4,13 +4,14 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteQueryBuilder
 
-class CityManager(context: Context, stat: Int = 0){
+class Manager(context: Context, stat: Int = 0){
     var city = CityData()
     var inventory = InventoryData()
     var protection = ItemProtection()
     var resource = ItemResource()
     var weapon = ItemWeapon()
     var DataBase = DBHandler(context)
+    var settings = Settings()
     init{
         if(stat != 0){
             city.id = 0
@@ -40,6 +41,10 @@ class CityManager(context: Context, stat: Int = 0){
             weapon.id = 0
             weapon.storage = mutableListOf()
             weapon.slots = mutableListOf()
+
+            settings.id = 0
+            settings.backDialog = 0
+            settings.nextTurnDialog = 0
         }
         else{
             var cityList = DataBase.CityList("%")
@@ -52,6 +57,8 @@ class CityManager(context: Context, stat: Int = 0){
             resource = resourceList[0]
             var weaponList = DataBase.ItemWeaponList("%")
             weapon = weaponList[0]
+            var settingsList = DataBase.SettingsList("%")
+            settings  = settingsList[0]
         }
     }
     fun download(){
@@ -65,6 +72,8 @@ class CityManager(context: Context, stat: Int = 0){
         resource = resourceList[0]
         var weaponList = DataBase.ItemWeaponList("%")
         weapon = weaponList[0]
+        var settingsList = DataBase.SettingsList("%")
+        settings  = settingsList[0]
     }
     fun unload(){
         DataBase.removeCity(0)
@@ -72,6 +81,7 @@ class CityManager(context: Context, stat: Int = 0){
         DataBase.removeItemProtection(0)
         DataBase.removeItemResource(0)
         DataBase.removeItemWeapon(0)
+        DataBase.removeSettings(0)
 
         var values = ContentValues()
         values.put(DBHandler.name, city.name)
@@ -109,6 +119,10 @@ class CityManager(context: Context, stat: Int = 0){
         for (i in 0 until weapon.storage.size)_storage += weapon.storage[0].toString() + " "
         values.put(DBHandler.storage, _storage)
         DataBase.addItemWeapon(values)
+
+        values = ContentValues()
+        values.put(DBHandler.backDialog, settings.backDialog)
+        values.put(DBHandler.nextTurnDialog, settings.nextTurnDialog)
     }
 
     fun trying(): Int{
@@ -131,5 +145,8 @@ class CityManager(context: Context, stat: Int = 0){
     }
     fun weapon(): ItemWeapon{
         return weapon
+    }
+    fun settings(): Settings{
+        return settings
     }
 }
