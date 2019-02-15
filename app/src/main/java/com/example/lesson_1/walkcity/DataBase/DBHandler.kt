@@ -214,4 +214,48 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
         }
         return arraylist
     }
+
+    fun MapInfo(key: String): Map {
+        var arraylist = Map()
+        var sqlQB = SQLiteQueryBuilder()
+        sqlQB.tables = MapName
+        var cols = arrayOf(x, y, idPlace)
+        var selectArgs = arrayOf(key)
+        var cursor = sqlQB.query(sqlObj, cols, "$id like ?", selectArgs, null, null, id)
+        if (cursor.moveToFirst()) {
+            do {
+                val x = cursor.getInt(cursor.getColumnIndex(x))
+                val y = cursor.getInt(cursor.getColumnIndex(y))
+                val str = cursor.getString(cursor.getColumnIndex(idPlace))
+                val list : MutableList<Int> = mutableListOf(str.split(" ") as Int)
+                var idPlace : MutableList<MutableList<Int>> = mutableListOf()
+                for(i in 0 until y){
+                    for(e in 0 until x){
+                        idPlace[i][e] = list[i * y + e]
+                    }
+                }
+                arraylist = Map(x, y, idPlace)
+
+            } while (cursor.moveToNext())
+        }
+        return arraylist
+    }
+
+    fun PlaceList(key: String): ArrayList<Place> {
+        var arraylist = ArrayList<Place>()
+        var sqlQB = SQLiteQueryBuilder()
+        sqlQB.tables = PlaceName
+        var cols = arrayOf(type, idItemResource)
+        var selectArgs = arrayOf(key)
+        var cursor = sqlQB.query(sqlObj, cols, "$id like ?", selectArgs, null, null, id)
+        if (cursor.moveToFirst()) {
+            do {
+                val type = cursor.getString(cursor.getColumnIndex(type))
+                val idItemResource = cursor.getInt(cursor.getColumnIndex(idItemResource))
+                arraylist.add(Place(type, idItemResource))
+
+            } while (cursor.moveToNext())
+        }
+        return arraylist
+    }
 }
