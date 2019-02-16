@@ -3,9 +3,11 @@ package com.example.lesson_1.walkcity.DataBase
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteQueryBuilder
+import android.util.Log
 import java.util.*
 
 class Manager(context: Context, stat: Int = 0){
+
     var city = CityData()
     var inventory = InventoryData()
     var protection = ItemProtection()
@@ -91,8 +93,13 @@ class Manager(context: Context, stat: Int = 0){
         map.x = 5
         map.y = 5
         for(i in 0 until map.y){
+            map.idPlace.add(mutableListOf())
+            resourcePlace.add(mutableListOf())
+            place.add(mutableListOf())
             for(e in 0 until map.x){
-                map.idPlace[i][e] = i * map.y + e
+                map.idPlace[i].add(i * map.y + e)
+                resourcePlace[i].add(ItemResource())
+                place[i].add(Place())
                 initPlace(i, e)
             }
         }
@@ -100,6 +107,7 @@ class Manager(context: Context, stat: Int = 0){
 
     init{
         if(stat != 0){
+
             city.id = 0
             city.name = "Home"
             city.hp = 10
@@ -127,7 +135,6 @@ class Manager(context: Context, stat: Int = 0){
             weapon.id = 0
             weapon.storage = mutableListOf()
             weapon.slots = mutableListOf()
-
             initMap()
         }
         else{
