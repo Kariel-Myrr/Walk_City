@@ -3,6 +3,8 @@ package com.example.lesson_1.walkcity.DataBase
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteQueryBuilder
+import android.util.Log
+import java.util.*
 
 class Manager(context: Context, stat: Int = 0){
     var city = CityData()
@@ -12,6 +14,97 @@ class Manager(context: Context, stat: Int = 0){
     var weapon = ItemWeapon()
     var DataBase = DBHandler(context)
     var settings = Settings()
+    var map = Map()
+    var place : MutableList<MutableList<Place>> = mutableListOf()
+    var resourcePlace : MutableList<MutableList<ItemResource>> = mutableListOf()
+
+    private fun IntRange.random() = Random().nextInt((endInclusive + 1) - start) +  start
+
+    private fun initPlace(i: Int, e: Int){
+        var stat = (1..6).random()
+        var numNull = (0..0).random()
+        var numLow = (0..5).random()
+        var numSmall = (0..10).random()
+        var numMedium = (5..10).random()
+        var numHigh = (5..15).random()
+        if(stat == 1){
+            place[i][e].type = "glade"
+            place[i][e].idItemResource = i * map.y + e;
+            resourcePlace[i][e].id = i * map.y + e
+            resourcePlace[i][e].tree = (0..5).random()
+            resourcePlace[i][e].stone = (0..5).random()
+            resourcePlace[i][e].iron = (0..0).random()
+            resourcePlace[i][e].food = (5..15).random()
+            resourcePlace[i][e].water = (0..10).random()
+        }
+        else if(stat == 2){
+            place[i][e].type = "forest"
+            place[i][e].idItemResource = i * map.y + e;
+            resourcePlace[i][e].id = i * map.y + e
+            resourcePlace[i][e].tree = (5..15).random()
+            resourcePlace[i][e].stone = (0..0).random()
+            resourcePlace[i][e].iron = (0..0).random()
+            resourcePlace[i][e].food = (0..10).random()
+            resourcePlace[i][e].water = (0..5).random()
+        }
+        else if(stat == 3){
+            place[i][e].type = "lake"
+            place[i][e].idItemResource = i * map.y + e;
+            resourcePlace[i][e].id = i * map.y + e
+            resourcePlace[i][e].tree = (0..0).random()
+            resourcePlace[i][e].stone = (0..10).random()
+            resourcePlace[i][e].iron = (0..5).random()
+            resourcePlace[i][e].food = (5..10).random()
+            resourcePlace[i][e].water = (5..10).random()
+        }
+        else if(stat == 4){
+            place[i][e].type = "sea"
+            place[i][e].idItemResource = i * map.y + e;
+            resourcePlace[i][e].id = i * map.y + e
+            resourcePlace[i][e].tree = (0..0).random()
+            resourcePlace[i][e].stone = (0..10).random()
+            resourcePlace[i][e].iron = (0..5).random()
+            resourcePlace[i][e].food = (5..10).random()
+            resourcePlace[i][e].water = (5..15).random()
+        }
+        else if(stat == 5){
+            place[i][e].type = "desert"
+            place[i][e].idItemResource = i * map.y + e;
+            resourcePlace[i][e].id = i * map.y + e
+            resourcePlace[i][e].tree = (0..5).random()
+            resourcePlace[i][e].stone = (0..5).random()
+            resourcePlace[i][e].iron = (0..10).random()
+            resourcePlace[i][e].food = (0..5).random()
+            resourcePlace[i][e].water = (0..0).random()
+        }
+        else{
+            place[i][e].type = "mountain"
+            place[i][e].idItemResource = i * map.y + e;
+            resourcePlace[i][e].id = i * map.y + e
+            resourcePlace[i][e].tree = (0..0).random()
+            resourcePlace[i][e].stone = (5..10).random()
+            resourcePlace[i][e].iron = (5..15).random()
+            resourcePlace[i][e].food = (0..5).random()
+            resourcePlace[i][e].water = (0..5).random()
+        }
+    }
+
+    private fun initMap(){
+        map.x = 5
+        map.y = 5
+        for(i in 0 until map.y){
+            map.idPlace.add(mutableListOf())
+            resourcePlace.add(mutableListOf())
+            place.add(mutableListOf())
+            for(e in 0 until map.x){
+                map.idPlace[i].add(i * map.y + e)
+                resourcePlace[i].add(ItemResource())
+                place[i].add(Place())
+                initPlace(i, e)
+            }
+        }
+    }
+
     init{
         if(stat != 0){
             city.id = 0
@@ -45,6 +138,8 @@ class Manager(context: Context, stat: Int = 0){
             settings.id = 0
             settings.backDialog = 0
             settings.nextTurnDialog = 0
+
+            initMap()
         }
         else{
             var cityList = DataBase.CityList("%")
@@ -59,6 +154,15 @@ class Manager(context: Context, stat: Int = 0){
             weapon = weaponList[0]
             var settingsList = DataBase.SettingsList("%")
             settings  = settingsList[0]
+            var _map = DataBase.MapInfo("%")
+            map = _map
+            var placeList = DataBase.PlaceList("%")
+            for(i in 0 until map.y){
+                for(e in 0 until map.x){
+                    place[i][e] = placeList[i * map.y + e]
+                    resourcePlace[i][e] = resourceList[place[i][e].idItemResource]
+                }
+            }
         }
     }
     fun download(){
@@ -74,6 +178,15 @@ class Manager(context: Context, stat: Int = 0){
         weapon = weaponList[0]
         var settingsList = DataBase.SettingsList("%")
         settings  = settingsList[0]
+        var _map = DataBase.MapInfo("%")
+        map = _map
+        var placeList = DataBase.PlaceList("%")
+        for(i in 0 until map.y){
+            for(e in 0 until map.x){
+                place[i][e] = placeList[i * map.y + e]
+                resourcePlace[i][e] = resourceList[place[i][e].idItemResource]
+            }
+        }
     }
     fun unload(){
         DataBase.removeCity(0)
@@ -123,6 +236,9 @@ class Manager(context: Context, stat: Int = 0){
         values = ContentValues()
         values.put(DBHandler.backDialog, settings.backDialog)
         values.put(DBHandler.nextTurnDialog, settings.nextTurnDialog)
+        DataBase.addSettings(values)
+
+
     }
 
     fun trying(): Int{
