@@ -6,13 +6,14 @@ import android.database.sqlite.SQLiteQueryBuilder
 import android.util.Log
 import java.util.*
 
-class Manager(context: Context, stat: Int = 0){
+class Manager(context: Context){
+
     var city = CityData()
     var inventory = InventoryData()
     var protection = ItemProtection()
     var resource = ItemResource()
     var weapon = ItemWeapon()
-    var DataBase = DBHandler(context)
+    var DataBase = DBHandler(context = context)
     var settings = Settings()
     var map = Map()
     var place : MutableList<MutableList<Place>> = mutableListOf()
@@ -105,66 +106,42 @@ class Manager(context: Context, stat: Int = 0){
         }
     }
 
-    init{
-        if(stat != 0){
-            city.id = 0
-            city.name = "Home"
-            city.hp = 10
-            city.type = "village"
-            city.active = 1
-            city.people = 1
-            city.damage = 0
-            city.idInventory = 0
+    fun init(){
+        city.id = 0
+        city.name = "Home"
+        city.hp = 10
+        city.type = "village"
+        city.active = 1
+        city.people = 1
+        city.damage = 0
+        city.idInventory = 0
 
-            inventory.id = 0
-            inventory.idItemProtection = 0
-            inventory.idItemResource = 0
-            inventory.idItemWeapon = 0
+        inventory.id = 0
+        inventory.idItemProtection = 0
+        inventory.idItemResource = 0
+        inventory.idItemWeapon = 0
 
-            protection.id = 0
-            protection.slot = 0
+        protection.id = 0
+        protection.slot = 0
 
-            resource.id = 0
-            resource.tree = 0
-            resource.stone = 0
-            resource.iron = 0
-            resource.food = 2
-            resource.water = 3
+        resource.id = 0
+        resource.tree = 0
+        resource.stone = 0
+        resource.iron = 0
+        resource.food = 2
+        resource.water = 3
 
-            weapon.id = 0
-            weapon.storage = mutableListOf()
-            weapon.slots = mutableListOf()
+        weapon.id = 0
+        weapon.storage = mutableListOf()
+        weapon.slots = mutableListOf()
 
-            settings.id = 0
-            settings.backDialog = 0
-            settings.nextTurnDialog = 0
+        settings.id = 0
+        settings.backDialog = 0
+        settings.nextTurnDialog = 0
 
-            initMap()
-        }
-        else{
-            var cityList = DataBase.CityList("%")
-            city = cityList[0]
-            var inventoryList = DataBase.InventoryList("%")
-            inventory = inventoryList[0]
-            var protectionList = DataBase.ItemProtectionList("%")
-            protection = protectionList[0]
-            var resourceList = DataBase.ItemResourceList("%")
-            resource = resourceList[0]
-            var weaponList = DataBase.ItemWeaponList("%")
-            weapon = weaponList[0]
-            var settingsList = DataBase.SettingsList("%")
-            settings  = settingsList[0]
-            var _map = DataBase.MapInfo("%")
-            map = _map
-            var placeList = DataBase.PlaceList("%")
-            for(i in 0 until map.y){
-                for(e in 0 until map.x){
-                    place[i][e] = placeList[i * map.y + e]
-                    resourcePlace[i][e] = resourceList[place[i][e].idItemResource]
-                }
-            }
-        }
+        initMap()
     }
+
     fun download(){
         var cityList = DataBase.CityList("%")
         city = cityList[0]

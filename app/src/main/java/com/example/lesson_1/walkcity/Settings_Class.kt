@@ -18,7 +18,8 @@ class Settings_Class : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        var manager = Manager(this, 1)
+        var manager = Manager(this)
+        manager.download()
         var settings = manager.settings()
 
         var flag_move : Boolean = false

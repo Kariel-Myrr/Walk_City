@@ -7,12 +7,15 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.widget.Toast
+import com.example.lesson_1.walkcity.DataBase.Manager
 import kotlinx.android.synthetic.main.activity_game__map.*
 import kotlin.system.exitProcess
 
 class Game_Map_Class : AppCompatActivity() {
+    var manager = Manager(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game__map)
         inv.setOnClickListener{
