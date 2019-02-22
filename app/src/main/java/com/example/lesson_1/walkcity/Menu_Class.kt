@@ -11,18 +11,18 @@ import kotlin.system.exitProcess
 class Menu_Class : AppCompatActivity() {
     
     fun changeActtoSettings(demo : View){
-        val intent = Intent(this,Settings_Class::class.java)
+        val intent = Intent(this@Menu_Class,Settings_Class::class.java)
         startActivity(intent)
     }
     fun changeActtoNewGame(demo : View){
         Log.d("FLAG_TAG", "init new game")
-        val intent = Intent(this,Game_Map_Class::class.java)
-        intent.putExtra("status", 1)
+        val intent = Intent(this@Menu_Class,Game_Map_Class::class.java)
+        //intent.putExtra("status", 1)
         startActivity(intent)
     }
     fun changeActtoContinueGame(demo : View){
-        val intent = Intent(this,Game_Map_Class::class.java)
-        intent.putExtra("status", 0)
+        val intent = Intent(this@Menu_Class,Game_Map_Class::class.java)
+        //intent.putExtra("status", 0)
         startActivity(intent)
     }
     override fun onCreate(savedInstanceState: Bundle?) {

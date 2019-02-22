@@ -12,14 +12,14 @@ import kotlinx.android.synthetic.main.activity_game__map.*
 import kotlin.system.exitProcess
 
 class Game_Map_Class : AppCompatActivity() {
-    var manager = Manager(this)
+    var manager = Manager(this@Game_Map_Class)
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game__map)
         inv.setOnClickListener{
-            val intent = Intent(this,Inventory_Class::class.java)
+            val intent = Intent(this@Game_Map_Class,Inventory_Class::class.java)
             startActivity(intent)
         }
         nt.setOnClickListener{
@@ -29,7 +29,7 @@ class Game_Map_Class : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Turn made, game saved.", Toast.LENGTH_SHORT).show()
             }
             else {
-                val builder = AlertDialog.Builder(this)
+                val builder = AlertDialog.Builder(this@Game_Map_Class)
                 builder.setTitle("Confirm Turn")
                 builder.setMessage("Are you sure you want to confirm Turn?")
                 builder.setPositiveButton("YES") { dialog, which ->
@@ -47,7 +47,7 @@ class Game_Map_Class : AppCompatActivity() {
     override fun onBackPressed() {
         val flag = getSharedPreferences(Settings_Class.resFile, Context.MODE_PRIVATE).getBoolean(Settings_Class.checkBackDialog, false)
         if(flag == true) exitProcess(0)
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(this@Game_Map_Class)
         builder.setTitle("Exit")
         builder.setMessage("Are you sure you want to Exit game?\nAll unsaved progress will be lost.")
         builder.setPositiveButton("YES"){dialog, which ->
