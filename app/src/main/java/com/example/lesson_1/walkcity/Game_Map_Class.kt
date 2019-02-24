@@ -12,12 +12,13 @@ import kotlinx.android.synthetic.main.activity_game__map.*
 import kotlin.system.exitProcess
 
 class Game_Map_Class : AppCompatActivity() {
-    var manager = Manager(this@Game_Map_Class)
+    lateinit var manager : Manager
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game__map)
+        manager = Manager(this@Game_Map_Class)
+
         inv.setOnClickListener{
             val intent = Intent(this@Game_Map_Class,Inventory_Class::class.java)
             startActivity(intent)

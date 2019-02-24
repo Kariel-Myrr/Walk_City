@@ -13,7 +13,7 @@ class Manager(context: Context){
     var protection = ItemProtection()
     var resource = ItemResource()
     var weapon = ItemWeapon()
-    var DataBase = DBHandler(context = context)
+    var DataBase = DBHandler(context)
     var settings = Settings()
     var map = Map()
     var place : MutableList<MutableList<Place>> = mutableListOf()
