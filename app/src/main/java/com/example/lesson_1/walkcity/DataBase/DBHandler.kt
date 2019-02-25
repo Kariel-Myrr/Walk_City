@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.database.sqlite.SQLiteQueryBuilder
+import android.util.Log
 import com.example.lesson_1.walkcity.DataBase.DBHandler.Companion.SettingsName
 import com.example.lesson_1.walkcity.DataBase.DBHandler.Companion.backDialog
 import com.example.lesson_1.walkcity.DataBase.DBHandler.Companion.id
@@ -75,6 +76,8 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
         p0!!.execSQL(sql1)
         sql1 = "CREATE TABLE IF NOT EXISTS $PlaceName ( $id  INTEGER PRIMARY KEY, $type TEXT, $idItemResource TEXT);"
         p0!!.execSQL(sql1)
+        sql1 = "CREATE TABLE IF NOT EXISTS $SettingsName ( $id  INTEGER PRIMARY KEY, $backDialog TEXT, $nextTurnDialog TEXT);"
+        p0!!.execSQL(sql1)
     }
 
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) { // Вызывается при обновлении версии БД
@@ -85,6 +88,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
         p0!!.execSQL("Drop table IF EXISTS $ItemProtectionName")
         p0!!.execSQL("Drop table IF EXISTS $MapName")
         p0!!.execSQL("Drop table IF EXISTS $PlaceName")
+        p0!!.execSQL("Drop table IF EXISTS $SettingsName")
         onCreate(p0)
     }
 
@@ -253,7 +257,9 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
         sqlQB.tables = MapName
         var cols = arrayOf(x, y, idPlace)
         var selectArgs = arrayOf(key)
+
         var cursor = sqlQB.query(sqlObj, cols, "$id like ?", selectArgs, null, null, id)
+
         if (cursor.moveToFirst()) {
             do {
                 val x = cursor.getInt(cursor.getColumnIndex(x))
