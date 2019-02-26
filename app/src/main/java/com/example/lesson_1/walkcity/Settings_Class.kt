@@ -14,9 +14,6 @@ class Settings_Class : AppCompatActivity() {
     lateinit var manager : Manager
 
     companion object {
-        val checkMoveDialog = "checkMoveDialog"
-        val checkBackDialog = "checkBackDialog"
-        val resFile = "demo_filename"
         var flag_move = false
         var flag_back = false
     }

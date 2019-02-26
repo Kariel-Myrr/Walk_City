@@ -223,13 +223,12 @@ class Manager(context: Context){
         values.put(DBHandler.backDialog, settings.backDialog)
         values.put(DBHandler.nextTurnDialog, settings.nextTurnDialog)
         if(tryingSettings() == 0)DataBase.addSettings(values)
-        else DataBase.updateSettings(values, 0)
+        else DataBase.updateSettings(values, 1)
     }
 
     fun downloadSettings(){
         var settingsList = DataBase.SettingsList("%")
         settings  = settingsList[0]
-        Log.d("FLAG_TAG", "${settings.backDialog} ${settings.nextTurnDialog}")
     }
 
     fun trying(): Int{
@@ -242,7 +241,6 @@ class Manager(context: Context){
         var status : Int
         var settingsList = DataBase.SettingsList("%")
         status = settingsList.size
-        Log.d("FLAG_TAG", "size = $status")
         return status
     }
     fun city(): CityData{

@@ -6,32 +6,57 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import com.example.lesson_1.walkcity.DataBase.Manager
+import com.example.lesson_1.walkcity.DataBase.Settings
 import kotlinx.android.synthetic.main.activity_game__map.*
 import kotlin.system.exitProcess
 
 class Game_Map_Class : AppCompatActivity() {
     lateinit var manager : Manager
 
+    companion object {
+        var flag_move = false
+        var flag_back = false
+    }
+
     override fun onStart() {
         super.onStart()
         manager = Manager(this@Game_Map_Class)
+        if(manager.tryingSettings() != 0)manager.downloadSettings()
     }
+
+    fun changeActtoBack(){
+        val intent = Intent(this@Game_Map_Class,Menu_Class::class.java)
+        startActivity(intent)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game__map)
-
-
+        onStart()
+        var settings : Settings
+        if(manager.tryingSettings() != 0) {
+            settings = manager.settings()
+            Log.d("FLAG_TAG", "backDialog = ${settings.backDialog} nextTurnDialog = ${settings.nextTurnDialog}")
+            if(settings.nextTurnDialog == 0) flag_move = false
+            else flag_move = true
+            if(settings.backDialog == 0) flag_back = false
+            else flag_back = true
+            Log.d("FLAG_TAG", "flag_back = $flag_back flag_move = $flag_move")
+        }
+        else{
+            flag_move = false
+            flag_back = false
+        }
         inv.setOnClickListener{
             val intent = Intent(this@Game_Map_Class,Inventory_Class::class.java)
             startActivity(intent)
         }
         nt.setOnClickListener{
-            val flag = getSharedPreferences(Settings_Class.resFile, Context.MODE_PRIVATE).getBoolean(Settings_Class.checkMoveDialog, false)
-            Log.d("FLAG_TAG", flag.toString())
-            if(flag == true) {
+            if(flag_move == true) {
                 Toast.makeText(applicationContext, "Turn made, game saved.", Toast.LENGTH_SHORT).show()
             }
             else {
@@ -51,18 +76,19 @@ class Game_Map_Class : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val flag = getSharedPreferences(Settings_Class.resFile, Context.MODE_PRIVATE).getBoolean(Settings_Class.checkBackDialog, false)
-        if(flag == true) exitProcess(0)
-        val builder = AlertDialog.Builder(this@Game_Map_Class)
-        builder.setTitle("Exit")
-        builder.setMessage("Are you sure you want to Exit game?\nAll unsaved progress will be lost.")
-        builder.setPositiveButton("YES"){dialog, which ->
-            exitProcess(0)
+        if (flag_back == true) changeActtoBack()
+        else {
+            val builder = AlertDialog.Builder(this@Game_Map_Class)
+            builder.setTitle("Exit")
+            builder.setMessage("Are you sure you want to Exit game?\nAll unsaved progress will be lost.")
+            builder.setPositiveButton("YES") { dialog, which ->
+                changeActtoBack()
+            }
+            builder.setNegativeButton("No") { dialog, which ->
+                Toast.makeText(applicationContext, "Game continued.", Toast.LENGTH_SHORT).show()
+            }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
         }
-        builder.setNegativeButton("No"){dialog,which ->
-            Toast.makeText(applicationContext,"Game continued.",Toast.LENGTH_SHORT).show()
-        }
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
     }
 }
