@@ -177,13 +177,28 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
                 val id = cursor.getInt(cursor.getColumnIndex(id))
                 val slots = cursor.getString(cursor.getColumnIndex(slots))
                 val storage = cursor.getString(cursor.getColumnIndex(storage))
-                val _slots: MutableList<Int> = mutableListOf(slots.split(" ") as Int)
-                val _storage: MutableList<Int> = mutableListOf(storage.split(" ") as Int)
-
+                //Log.d("FLAG_TAG", "string slots = $slots")
+                //Log.d("FLAG_TAG", "string storage = $storage")
+                //val _slots: MutableList<Int> = mutableListOf(slots.split(" ") as Int)
+                //val _storage: MutableList<Int> = mutableListOf(storage.split(" ") as Int)
+                var slotsList: MutableList<String> = mutableListOf()
+                var storageList: MutableList<String> = mutableListOf()
+                for(str in slots.split(" "))slotsList.add(str)
+                for(str in storage.split(" "))storageList.add(str)
+                //Log.d("FLAG_TAG", "slotsList.size = ${slotsList.size} storageList.size = ${storageList.size}")
+                if(slotsList.size == 1)if(slotsList[0] == "")slotsList.clear()
+                if(storageList.size == 1)if(storageList[0] == "")storageList.clear()
+                //Log.d("FLAG_TAG", "slotsList.size = ${slotsList.size} storageList.size = ${storageList.size}")
+                var _slots : MutableList<Int> = mutableListOf()
+                val _storage: MutableList<Int> = mutableListOf()
+                for(i in 0 until slotsList.size)_slots.add(slotsList[i].toInt())
+                for(i in 0 until storageList.size)_storage.add(storageList[i].toInt())
+                //Log.d("FLAG_TAG", "_slots.size = ${_slots.size} _storage.size = ${_storage.size}")
                 arraylist.add(ItemWeapon(id, _slots, _storage))
-
+                //Log.d("FLAG_TAG", "Ok")
             } while (cursor.moveToNext())
         }
+        //Log.d("FLAG_TAG", "exit ItemWeaponList arraylist.size = ${arraylist.size}")
         return arraylist
     }
 
@@ -251,41 +266,56 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
         return arraylist
     }
 
-    fun MapInfo(key: String): Map {
-        var arraylist = Map()
+    fun MapInfo(key: String): ArrayList<Map> {
+        //Log.d("FLAG_TAG", "MapInfo")
+        var arraylist = ArrayList<Map>()
         var sqlQB = SQLiteQueryBuilder()
         sqlQB.tables = MapName
         var cols = arrayOf(x, y, idPlace)
         var selectArgs = arrayOf(key)
 
         var cursor = sqlQB.query(sqlObj, cols, "$id like ?", selectArgs, null, null, id)
-
+        //Log.d("FLAG_TAG", "mapinfo test 1")
         if (cursor.moveToFirst()) {
             do {
+                //Log.d("FLAG_TAG", "mapinfo test 2")
                 val x = cursor.getInt(cursor.getColumnIndex(x))
                 val y = cursor.getInt(cursor.getColumnIndex(y))
+                //Log.d("FLAG_TAG", "x = $x y = $y")
                 val str = cursor.getString(cursor.getColumnIndex(idPlace))
-                val list : MutableList<Int> = mutableListOf(str.split(" ") as Int)
+                //Log.d("FLAG_TAG", "mapinfo test 2.5")
+                val list : MutableList<String> = mutableListOf()
+                //Log.d("FLAG_TAG", "mapinfo test 3 str = '$str'")
+                for(a in str.split(" "))list.add(a)
+                list.removeAt(25)
+                //Log.d("FLAG_TAG", "mapinfo test 3.5 list.size = ${list.size}")
                 var idPlace : MutableList<MutableList<Int>> = mutableListOf()
+                //Log.d("FLAG_TAG", "mapinfo test 4")
                 for(i in 0 until y){
+                    idPlace.add(mutableListOf())
                     for(e in 0 until x){
-                        idPlace[i][e] = list[i * y + e]
+                        idPlace[i].add(list[i * y + e].toInt())
                     }
                 }
-                arraylist = Map(x, y, idPlace)
+                //Log.d("FLAG_TAG", "mapinfo test 5")
+                arraylist.add(Map(x, y, idPlace))
 
             } while (cursor.moveToNext())
         }
+        //Log.d("FLAG_TAG", "mapinfo test 6 arraylist.size = ${arraylist.size}")
         return arraylist
     }
 
     fun PlaceList(key: String): ArrayList<Place> {
+        //Log.d("FLAG_TAG", "PlaceList test 1")
         var arraylist = ArrayList<Place>()
         var sqlQB = SQLiteQueryBuilder()
         sqlQB.tables = PlaceName
+        //Log.d("FLAG_TAG", "PlaceList test 2")
         var cols = arrayOf(type, idItemResource)
         var selectArgs = arrayOf(key)
         var cursor = sqlQB.query(sqlObj, cols, "$id like ?", selectArgs, null, null, id)
+        //Log.d("FLAG_TAG", "PlaceList test 3")
         if (cursor.moveToFirst()) {
             do {
                 val type = cursor.getString(cursor.getColumnIndex(type))
@@ -294,6 +324,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
 
             } while (cursor.moveToNext())
         }
+        //Log.d("FLAG_TAG", "PlaceList test 4 arraylist.size = ${arraylist.size}")
         return arraylist
     }
 }

@@ -23,8 +23,17 @@ class Game_Map_Class : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        manager = Manager(this@Game_Map_Class)
-        if(manager.tryingSettings() != 0)manager.downloadSettings()
+        var getIntentFromMenu = intent
+        var status = ""
+        if(getIntentFromMenu.hasExtra("status"))
+            status = getIntentFromMenu.getStringExtra("status")
+        if(status == "new game")manager.init()
+        else manager.download()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        manager.unload()
     }
 
     fun changeActtoBack(){
@@ -36,9 +45,10 @@ class Game_Map_Class : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game__map)
-        onStart()
+        manager = Manager(this@Game_Map_Class)
         var settings : Settings
         if(manager.tryingSettings() != 0) {
+            manager.downloadSettings()
             settings = manager.settings()
             Log.d("FLAG_TAG", "backDialog = ${settings.backDialog} nextTurnDialog = ${settings.nextTurnDialog}")
             if(settings.nextTurnDialog == 0) flag_move = false

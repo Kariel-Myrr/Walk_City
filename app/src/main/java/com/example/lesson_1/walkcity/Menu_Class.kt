@@ -16,12 +16,12 @@ class Menu_Class : AppCompatActivity() {
     }
     fun changeActtoNewGame(demo : View){
         val intent = Intent(this@Menu_Class,Game_Map_Class::class.java)
-        intent.putExtra("status", 1)
+        intent.putExtra("status", "new game")
         startActivity(intent)
     }
     fun changeActtoContinueGame(demo : View){
         val intent = Intent(this@Menu_Class,Game_Map_Class::class.java)
-        intent.putExtra("status", 0)
+        intent.putExtra("status", "continue game")
         startActivity(intent)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
