@@ -5,17 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Game_Map">
+
     <RelativeLayout
+        android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/map">
+        android:layout_height="match_parent">
+
+        <com.example.lesson_1.walkcity.Map.MapView
+            android:layout_width="3000dp"
+            android:layout_height="3000dp"
+            android:background="#aaa"/>
+
         <ImageButton
+            android:id="@+id/inv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/inv"
-            android:src="@mipmap/ic_launcher_foreground"
             android:layout_alignParentRight="true"
-            android:contentDescription="TODO" />
+            android:contentDescription="TODO"
+            android:src="@mipmap/ic_launcher_foreground" />
 
         <ImageButton
             android:id="@+id/nt"
