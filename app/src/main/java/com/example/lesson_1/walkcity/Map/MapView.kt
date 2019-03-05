@@ -164,7 +164,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
 
 
-            if (cellX/2 + 100 <= cellY && cellX/2 + 300 >= cellY && -cellX/2 + 700 <= cellY && -cellX/2 + 900 >= cellY) {
+            if (true) {
                 println("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
                 picTile = BitmapFactory.decodeResource(resources, R.drawable.sonic2)
                 mCanvas.drawBitmap(picTile, 50f, 50f, mBitmapPaint)
