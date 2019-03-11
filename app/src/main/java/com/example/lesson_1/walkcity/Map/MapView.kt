@@ -68,31 +68,33 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
 
 
-       // DrawTile(100f, 100f, Map[0][0], paint)
-       // DrawTile(300f, 100f, Map[0][0], paint)
-       // DrawTile(200f, 50f, Map[0][0], paint)
-       // DrawTile(200f, 150f, Map[0][0], paint)
+       // drawTile(100f, 100f, Map[0][0], paint)
+       // drawTile(300f, 100f, Map[0][0], paint)
+       // drawTile(200f, 50f, Map[0][0], paint)
+       // drawTile(200f, 150f, Map[0][0], paint)
 
-        DrawMatr(paint)
+        drawMatr(paint)
 
 
     }
 
 
-    fun DrawMatr(paint : Paint){
+
+
+    private fun drawMatr(paint : Paint){
 
         for(i in (N-1)downTo 0){
             if(i%2 == 0) paint.color = Color.GREEN
             else paint.color = Color.BLUE
             for(j in 0..i){
-                DrawTile((i-j)*100 + matrX, (3 - i - j)*50 + matrY, Map[j][i-j], paint)
-                DrawTile((j-i)*100 + matrX, (3 - i - j)*50 + matrY, Map[j][i-j], paint)
+                drawTile((i-j)*100 + matrX, (3 - i - j)*50 + matrY, Map[j][i-j], paint)
+                drawTile((j-i)*100 + matrX, (3 - i - j)*50 + matrY, Map[j][i-j], paint)
             }
         }
     }
 
 
-    fun DrawTile(X : Float, Y : Float, T : Tile, paint : Paint){
+    private fun drawTile(X : Float, Y : Float, T : Tile, paint : Paint){
 
 
         mCanvas.drawLine(X, Y - 50f, 100f + X, Y, paint)
@@ -176,7 +178,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
             val cord = Cord(0, 0, 0 , 0)
 
-            TileTapCord(cellX.toFloat() - dMatrX, cellY.toFloat() - dMatrY, cord)
+            tileTapCord(cellX.toFloat() - dMatrX, cellY.toFloat() - dMatrY, cord)
 
             println("I =  ${cord.I}   J =  ${cord.J} ")
 
@@ -185,22 +187,22 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             return true
         }
 
-        inner class Cord(public var X : Int,
-                         public var Y : Int,
-                         public var I : Int,
-                         public var J : Int){
+        inner class Cord(var X : Int,
+                         var Y : Int,
+                         var I : Int,
+                         var J : Int){
             init{
                     J = -(this.X - this.Y - N)/2
                     I = (this.X + this.Y - N)/2
             }
-            fun UpDate(){
+            fun upDate(){
                 J = -(this.X - this.Y - N)/2
                 I = (this.X + this.Y - N)/2
             }
 
         }
 
-        fun TileTapCord(xTap : Float, yTap : Float, cord : Cord){
+        fun tileTapCord(xTap : Float, yTap : Float, cord : Cord){
 
             val sX = ((xTap)/100).toInt()
             val sY = ((yTap)/50).toInt()
@@ -231,7 +233,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
             }
 
-            cord.UpDate()
+            cord.upDate()
         }
 
 
