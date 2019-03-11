@@ -17,7 +17,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private lateinit var picTile: Bitmap
     private lateinit var mCanvas: Canvas
     private lateinit var paint: Paint
-    private lateinit var mBitmapPaint:  Paint
+    private lateinit var mBitmapPaint: Paint
     private var canvasSize: Float = 0f
 
     //Задаем матрицу
@@ -50,7 +50,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
         mCanvas = Canvas(mBitmap)
 
-        mCanvas.drawBitmap(picTile, 50f, 50f, mBitmapPaint)
+        //mCanvas.drawBitmap(picTile, 50f, 50f, mBitmapPaint)
 
         paint = Paint()
         paint.isAntiAlias = true
@@ -81,16 +81,17 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
 
 
+
     private fun drawMatr(paint : Paint){
 
-        for(i in (N-1)downTo 0){
+        for(i in 0..(N-1)){
             if(i%2 == 0) paint.color = Color.GREEN
             else paint.color = Color.BLUE
             for(j in 0..i){
-                drawTile((i-j)*100 + matrX, (3 - i - j)*50 + matrY, Map[j][i-j], paint)
-                drawTile((j-i)*100 + matrX, (3 - i - j)*50 + matrY, Map[j][i-j], paint)
+                drawTile((i-j)*100 + matrX, (i+j)*50 + dMatrY, Map[j][i], paint)
             }
         }
+        invalidate()
     }
 
 
@@ -101,7 +102,9 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         mCanvas.drawLine(X - 100f, Y, X, Y - 50f, paint)
         mCanvas.drawLine(X - 100f, Y, X, 50f + Y, paint)
         mCanvas.drawLine(X, 50f + Y, 100f + X, Y, paint)
-
+        if(T.type == 3){
+            mCanvas.drawCircle(X, Y, 50f, paint)
+        }
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -110,7 +113,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         canvas.scale(mScaleFactor, mScaleFactor)
         canvas.drawBitmap(mBitmap, 0f, 0f, mBitmapPaint)
         canvas.restore()
-
+        println("bb")
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -176,30 +179,15 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
 
 
-            val cord = Cord(0, 0, 0 , 0)
+            val cord = Cord(0, 0, 0 , 0, N)
 
             tileTapCord(cellX.toFloat() - dMatrX, cellY.toFloat() - dMatrY, cord)
 
             println("I =  ${cord.I}   J =  ${cord.J} ")
 
-          //  logicTapFunc(cord)
+            logicTapFun(cord)
 
             return true
-        }
-
-        inner class Cord(var X : Int,
-                         var Y : Int,
-                         var I : Int,
-                         var J : Int){
-            init{
-                    J = -(this.X - this.Y - N)/2
-                    I = (this.X + this.Y - N)/2
-            }
-            fun upDate(){
-                J = -(this.X - this.Y - N)/2
-                I = (this.X + this.Y - N)/2
-            }
-
         }
 
         fun tileTapCord(xTap : Float, yTap : Float, cord : Cord){
@@ -248,6 +236,18 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         }
 
 
+    }
+
+
+
+
+    fun logicTapFun(cord : Cord){
+        if(cord.I > 3 || cord.J > 3 || cord.I < 0 || cord.J < 0){}
+        else {
+            Map[cord.I][cord.J].type = 3
+            println("aaa")
+            drawMatr(paint)
+        }
     }
 
 }
