@@ -17,7 +17,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private lateinit var picTile: Bitmap
     private lateinit var mCanvas: Canvas
     private lateinit var paint: Paint
-    private lateinit var mBitmapPaint: Paint
+    private lateinit var mBitmapPaint:  Paint
     private var canvasSize: Float = 0f
 
     //Задаем матрицу
