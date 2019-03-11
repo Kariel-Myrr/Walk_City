@@ -174,18 +174,29 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
 
 
-            val cord = Cord(0, 0)
+            val cord = Cord(0, 0, 0 , 0)
 
             TileTapCord(cellX.toFloat() - dMatrX, cellY.toFloat() - dMatrY, cord)
 
-            println("centerX ${cord.X} centerY ${cord.Y} ")
+            println("I =  ${cord.I}   J =  ${cord.J} ")
 
           //  logicTapFunc(cord)
 
             return true
         }
 
-        inner class Cord(public var X : Int, public var Y : Int){
+        inner class Cord(public var X : Int,
+                         public var Y : Int,
+                         public var I : Int,
+                         public var J : Int){
+            init{
+                    J = -(this.X - this.Y - N)/2
+                    I = (this.X + this.Y - N)/2
+            }
+            fun UpDate(){
+                J = -(this.X - this.Y - N)/2
+                I = (this.X + this.Y - N)/2
+            }
 
         }
 
@@ -220,7 +231,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
             }
 
-
+            cord.UpDate()
         }
 
 
