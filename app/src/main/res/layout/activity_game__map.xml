@@ -12,9 +12,10 @@
         android:layout_height="match_parent">
 
         <com.example.lesson_1.walkcity.Map.MapView
-            android:layout_width="3000dp"
-            android:layout_height="3000dp"
-            android:background="#aaa"/>
+            android:layout_width="1000dp"
+            android:layout_height="1000dp"
+            android:background="#aaa"
+            android:id="@+id/ViewMap"/>
 
         <ImageButton
             android:id="@+id/inv"
