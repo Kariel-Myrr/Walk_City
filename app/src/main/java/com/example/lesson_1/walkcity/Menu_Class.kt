@@ -32,7 +32,12 @@ class Menu_Class : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         var st : Int = getValueInt("exitingApp")
+        val PREFS_NAME = "exitingApp"
+        val sharedPref: SharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPref.edit()
         if(st == 1){
+            editor.putInt(PREFS_NAME, 0)
+            editor.commit()
             finish()
             System.exit(0)
         }
@@ -42,10 +47,6 @@ class Menu_Class : AppCompatActivity() {
         play.setOnClickListener(::changeActtoContinueGame)
         settings.setOnClickListener(::changeActtoSettings)
         new_game.setOnClickListener(::changeActtoNewGame)
-
-        val PREFS_NAME = "exitingApp"
-        val sharedPref: SharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = sharedPref.edit()
 
         editor.putInt(PREFS_NAME, 0)
         editor.commit()
