@@ -1,10 +1,7 @@
 package com.example.lesson_1.walkcity.Map
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Paint
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -12,6 +9,7 @@ import android.view.ScaleGestureDetector
 import android.view.View
 import com.example.lesson_1.walkcity.R
 import org.jetbrains.anko.dip
+import java.lang.Math.abs
 
 
 class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
@@ -22,31 +20,41 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private lateinit var paint: Paint
     private lateinit var mBitmapPaint: Paint
     private var canvasSize: Float = 0f
-    private  var tie = Tile(2)
-    private lateinit var Map : Array<Array<Tile>>
+
+    //Задаем матрицу
+    public var Map : Array<Array<Tile>>
+    private val xHightTile = 150f
+    private val yHightTile = 75f
+    public val N = 4//должно быть четным
+    private val matrX = 800f//координаты центра поля
+    private val matrY = 400f
+    private val dMatrX = matrX - N*xHightTile//то на сколько поле отходит от края(от х и у)
+    private val dMatrY = matrY - N*50f
+
 
     //for scroll
     private val scaleGestureDetector = ScaleGestureDetector(context, MyScaleGestureListener())
-    private var viewSize: Int = 10000
+    private var viewSize: Int = 2000
     private var mScaleFactor: Float = 1f
     private var detector = GestureDetector(context, MyGestureListener())
 
     init {
 
-        Map = Array(10, {Array(10, {Tile(2)})})
+        Map = Array(N, {Array(N, {Tile(2)})})
 
 
-        canvasSize = dip(1500f).toFloat()
+        canvasSize = dip(2000f).toFloat()
 
 
         mBitmap = Bitmap.createBitmap(canvasSize.toInt(), canvasSize.toInt(), Bitmap.Config.ARGB_8888)
         mBitmapPaint = Paint(Paint.DITHER_FLAG)
 
-        picTile = BitmapFactory.decodeResource(resources, R.drawable.sonic)
+        //picTile = BitmapFactory.decodeResource(resources, R.drawable.sonic)
 
         mCanvas = Canvas(mBitmap)
+        scrollBy(matrX.toInt() - 500, matrY.toInt() - 500)
 
-        mCanvas.drawBitmap(picTile, 50f, 50f, mBitmapPaint)
+       // mCanvas.drawBitmap(picTile, 50f, 50f, mBitmapPaint)
 
         paint = Paint()
         paint.isAntiAlias = true
@@ -64,23 +72,45 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
 
 
-        DrawTile(100f, 100f, Map[0][0], paint)
-        DrawTile(300f, 100f, Map[0][0], paint)
-        DrawTile(200f, 50f, Map[0][0], paint)
-        DrawTile(200f, 150f, Map[0][0], paint)
+       // drawTile(100f, 100f, Map[0][0], paint)
+       // drawTile(300f, 100f, Map[0][0], paint)
+       // drawTile(200f, 50f, Map[0][0], paint)
+       // drawTile(200f, 150f, Map[0][0], paint)
+
+        drawMatr()
 
 
     }
 
-    fun DrawTile(X : Float, Y : Float, T : Tile, paint : Paint){
 
 
-        mCanvas.drawLine(X, Y - 50f, 100f + X, Y, paint)
-        mCanvas.drawLine(X - 100f, Y, X, Y - 50f, paint)
-        mCanvas.drawLine(X - 100f, Y, X, 50f + Y, paint)
-        mCanvas.drawLine(X, 50f + Y, 100f + X, Y, paint)
 
 
+    fun drawMatr(){
+
+        for(i in 0..(N-1)){
+            if(i%2 == 0) paint.color = Color.GREEN
+            else paint.color = Color.BLUE
+            for(j in 0..i){
+                drawTile((i-j)*xHightTile + matrX, (i+j)*yHightTile + dMatrY + yHightTile, Map[i][j], paint)
+                drawTile(-(i-j)*xHightTile + matrX, (i+j)*yHightTile + dMatrY + yHightTile, Map[j][i], paint)
+            }
+
+        }
+        invalidate()
+    }
+
+
+    private fun drawTile(X : Float, Y : Float, T : Tile, paint : Paint){
+
+
+        mCanvas.drawLine(X, Y - yHightTile, xHightTile + X, Y, paint)
+        mCanvas.drawLine(X - xHightTile, Y, X, Y - yHightTile, paint)
+        mCanvas.drawLine(X - xHightTile, Y, X, yHightTile + Y, paint)
+        mCanvas.drawLine(X, yHightTile + Y, xHightTile + X, Y, paint)
+        if(T.type == 3){
+            mCanvas.drawCircle(X, Y, 50f, paint)
+        }
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -89,7 +119,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         canvas.scale(mScaleFactor, mScaleFactor)
         canvas.drawBitmap(mBitmap, 0f, 0f, mBitmapPaint)
         canvas.restore()
-
+        println("bb")
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -136,11 +166,11 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         //обрабатываем скролл (перемещение пальца по экрану)
         override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
             //не даем канвасу показать края по горизонтали
-            if (scrollX + distanceX < canvasSize - viewSize && scrollX + distanceX > 0) {
+            if (scrollX + distanceX <= canvasSize - viewSize && scrollX + distanceX > 0) {
                 scrollBy(distanceX.toInt(), 0)
             }
             //не даем канвасу показать края по вертикали
-            if (scrollY + distanceY < canvasSize - viewSize && scrollY + distanceY > 0) {
+            if (scrollY + distanceY <= canvasSize - viewSize && scrollY + distanceY > 0) {
                 scrollBy(0, distanceY.toInt())
             }
             return true
@@ -152,40 +182,83 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             val cellX = ((event.x + scrollX) / mScaleFactor).toInt()
             val cellY = ((event.y + scrollY) / mScaleFactor).toInt()
 
-            println("tap X = $cellX, Y = $cellY")
-//
-//            if (cellX/2 - 100 <= cellY && cellX/2 + 100 >= cellY && -cellX/2 + 100 <= cellY && -cellX/2 + 300 >= cellY) {
-//                println("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
-//                picTile = BitmapFactory.decodeResource(resources, R.drawable.sonic2)
-//                mCanvas.drawBitmap(picTile, 50f, 50f, mBitmapPaint)
-//                invalidate()
-//            }
 
 
 
+            val cord = Cord(0, 0, 0 , 0, N)
 
-            if (cellX/2 + 100 <= cellY && cellX/2 + 300 >= cellY && -cellX/2 + 700 <= cellY && -cellX/2 + 900 >= cellY) {
-                println("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
-                picTile = BitmapFactory.decodeResource(resources, R.drawable.sonic2)
-                mCanvas.drawBitmap(picTile, 50f, 50f, mBitmapPaint)
-                invalidate()
-            }
+            tileTapCord(cellX.toFloat() - dMatrX, cellY.toFloat() - dMatrY, cord)
 
+
+            logicTapFun(cord)
 
             return true
         }
 
-        //обрабатываем двойной тап
-        override fun onDoubleTapEvent(event: MotionEvent): Boolean {
-            //зумируем канвас к первоначальному виду
-            mScaleFactor = 1f
-            canvasSize = viewSize.toFloat()
-            scrollTo(100, 100)//скролим, чтобы не было видно краев канваса.
-           // invalidate()//перерисовываем канвас
-            return false
+        fun tileTapCord(xTap : Float, yTap : Float, cord : Cord){//подавать х-тар и у-тар без dMatrX/Y
+
+            val sX = ((xTap)/xHightTile).toInt()
+            val sY = ((yTap)/yHightTile).toInt()
+           // val cord = Cord(0, 0)
+
+
+            if((sX+sY) % 2 == 1){
+                if(-(xTap % xHightTile) / 2 + yHightTile < yTap % yHightTile){
+                    cord.X = sX + 1
+                    cord.Y = sY + 1
+                }
+                else {
+                    cord.X = sX
+                    cord.Y = sY
+                }
+
+            }
+
+            else{
+                if((xTap - sX*xHightTile) / 2 > yTap - sY*yHightTile){
+                    cord.X = sX + 1
+                    cord.Y = sY
+                }
+                else {
+                    cord.X = sX
+                    cord.Y = sY + 1
+                }
+
+            }
+            if(abs(cord.X - N) + abs(cord.Y - N) > 3){
+               // println("sX = ${cord.X}, sY = ${cord.Y}, ${sX - N} ${sY - N}")
+                cord.X = -11
+                cord.Y = -11
+            }
+            println("sX = ${cord.X}, sY = ${cord.Y}")
+            cord.upDate()
         }
 
 
+        //обрабатываем двойной тап
+       // override fun onDoubleTapEvent(event: MotionEvent): Boolean {
+       //     //зумируем канвас к первоначальному виду
+       //     mScaleFactor = 1f
+       //     canvasSize = viewSize.toFloat()
+       //     scrollTo(100, 100)//скролим, чтобы не было видно краев канваса.
+           // invalidate()//перерисовываем канвас
+       //     return false
+       // }
+
+
+    }
+
+
+
+
+    fun logicTapFun(cord : Cord){
+        if(cord.I > 3 || cord.J > 3 || cord.I < 0 || cord.J < 0){}
+        else {
+            println("I =  ${cord.I}   J =  ${cord.J} ")
+            Map[cord.I][cord.J].type = 3
+           // println("aaa")
+            drawMatr()
+        }
     }
 
 }
