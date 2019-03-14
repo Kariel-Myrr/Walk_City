@@ -7,7 +7,6 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
-import com.example.lesson_1.walkcity.R
 import org.jetbrains.anko.dip
 import java.lang.Math.abs
 
