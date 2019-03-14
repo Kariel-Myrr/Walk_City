@@ -49,12 +49,12 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         mBitmap = Bitmap.createBitmap(canvasSize.toInt(), canvasSize.toInt(), Bitmap.Config.ARGB_8888)
         mBitmapPaint = Paint(Paint.DITHER_FLAG)
 
-        picTile = BitmapFactory.decodeResource(resources, R.drawable.sonic)
+        //picTile = BitmapFactory.decodeResource(resources, R.drawable.sonic)
 
         mCanvas = Canvas(mBitmap)
         scrollBy(matrX.toInt() - 500, matrY.toInt() - 500)
 
-        //mCanvas.drawBitmap(picTile, 50f, 50f, mBitmapPaint)
+       // mCanvas.drawBitmap(picTile, 50f, 50f, mBitmapPaint)
 
         paint = Paint()
         paint.isAntiAlias = true
