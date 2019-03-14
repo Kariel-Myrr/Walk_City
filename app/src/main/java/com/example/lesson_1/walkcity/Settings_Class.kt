@@ -1,6 +1,8 @@
 package com.example.lesson_1.walkcity
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,7 +12,14 @@ import com.example.lesson_1.walkcity.DataBase.Settings
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlin.system.exitProcess
 
+
 class Settings_Class : AppCompatActivity() {
+    fun getValueInt(KEY_NAME: String): Int {
+        val sharedPref: SharedPreferences = getSharedPreferences(KEY_NAME, Context.MODE_PRIVATE)
+        return sharedPref.getInt(KEY_NAME, 0)
+    }
+
+
     lateinit var manager : Manager
 
     companion object {
@@ -41,6 +50,12 @@ class Settings_Class : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        var st : Int = getValueInt("exitingApp")
+        if(st == 1){
+            finish()
+            System.exit(0)
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         onStart()

@@ -12,8 +12,16 @@ import com.example.lesson_1.walkcity.DataBase.Manager
 import com.example.lesson_1.walkcity.DataBase.Settings
 import kotlinx.android.synthetic.main.activity_game__map.*
 import kotlin.system.exitProcess
+import android.content.SharedPreferences
 
 class Game_Map_Class : AppCompatActivity() {
+
+    fun getValueInt(KEY_NAME: String): Int {
+        val sharedPref: SharedPreferences = getSharedPreferences(KEY_NAME, Context.MODE_PRIVATE)
+        return sharedPref.getInt(KEY_NAME, 0)
+    }
+
+
     lateinit var manager : Manager
 
     companion object {
@@ -43,6 +51,17 @@ class Game_Map_Class : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        fun getValueInt(KEY_NAME: String): Int {
+            val sharedPref: SharedPreferences = getSharedPreferences(KEY_NAME, Context.MODE_PRIVATE)
+            return sharedPref.getInt(KEY_NAME, 0)
+        }
+
+        var st : Int = getValueInt("exitingApp")
+        if(st == 1){
+            finish()
+            System.exit(0)
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game__map)
         manager = Manager(this@Game_Map_Class)
