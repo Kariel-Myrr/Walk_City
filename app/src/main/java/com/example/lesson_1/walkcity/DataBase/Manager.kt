@@ -14,7 +14,7 @@ class Manager(context: Context){
     private var weapon : MutableList<ItemWeapon> = mutableListOf()
     private var dataBase = DBHandler(context)
     private var map = Map()
-    private var tile : MutableList<MutableList<Tile>> = mutableListOf()
+    var tile : MutableList<MutableList<Tile>> = mutableListOf()
     private var resourceTile: MutableList<MutableList<ItemResource>> = mutableListOf()
     private val countCity = 5
     var settings = Settings()
@@ -30,7 +30,7 @@ class Manager(context: Context){
         //var numHigh = (5..15).random()
         when(stat) {
             1 -> {
-                tile[i][e].type = "glade"
+                tile[i][e].type = "field"
                 tile[i][e].idItemResource = i * map.y + e + countCity
                 resourceTile[i][e].tree = (0..5).random()
                 resourceTile[i][e].stone = (0..5).random()
@@ -75,7 +75,7 @@ class Manager(context: Context){
                 resourceTile[i][e].water = (0..0).random()
             }
             else -> {
-                tile[i][e].type = "mountain"
+                tile[i][e].type = "hill"
                 tile[i][e].idItemResource = i * map.y + e + countCity
                 resourceTile[i][e].tree = (0..0).random()
                 resourceTile[i][e].stone = (5..10).random()

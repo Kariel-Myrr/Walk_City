@@ -37,6 +37,8 @@ class Game_Map_Class : AppCompatActivity() {
             status = getIntentFromMenu.getStringExtra("status")
         if(status == "new game")manager.init()
         else manager.download()
+        ViewMap.Map = manager.tile
+        ViewMap.drawMatr()
     }
 
     override fun onPause() {

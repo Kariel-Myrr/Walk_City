@@ -15,19 +15,19 @@ import java.lang.Math.abs
 
 class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
-    private lateinit var mBitmap: Bitmap
-    private lateinit var picTile: Bitmap
-    private lateinit var picTile2: Bitmap
-    private lateinit var mCanvas: Canvas
-    private lateinit var paint: Paint
-    private lateinit var mBitmapPaint: Paint
+    private var mBitmap: Bitmap
+    private var picTile: Bitmap
+    private var picTile2: Bitmap
+    private var mCanvas: Canvas
+    private var paint: Paint
+    private var mBitmapPaint: Paint
     private var canvasSize: Float = 0f
 
     //Задаем матрицу
-    public var Map : Array<Array<Tile>>
+    public var Map : MutableList<MutableList<Tile>>
     private val xHightTile = 150f
     private val yHightTile = 75f
-    public val N = 6//должно быть четным
+    public val N = 4//должно быть четным
     private val matrX = 800f//координаты центра поля
     private val matrY = 400f
     private val dMatrX = matrX - N*xHightTile//то на сколько поле отходит от края(от х и у)
@@ -43,7 +43,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     init {
 
-        Map = Array(N, {Array(N, {Tile("field")})})
+        Map = MutableList(N, { MutableList(N, {Tile("field")}) })
 
 
         canvasSize = dip(2000f).toFloat()
@@ -84,8 +84,6 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
 
     }
-
-
 
 
 
