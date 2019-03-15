@@ -18,7 +18,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
         var ItemWeaponName = "ItemWeapon"
         var ItemProtectionName = "ItemProtection"
         var MapName = "Map"
-        var PlaceName = "Place"
+        var TileName = "Tile"
         var SettingsName = "Settings"
 
 
@@ -48,7 +48,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
 
         var x = "x"
         var y = "y"
-        var idPlace = "idPlace"
+        var idTile = "idTile"
 
         var backDialog = "backDialog"
         var nextTurnDialog = "nextTurnDialog"
@@ -67,9 +67,9 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
         p0.execSQL(sql1)
         sql1 = "CREATE TABLE IF NOT EXISTS $ItemProtectionName ( $id  INTEGER PRIMARY KEY, $slot TEXT);"
         p0.execSQL(sql1)
-        sql1 = "CREATE TABLE IF NOT EXISTS $MapName ( $id  INTEGER PRIMARY KEY, $x TEXT, $y TEXT, $idPlace TEXT);"
+        sql1 = "CREATE TABLE IF NOT EXISTS $MapName ( $id  INTEGER PRIMARY KEY, $x TEXT, $y TEXT, $idTile TEXT);"
         p0.execSQL(sql1)
-        sql1 = "CREATE TABLE IF NOT EXISTS $PlaceName ( $id  INTEGER PRIMARY KEY, $type TEXT, $idItemResource TEXT);"
+        sql1 = "CREATE TABLE IF NOT EXISTS $TileName ( $id  INTEGER PRIMARY KEY, $type TEXT, $idItemResource TEXT);"
         p0.execSQL(sql1)
         sql1 = "CREATE TABLE IF NOT EXISTS $SettingsName ( $id  INTEGER PRIMARY KEY, $backDialog TEXT, $nextTurnDialog TEXT);"
         p0.execSQL(sql1)
@@ -82,7 +82,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
         p0.execSQL("Drop table IF EXISTS $ItemWeaponName")
         p0.execSQL("Drop table IF EXISTS $ItemProtectionName")
         p0.execSQL("Drop table IF EXISTS $MapName")
-        p0.execSQL("Drop table IF EXISTS $PlaceName")
+        p0.execSQL("Drop table IF EXISTS $TileName")
         p0.execSQL("Drop table IF EXISTS $SettingsName")
         onCreate(p0)
     }
@@ -93,7 +93,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
     fun addItemWeapon(values: ContentValues) = sqlObj.insert(ItemWeaponName, "", values)
     fun addItemProtection(values: ContentValues) = sqlObj.insert(ItemProtectionName, "", values)
     fun addMap(values: ContentValues) = sqlObj.insert(MapName, "", values)
-    fun addPlace(values: ContentValues) = sqlObj.insert(PlaceName, "", values)
+    fun addTile(values: ContentValues) = sqlObj.insert(TileName, "", values)
     fun addSettings(values: ContentValues) = sqlObj.insert(SettingsName, "", values)
 
     //fun removeCity(id: Int) = sqlObj.delete(CityDataName, "id=?", arrayOf(id.toString()))
@@ -102,7 +102,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
     //fun removeItemWeapon(id: Int) = sqlObj.delete(ItemWeaponName, "id=?", arrayOf(id.toString()))
     //fun removeItemProtection(id: Int) = sqlObj.delete(ItemProtectionName, "id=?", arrayOf(id.toString()))
     //fun removeMap(id: Int) = sqlObj.delete(MapName, "id=?", arrayOf(id.toString()))
-    //fun removePlace(id: Int) = sqlObj.delete(PlaceName, "id=?", arrayOf(id.toString()))
+    //fun removeTile(id: Int) = sqlObj.delete(TileName, "id=?", arrayOf(id.toString()))
     //fun removeSettings(id: Int) = sqlObj.delete(SettingsName, "id=?", arrayOf(id.toString()))
 
     fun updateCity(values: ContentValues, id: Int) = sqlObj.update(CityDataName, values, "id=?", arrayOf(id.toString()))
@@ -111,7 +111,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
     fun updateItemWeapon(values: ContentValues, id: Int) = sqlObj.update(ItemWeaponName, values, "id=?", arrayOf(id.toString()))
     fun updateItemProtection(values: ContentValues, id: Int) = sqlObj.update(ItemProtectionName, values, "id=?", arrayOf(id.toString()))
     fun updateMap(values: ContentValues, id: Int) = sqlObj.update(MapName, values, "id=?", arrayOf(id.toString()))
-    fun updatePlace(values: ContentValues, id: Int) = sqlObj.update(PlaceName, values, "id=?", arrayOf(id.toString()))
+    fun updateTile(values: ContentValues, id: Int) = sqlObj.update(TileName, values, "id=?", arrayOf(id.toString()))
     fun updateSettings(values: ContentValues, id: Int) = sqlObj.update(SettingsName, values, "id=?", arrayOf(id.toString()))
 
     fun cityList(key: String): ArrayList<CityData> {
@@ -266,7 +266,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
         val arraylist = ArrayList<Map>()
         val sqlQB = SQLiteQueryBuilder()
         sqlQB.tables = MapName
-        val cols = arrayOf(x, y, idPlace)
+        val cols = arrayOf(x, y, idTile)
         val selectArgs = arrayOf(key)
 
         val cursor = sqlQB.query(sqlObj, cols, "$id like ?", selectArgs, null, null, id)
@@ -277,23 +277,23 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
                 val x = cursor.getInt(cursor.getColumnIndex(x))
                 val y = cursor.getInt(cursor.getColumnIndex(y))
                 //Log.d("FLAG_TAG", "x = $x y = $y")
-                val str = cursor.getString(cursor.getColumnIndex(idPlace))
+                val str = cursor.getString(cursor.getColumnIndex(idTile))
                 //Log.d("FLAG_TAG", "mapinfo test 2.5")
                 val list : MutableList<String> = mutableListOf()
                 //Log.d("FLAG_TAG", "mapinfo test 3 str = '$str'")
                 for(a in str.split(" "))list.add(a)
                 list.removeAt(25)
                 //Log.d("FLAG_TAG", "mapinfo test 3.5 list.size = ${list.size}")
-                val idPlace : MutableList<MutableList<Int>> = mutableListOf()
+                val idTile : MutableList<MutableList<Int>> = mutableListOf()
                 //Log.d("FLAG_TAG", "mapinfo test 4")
                 for(i in 0 until y){
-                    idPlace.add(mutableListOf())
+                    idTile.add(mutableListOf())
                     for(e in 0 until x){
-                        idPlace[i].add(list[i * y + e].toInt())
+                        idTile[i].add(list[i * y + e].toInt())
                     }
                 }
                 //Log.d("FLAG_TAG", "mapinfo test 5")
-                arraylist.add(Map(x, y, idPlace))
+                arraylist.add(Map(x, y, idTile))
 
             } while (cursor.moveToNext())
         }
@@ -301,25 +301,25 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
         return arraylist
     }
 
-    fun placeList(key: String): ArrayList<Place> {
-        //Log.d("FLAG_TAG", "PlaceList test 1")
-        val arraylist = ArrayList<Place>()
+    fun tileList(key: String): ArrayList<Tile> {
+        //Log.d("FLAG_TAG", "TileList test 1")
+        val arraylist = ArrayList<Tile>()
         val sqlQB = SQLiteQueryBuilder()
-        sqlQB.tables = PlaceName
-        //Log.d("FLAG_TAG", "PlaceList test 2")
+        sqlQB.tables = TileName
+        //Log.d("FLAG_TAG", "TileList test 2")
         val cols = arrayOf(type, idItemResource)
         val selectArgs = arrayOf(key)
         val cursor = sqlQB.query(sqlObj, cols, "$id like ?", selectArgs, null, null, id)
-        //Log.d("FLAG_TAG", "PlaceList test 3")
+        //Log.d("FLAG_TAG", "TileList test 3")
         if (cursor.moveToFirst()) {
             do {
                 val type = cursor.getString(cursor.getColumnIndex(type))
                 val idItemResource = cursor.getInt(cursor.getColumnIndex(idItemResource))
-                arraylist.add(Place(type, idItemResource))
+                arraylist.add(Tile(type, idItemResource))
 
             } while (cursor.moveToNext())
         }
-        //Log.d("FLAG_TAG", "PlaceList test 4 arraylist.size = ${arraylist.size}")
+        //Log.d("FLAG_TAG", "TileList test 4 arraylist.size = ${arraylist.size}")
         return arraylist
     }
 }
