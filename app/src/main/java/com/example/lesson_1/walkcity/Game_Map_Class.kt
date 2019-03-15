@@ -43,6 +43,7 @@ class Game_Map_Class : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+        manager.tile = ViewMap.Map
         manager.unload()
     }
 
