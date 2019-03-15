@@ -14,14 +14,14 @@ class Manager(context: Context){
     private var weapon : MutableList<ItemWeapon> = mutableListOf()
     private var dataBase = DBHandler(context)
     private var map = Map()
-    private var place : MutableList<MutableList<Place>> = mutableListOf()
-    private var resourcePlace : MutableList<MutableList<ItemResource>> = mutableListOf()
+    private var tile : MutableList<MutableList<Tile>> = mutableListOf()
+    private var resourceTile: MutableList<MutableList<ItemResource>> = mutableListOf()
     private val countCity = 5
     var settings = Settings()
 
     private fun IntRange.random() = Random().nextInt((endInclusive + 1) - start) +  start
 
-    private fun initPlace(i: Int, e: Int){
+    private fun initTile(i: Int, e: Int){
         val stat = (1..6).random()
         //var numNull = (0..0).random()
         //var numLow = (0..5).random()
@@ -30,94 +30,94 @@ class Manager(context: Context){
         //var numHigh = (5..15).random()
         when(stat) {
             1 -> {
-                place[i][e].type = "glade"
-                place[i][e].idItemResource = i * map.y + e + countCity
-                resourcePlace[i][e].tree = (0..5).random()
-                resourcePlace[i][e].stone = (0..5).random()
-                resourcePlace[i][e].iron = (0..0).random()
-                resourcePlace[i][e].food = (5..15).random()
-                resourcePlace[i][e].water = (0..10).random()
+                tile[i][e].type = "glade"
+                tile[i][e].idItemResource = i * map.y + e + countCity
+                resourceTile[i][e].tree = (0..5).random()
+                resourceTile[i][e].stone = (0..5).random()
+                resourceTile[i][e].iron = (0..0).random()
+                resourceTile[i][e].food = (5..15).random()
+                resourceTile[i][e].water = (0..10).random()
             }
             2 -> {
-                place[i][e].type = "forest"
-                place[i][e].idItemResource = i * map.y + e + countCity
-                resourcePlace[i][e].tree = (5..15).random()
-                resourcePlace[i][e].stone = (0..0).random()
-                resourcePlace[i][e].iron = (0..0).random()
-                resourcePlace[i][e].food = (0..10).random()
-                resourcePlace[i][e].water = (0..5).random()
+                tile[i][e].type = "forest"
+                tile[i][e].idItemResource = i * map.y + e + countCity
+                resourceTile[i][e].tree = (5..15).random()
+                resourceTile[i][e].stone = (0..0).random()
+                resourceTile[i][e].iron = (0..0).random()
+                resourceTile[i][e].food = (0..10).random()
+                resourceTile[i][e].water = (0..5).random()
             }
             3 -> {
-                place[i][e].type = "lake"
-                place[i][e].idItemResource = i * map.y + e + countCity
-                resourcePlace[i][e].tree = (0..0).random()
-                resourcePlace[i][e].stone = (0..10).random()
-                resourcePlace[i][e].iron = (0..5).random()
-                resourcePlace[i][e].food = (5..10).random()
-                resourcePlace[i][e].water = (5..10).random()
+                tile[i][e].type = "lake"
+                tile[i][e].idItemResource = i * map.y + e + countCity
+                resourceTile[i][e].tree = (0..0).random()
+                resourceTile[i][e].stone = (0..10).random()
+                resourceTile[i][e].iron = (0..5).random()
+                resourceTile[i][e].food = (5..10).random()
+                resourceTile[i][e].water = (5..10).random()
             }
             4 -> {
-                place[i][e].type = "sea"
-                place[i][e].idItemResource = i * map.y + e + countCity
-                resourcePlace[i][e].tree = (0..0).random()
-                resourcePlace[i][e].stone = (0..10).random()
-                resourcePlace[i][e].iron = (0..5).random()
-                resourcePlace[i][e].food = (5..10).random()
-                resourcePlace[i][e].water = (5..15).random()
+                tile[i][e].type = "sea"
+                tile[i][e].idItemResource = i * map.y + e + countCity
+                resourceTile[i][e].tree = (0..0).random()
+                resourceTile[i][e].stone = (0..10).random()
+                resourceTile[i][e].iron = (0..5).random()
+                resourceTile[i][e].food = (5..10).random()
+                resourceTile[i][e].water = (5..15).random()
             }
             5 -> {
-                place[i][e].type = "desert"
-                place[i][e].idItemResource = i * map.y + e + countCity
-                resourcePlace[i][e].tree = (0..5).random()
-                resourcePlace[i][e].stone = (0..5).random()
-                resourcePlace[i][e].iron = (0..10).random()
-                resourcePlace[i][e].food = (0..5).random()
-                resourcePlace[i][e].water = (0..0).random()
+                tile[i][e].type = "desert"
+                tile[i][e].idItemResource = i * map.y + e + countCity
+                resourceTile[i][e].tree = (0..5).random()
+                resourceTile[i][e].stone = (0..5).random()
+                resourceTile[i][e].iron = (0..10).random()
+                resourceTile[i][e].food = (0..5).random()
+                resourceTile[i][e].water = (0..0).random()
             }
             else -> {
-                place[i][e].type = "mountain"
-                place[i][e].idItemResource = i * map.y + e + countCity
-                resourcePlace[i][e].tree = (0..0).random()
-                resourcePlace[i][e].stone = (5..10).random()
-                resourcePlace[i][e].iron = (5..15).random()
-                resourcePlace[i][e].food = (0..5).random()
-                resourcePlace[i][e].water = (0..5).random()
+                tile[i][e].type = "mountain"
+                tile[i][e].idItemResource = i * map.y + e + countCity
+                resourceTile[i][e].tree = (0..0).random()
+                resourceTile[i][e].stone = (5..10).random()
+                resourceTile[i][e].iron = (5..15).random()
+                resourceTile[i][e].food = (0..5).random()
+                resourceTile[i][e].water = (0..5).random()
             }
         }
     }
 
-    fun initPlace(i: Int, e: Int, type: String, tree: Int, stone: Int, iron: Int, food: Int, water: Int){
-        place[i][e].type = type
-        resourcePlace[i][e].tree = tree
-        resourcePlace[i][e].stone = stone
-        resourcePlace[i][e].iron = iron
-        resourcePlace[i][e].food = food
-        resourcePlace[i][e].water = water
+    fun initTile(i: Int, e: Int, type: String, tree: Int, stone: Int, iron: Int, food: Int, water: Int){
+        tile[i][e].type = type
+        resourceTile[i][e].tree = tree
+        resourceTile[i][e].stone = stone
+        resourceTile[i][e].iron = iron
+        resourceTile[i][e].food = food
+        resourceTile[i][e].water = water
     }
 
     private fun initMap(){
         map.x = 5
         map.y = 5
         for(i in 0 until map.y){
-            map.idPlace.add(mutableListOf())
-            resourcePlace.add(mutableListOf())
-            place.add(mutableListOf())
+            map.idTile.add(mutableListOf())
+            resourceTile.add(mutableListOf())
+            tile.add(mutableListOf())
             for(e in 0 until map.x){
-                map.idPlace[i].add(i * map.y + e)
-                val idPlace = map.idPlace[i][e]
-                Log.d("FLAG_TAG", "map[$i][$e]: idPlace = $idPlace")
-                resourcePlace[i].add(ItemResource())
-                place[i].add(Place())
-                initPlace(i, e)
-                val type = place[i][e].type
-                val idItemResource = place[i][e].idItemResource
-                Log.d("FLAG_TAG", "place[$i][$e]: type = $type idItemResource = $idItemResource")
-                val tree = resourcePlace[i][e].tree
-                val stone = resourcePlace[i][e].stone
-                val iron = resourcePlace[i][e].iron
-                val food = resourcePlace[i][e].food
-                val water = resourcePlace[i][e].water
-                Log.d("FLAG_TAG", "resourcePlace[$i][$e]: tree = $tree stone = $stone iron = $iron food = $food water = $water")
+                map.idTile[i].add(i * map.y + e)
+                val idTile = map.idTile[i][e]
+                Log.d("FLAG_TAG", "map[$i][$e]: idTile = $idTile")
+                resourceTile[i].add(ItemResource())
+                tile[i].add(Tile())
+                initTile(i, e)
+                val type = tile[i][e].type
+                val idItemResource = tile[i][e].idItemResource
+                Log.d("FLAG_TAG", "tile[$i][$e]: type = $type idItemResource = $idItemResource")
+                val tree = resourceTile[i][e].tree
+                val stone = resourceTile[i][e].stone
+                val iron = resourceTile[i][e].iron
+                val food = resourceTile[i][e].food
+                val water = resourceTile[i][e].water
+                Log.d("FLAG_TAG", "resourceTile[$i][$e]: tree = $tree stone = $stone iron = $iron food = $food water = $water")
             }
         }
 
@@ -309,65 +309,65 @@ class Manager(context: Context){
         else Log.d("FLAG_TAG", "ERROR: _map.size = ${tmpMap.size}")
     }
 
-    private fun downloadPlace(){
-        val placeList = dataBase.placeList("%")
-        if(placeList.size != 0) {
+    private fun downloadTile(){
+        val tileList = dataBase.tileList("%")
+        if(tileList.size != 0) {
             for (i in 0 until map.y) {
-                place.add(mutableListOf())
+                tile.add(mutableListOf())
 
                 for (e in 0 until map.x) {
-                    place[i].add(placeList[i * map.y + e])
-                    val type = place[i][e].type
-                    val idItemResource = place[i][e].idItemResource
-                    Log.d("FLAG_TAG", "place[$i][$e]: type = $type idItemResource = $idItemResource")
+                    tile[i].add(tileList[i * map.y + e])
+                    val type = tile[i][e].type
+                    val idItemResource = tile[i][e].idItemResource
+                    Log.d("FLAG_TAG", "tile[$i][$e]: type = $type idItemResource = $idItemResource")
                 }
             }
         }
-        else Log.d("FLAG_TAG", "ERROR: placeList.size = ${placeList.size}")
+        else Log.d("FLAG_TAG", "ERROR: tileList.size = ${tileList.size}")
     }
 
-    fun downloadPlace(i: Int, e: Int){
-        val placeList = dataBase.placeList("%")
-        if(placeList.size != 0) {
-            place[i][e] = placeList[i * map.y + e]
-            val type = place[i][e].type
-            val idItemResource = place[i][e].idItemResource
-            Log.d("FLAG_TAG", "place[$i][$e]: type = $type idItemResource = $idItemResource")
+    fun downloadTile(i: Int, e: Int){
+        val tileList = dataBase.tileList("%")
+        if(tileList.size != 0) {
+            tile[i][e] = tileList[i * map.y + e]
+            val type = tile[i][e].type
+            val idItemResource = tile[i][e].idItemResource
+            Log.d("FLAG_TAG", "tile[$i][$e]: type = $type idItemResource = $idItemResource")
         }
-        else Log.d("FLAG_TAG", "ERROR: placeList.size = ${placeList.size}")
+        else Log.d("FLAG_TAG", "ERROR: tileList.size = ${tileList.size}")
     }
 
-    private fun downloadResourcePlace(){
-        val resourcePlaceList = dataBase.itemResourceList("%")
-        if(resourcePlaceList.size != 0){
+    private fun downloadResourceTile(){
+        val resourceTileList = dataBase.itemResourceList("%")
+        if(resourceTileList.size != 0){
             for(i in 0 until map.y){
-                resourcePlace.add(mutableListOf())
+                resourceTile.add(mutableListOf())
                 for(e in 0 until map.x){
-                    resourcePlace[i].add(resourcePlaceList[place[i][e].idItemResource])
-                    val tree = resourcePlace[i][e].tree
-                    val stone = resourcePlace[i][e].stone
-                    val iron = resourcePlace[i][e].iron
-                    val food = resourcePlace[i][e].food
-                    val water = resourcePlace[i][e].water
-                    Log.d("FLAG_TAG", "resourcePlace[$i][$e]: tree = $tree stone = $stone iron = $iron food = $food water = $water")
+                    resourceTile[i].add(resourceTileList[tile[i][e].idItemResource])
+                    val tree = resourceTile[i][e].tree
+                    val stone = resourceTile[i][e].stone
+                    val iron = resourceTile[i][e].iron
+                    val food = resourceTile[i][e].food
+                    val water = resourceTile[i][e].water
+                    Log.d("FLAG_TAG", "resourceTile[$i][$e]: tree = $tree stone = $stone iron = $iron food = $food water = $water")
                 }
             }
         }
-        else Log.d("FLAG_TAG", "ERROR: resourcePlaceList.size = ${resourcePlaceList.size}")
+        else Log.d("FLAG_TAG", "ERROR: resourceTileList.size = ${resourceTileList.size}")
     }
 
-    fun downloadResourcePlace(i: Int, e: Int){
-        val resourcePlaceList = dataBase.itemResourceList("%")
-        if(resourcePlaceList.size != 0){
-            resourcePlace[i][e] = resourcePlaceList[place[i][e].idItemResource]
-            val tree = resourcePlace[i][e].tree
-            val stone = resourcePlace[i][e].stone
-            val iron = resourcePlace[i][e].iron
-            val food = resourcePlace[i][e].food
-            val water = resourcePlace[i][e].water
-            Log.d("FLAG_TAG", "resourcePlace[$i][$e]: tree = $tree stone = $stone iron = $iron food = $food water = $water")
+    fun downloadResourceTile(i: Int, e: Int){
+        val resourceTileList = dataBase.itemResourceList("%")
+        if(resourceTileList.size != 0){
+            resourceTile[i][e] = resourceTileList[tile[i][e].idItemResource]
+            val tree = resourceTile[i][e].tree
+            val stone = resourceTile[i][e].stone
+            val iron = resourceTile[i][e].iron
+            val food = resourceTile[i][e].food
+            val water = resourceTile[i][e].water
+            Log.d("FLAG_TAG", "resourceTile[$i][$e]: tree = $tree stone = $stone iron = $iron food = $food water = $water")
         }
-        else Log.d("FLAG_TAG", "ERROR: resourcePlaceList.size = ${resourcePlaceList.size}")
+        else Log.d("FLAG_TAG", "ERROR: resourceTileList.size = ${resourceTileList.size}")
     }
 
     fun download(){
@@ -378,8 +378,8 @@ class Manager(context: Context){
         downloadResource()
         downloadWeapon()
         downloadMap()
-        downloadPlace()
-        downloadResourcePlace()
+        downloadTile()
+        downloadResourceTile()
         Log.d("FLAG_TAG", "COMLETE DOWNLOAD DB")
     }
 
@@ -397,10 +397,10 @@ class Manager(context: Context){
         Log.d("FLAG_TAG", "weapon unload")
         unloadMap()
         Log.d("FLAG_TAG", "map unload")
-        unloadPlace()
-        Log.d("FLAG_TAG", "place unload")
-        unloadResourcePlace()
-        Log.d("FLAG_TAG", "resource place unload")
+        unloadTile()
+        Log.d("FLAG_TAG", "tile unload")
+        unloadResourceTile()
+        Log.d("FLAG_TAG", "resource tile unload")
         Log.d("FLAG_TAG", "COMLETE UNLOAD DB")
     }
 
@@ -463,37 +463,37 @@ class Manager(context: Context){
         var mapString = ""
         for(i in 0 until map.y){
             for(e in 0 until map.x){
-                mapString += map.idPlace[i][e].toString() + " "
+                mapString += map.idTile[i][e].toString() + " "
             }
         }
-        values.put(DBHandler.idPlace, mapString)
+        values.put(DBHandler.idTile, mapString)
         if(tryingMap() == 0)dataBase.addMap(values)
         else dataBase.updateMap(values, 1)
     }
 
-    private fun unloadPlace(){
+    private fun unloadTile(){
         var values : ContentValues
         for(i in 0 until map.y){
             for(e in 0 until map.x){
                 values = ContentValues()
-                values.put(DBHandler.type, place[i][e].type)
-                values.put(DBHandler.idItemResource, place[i][e].idItemResource)
-                if(tryingPlace() < map.y * map.x)dataBase.addPlace(values)
-                else dataBase.updatePlace(values, i * map.y + e + 1)
+                values.put(DBHandler.type, tile[i][e].type)
+                values.put(DBHandler.idItemResource, tile[i][e].idItemResource)
+                if(tryingTile() < map.y * map.x)dataBase.addTile(values)
+                else dataBase.updateTile(values, i * map.y + e + 1)
             }
         }
     }
 
-    private fun unloadResourcePlace(){
+    private fun unloadResourceTile(){
         var values : ContentValues
         for(i in 0 until map.y){
             for(e in 0 until map.x){
                 values = ContentValues()
-                values.put(DBHandler.tree, resourcePlace[i][e].tree)
-                values.put(DBHandler.stone, resourcePlace[i][e].stone)
-                values.put(DBHandler.iron, resourcePlace[i][e].iron)
-                values.put(DBHandler.food, resourcePlace[i][e].food)
-                values.put(DBHandler.water, resourcePlace[i][e].water)
+                values.put(DBHandler.tree, resourceTile[i][e].tree)
+                values.put(DBHandler.stone, resourceTile[i][e].stone)
+                values.put(DBHandler.iron, resourceTile[i][e].iron)
+                values.put(DBHandler.food, resourceTile[i][e].food)
+                values.put(DBHandler.water, resourceTile[i][e].water)
                 if(tryingResource() < map.y * map.x + countCity)dataBase.addItemResource(values)
                 else dataBase.updateItemResource(values, i * map.y + e + 1 + countCity)
             }
@@ -562,10 +562,10 @@ class Manager(context: Context){
         return status
     }
 
-    private fun tryingPlace(): Int{
+    private fun tryingTile(): Int{
         val status : Int
-        val placeList = dataBase.placeList("%")
-        status = placeList.size
+        val tileList = dataBase.tileList("%")
+        status = tileList.size
         return status
     }
 
@@ -573,7 +573,7 @@ class Manager(context: Context){
         return settings
     }
 
-    fun place(): MutableList<MutableList<Place>>{
-        return place
+    fun tile(): MutableList<MutableList<Tile>>{
+        return tile
     }
 }

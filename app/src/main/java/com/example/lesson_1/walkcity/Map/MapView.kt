@@ -7,6 +7,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
+import com.example.lesson_1.walkcity.DataBase.Tile
 import com.example.lesson_1.walkcity.R
 import org.jetbrains.anko.dip
 import java.lang.Math.abs
@@ -26,7 +27,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     public var Map : Array<Array<Tile>>
     private val xHightTile = 150f
     private val yHightTile = 75f
-    public val N = 4//должно быть четным
+    public val N = 6//должно быть четным
     private val matrX = 800f//координаты центра поля
     private val matrY = 400f
     private val dMatrX = matrX - N*xHightTile//то на сколько поле отходит от края(от х и у)
@@ -39,9 +40,10 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var mScaleFactor: Float = 1f
     private var detector = GestureDetector(context, MyGestureListener())
 
+
     init {
 
-        Map = Array(N, {Array(N, {Tile(2)})})
+        Map = Array(N, {Array(N, {Tile("field")})})
 
 
         canvasSize = dip(2000f).toFloat()
@@ -111,10 +113,12 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
       //  mCanvas.drawLine(X - xHightTile, Y, X, Y - yHightTile, paint)
        // mCanvas.drawLine(X - xHightTile, Y, X, yHightTile + Y, paint)
        // mCanvas.drawLine(X, yHightTile + Y, xHightTile + X, Y, paint)
-        mCanvas.drawBitmap(picTile, X - xHightTile, Y - yHightTile, paint)
-        if(T.type == 3){
+        if(T.type == "forest"){
             //mCanvas.drawCircle(X, Y, 50f, paint)
             mCanvas.drawBitmap(picTile2, X - xHightTile, Y - yHightTile, paint)
+        }
+        else {
+            mCanvas.drawBitmap(picTile, X - xHightTile, Y - yHightTile, paint)
         }
     }
 
@@ -230,7 +234,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                 }
 
             }
-            if(abs(cord.X - N) + abs(cord.Y - N) > 3){
+            if(abs(cord.X - N) + abs(cord.Y - N) > N-1){
                // println("sX = ${cord.X}, sY = ${cord.Y}, ${sX - N} ${sY - N}")
                 cord.X = -11
                 cord.Y = -11
@@ -257,10 +261,10 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
 
     fun logicTapFun(cord : Cord){
-        if(cord.I > 3 || cord.J > 3 || cord.I < 0 || cord.J < 0){}
+        if(cord.I > N-1 || cord.J > N-1 || cord.I < 0 || cord.J < 0){}
         else {
             println("I =  ${cord.I}   J =  ${cord.J} ")
-            Map[cord.I][cord.J].type = 3
+            Map[cord.I][cord.J].type = "forest"
            // println("aaa")
             drawMatr()
         }
