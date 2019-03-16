@@ -4,12 +4,13 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.example.lesson_1.walkcity.R.layout.activity_botton_list
 
 class Inventory_Class : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_botton_list)
+        setContentView(activity_botton_list)
 
     }
 

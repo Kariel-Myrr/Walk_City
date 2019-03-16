@@ -11,11 +11,6 @@ import kotlinx.android.synthetic.main.activity_menu.*
 import kotlin.system.exitProcess
 
 class Menu_Class : AppCompatActivity() {
-    fun getValueInt(KEY_NAME: String): Int {
-        val sharedPref: SharedPreferences = getSharedPreferences(KEY_NAME, Context.MODE_PRIVATE)
-        return sharedPref.getInt(KEY_NAME, 0)
-    }
-
     fun changeActtoSettings(demo : View){
         val intent = Intent(this@Menu_Class,Settings_Class::class.java)
         startActivity(intent)
@@ -31,7 +26,6 @@ class Menu_Class : AppCompatActivity() {
         startActivity(intent)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
         play.setOnClickListener(::changeActtoContinueGame)

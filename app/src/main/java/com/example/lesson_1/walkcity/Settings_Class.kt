@@ -1,8 +1,6 @@
 package com.example.lesson_1.walkcity
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,7 +8,6 @@ import android.view.View
 import com.example.lesson_1.walkcity.DataBase.Manager
 import com.example.lesson_1.walkcity.DataBase.Settings
 import kotlinx.android.synthetic.main.activity_settings.*
-import kotlin.system.exitProcess
 
 
 class Settings_Class : AppCompatActivity() {
