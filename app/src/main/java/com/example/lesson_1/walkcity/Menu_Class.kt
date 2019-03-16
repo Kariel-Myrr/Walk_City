@@ -31,36 +31,12 @@ class Menu_Class : AppCompatActivity() {
         startActivity(intent)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
-        var st : Int = getValueInt("exitingApp")
-        val PREFS_NAME = "exitingApp"
-        val sharedPref: SharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = sharedPref.edit()
-        if(st == 1){
-            editor.putInt(PREFS_NAME, 0)
-            editor.commit()
-            finish()
-            System.exit(0)
-        }
-
-        editor.putInt(PREFS_NAME, 0)
-        editor.commit()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
         play.setOnClickListener(::changeActtoContinueGame)
         settings.setOnClickListener(::changeActtoSettings)
         new_game.setOnClickListener(::changeActtoNewGame)
-
-        editor.putInt(PREFS_NAME, 0)
-        editor.commit()
-
-
-        exit.setOnClickListener {
-            editor.putInt(PREFS_NAME, 1)
-            editor.commit()
-            finish()
-            System.exit(0)
-        }
     }
 }
 
