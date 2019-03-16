@@ -16,12 +16,6 @@ import android.content.SharedPreferences
 
 class Game_Map_Class : AppCompatActivity() {
 
-    fun getValueInt(KEY_NAME: String): Int {
-        val sharedPref: SharedPreferences = getSharedPreferences(KEY_NAME, Context.MODE_PRIVATE)
-        return sharedPref.getInt(KEY_NAME, 0)
-    }
-
-
     lateinit var manager : Manager
 
     companion object {
@@ -49,22 +43,12 @@ class Game_Map_Class : AppCompatActivity() {
 
     fun changeActtoBack(){
         val intent = Intent(this@Game_Map_Class,Menu_Class::class.java)
+        ViewMap.Map = manager.tile
         startActivity(intent)
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        fun getValueInt(KEY_NAME: String): Int {
-            val sharedPref: SharedPreferences = getSharedPreferences(KEY_NAME, Context.MODE_PRIVATE)
-            return sharedPref.getInt(KEY_NAME, 0)
-        }
-
-        var st : Int = getValueInt("exitingApp")
-        if(st == 1){
-            finish()
-            System.exit(0)
-        }
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game__map)
         manager = Manager(this@Game_Map_Class)
