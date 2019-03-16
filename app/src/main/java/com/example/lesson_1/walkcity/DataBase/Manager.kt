@@ -96,8 +96,8 @@ class Manager(context: Context){
     }
 
     private fun initMap(){
-        map.x = 5
-        map.y = 5
+        map.x = 6
+        map.y = 6
         for(i in 0 until map.y){
             map.idTile.add(mutableListOf())
             resourceTile.add(mutableListOf())
@@ -457,18 +457,24 @@ class Manager(context: Context){
     }
 
     private fun unloadMap(){
+        //Log.d("FLAG_TAG", "x = ${map.x} y = ${map.y}")
         val values = ContentValues()
         values.put(DBHandler.x, map.x)
         values.put(DBHandler.y, map.y)
         var mapString = ""
+        //Log.d("FLAG_TAG", "Test map 1")
         for(i in 0 until map.y){
             for(e in 0 until map.x){
+                //Log.d("FLAG_TAG", "i = $i e = $e")
                 mapString += map.idTile[i][e].toString() + " "
+                //Log.d("FLAG_TAG", "Ok")
             }
         }
+        //Log.d("FLAG_TAG", "Test map 2")
         values.put(DBHandler.idTile, mapString)
         if(tryingMap() == 0)dataBase.addMap(values)
         else dataBase.updateMap(values, 1)
+        //Log.d("FLAG_TAG", "Test map 3")
     }
 
     private fun unloadTile(){
@@ -566,6 +572,7 @@ class Manager(context: Context){
         val status : Int
         val tileList = dataBase.tileList("%")
         status = tileList.size
+        //Log.d("FLAG_TAG", "$status")
         return status
     }
 

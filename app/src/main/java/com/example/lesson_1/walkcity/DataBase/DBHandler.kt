@@ -282,7 +282,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
                 val list : MutableList<String> = mutableListOf()
                 //Log.d("FLAG_TAG", "mapinfo test 3 str = '$str'")
                 for(a in str.split(" "))list.add(a)
-                list.removeAt(25)
+                list.removeAt(36)
                 //Log.d("FLAG_TAG", "mapinfo test 3.5 list.size = ${list.size}")
                 val idTile : MutableList<MutableList<Int>> = mutableListOf()
                 //Log.d("FLAG_TAG", "mapinfo test 4")

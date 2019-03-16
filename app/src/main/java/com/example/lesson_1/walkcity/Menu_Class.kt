@@ -16,11 +16,13 @@ class Menu_Class : AppCompatActivity() {
         startActivity(intent)
     }
     fun changeActtoNewGame(demo : View){
+        Log.d("FLAG_TAG", "Pressed new game")
         val intent = Intent(this@Menu_Class,Game_Map_Class::class.java)
         intent.putExtra("status", "new game")
         startActivity(intent)
     }
     fun changeActtoContinueGame(demo : View){
+        Log.d("FLAG_TAG", "Pressed continue game")
         val intent = Intent(this@Menu_Class,Game_Map_Class::class.java)
         intent.putExtra("status", "continue game")
         startActivity(intent)
