@@ -30,15 +30,13 @@
             android:id="@+id/switch_turns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Disable switch
-             turn dialog" />
+            android:text="@string/settings1" />
 
         <Switch
             android:id="@+id/switch_back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Disable switch
-             exiting dialog" />
+            android:text="@string/settings2" />
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>
