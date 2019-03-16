@@ -41,7 +41,10 @@ class Menu_Class : AppCompatActivity() {
             finish()
             System.exit(0)
         }
-        
+
+        editor.putInt(PREFS_NAME, 0)
+        editor.commit()
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
         play.setOnClickListener(::changeActtoContinueGame)
@@ -55,7 +58,6 @@ class Menu_Class : AppCompatActivity() {
         exit.setOnClickListener {
             editor.putInt(PREFS_NAME, 1)
             editor.commit()
-
             finish()
             System.exit(0)
         }

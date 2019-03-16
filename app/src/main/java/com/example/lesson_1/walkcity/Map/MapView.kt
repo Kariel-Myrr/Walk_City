@@ -53,7 +53,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         mBitmapPaint = Paint(Paint.DITHER_FLAG)
 
         picTile = BitmapFactory.decodeResource(resources, R.drawable.fields)
-        picTile2 = BitmapFactory.decodeResource(resources, R.drawable.forest)
+        picTile2 = BitmapFactory.decodeResource(resources, R.drawable.fieldthiscity)
         mCanvas = Canvas(mBitmap)
         scrollBy(matrX.toInt() - 500, matrY.toInt() - 500)
 

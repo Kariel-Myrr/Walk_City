@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:contentDescription="TODO"
-            android:src="@mipmap/ic_launcher_foreground" />
+            android:background="@drawable/inv" />
 
         <ImageButton
             android:id="@+id/nt"
@@ -32,7 +32,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="0dp"
             android:contentDescription="TODO"
-            android:src="@mipmap/nt_button" />
+            android:background="@drawable/nt" />
 
     </RelativeLayout>
 
