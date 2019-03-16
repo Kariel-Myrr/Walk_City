@@ -39,7 +39,7 @@ class Manager(context: Context){
                 resourceTile[i][e].water = (0..10).random()
             }
             2 -> {
-                tile[i][e].type = "forest"
+                tile[i][e].type = "hill"
                 tile[i][e].idItemResource = i * map.y + e + countCity
                 resourceTile[i][e].tree = (5..15).random()
                 resourceTile[i][e].stone = (0..0).random()
@@ -75,7 +75,7 @@ class Manager(context: Context){
                 resourceTile[i][e].water = (0..0).random()
             }
             else -> {
-                tile[i][e].type = "hill"
+                tile[i][e].type = "forest"
                 tile[i][e].idItemResource = i * map.y + e + countCity
                 resourceTile[i][e].tree = (0..0).random()
                 resourceTile[i][e].stone = (5..10).random()

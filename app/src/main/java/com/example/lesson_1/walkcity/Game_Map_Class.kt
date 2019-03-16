@@ -49,6 +49,7 @@ class Game_Map_Class : AppCompatActivity() {
 
     fun changeActtoBack(){
         val intent = Intent(this@Game_Map_Class,Menu_Class::class.java)
+        ViewMap.Map = manager.tile
         startActivity(intent)
     }
 

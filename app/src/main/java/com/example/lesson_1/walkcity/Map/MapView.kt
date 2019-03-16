@@ -8,16 +8,20 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
 import com.example.lesson_1.walkcity.DataBase.Tile
-import com.example.lesson_1.walkcity.R
 import org.jetbrains.anko.dip
 import java.lang.Math.abs
+import android.graphics.BitmapFactory
+
+
 
 
 class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private var mBitmap: Bitmap
-    private var picTile: Bitmap
-    private var picTile2: Bitmap
+    private var field: Bitmap
+    private var hill: Bitmap
+    private var desert: Bitmap
+    private  var sea : Bitmap
     private var mCanvas: Canvas
     private var paint: Paint
     private var mBitmapPaint: Paint
@@ -52,8 +56,14 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         mBitmap = Bitmap.createBitmap(canvasSize.toInt(), canvasSize.toInt(), Bitmap.Config.ARGB_8888)
         mBitmapPaint = Paint(Paint.DITHER_FLAG)
 
-        picTile = BitmapFactory.decodeResource(resources, R.drawable.fields)
-        picTile2 = BitmapFactory.decodeResource(resources, R.drawable.fieldthiscity)
+        val options = BitmapFactory.Options()
+        options.inScaled = false
+
+        field = BitmapFactory.decodeResource(resources, com.example.lesson_1.walkcity.R.drawable.fields)
+        hill = BitmapFactory.decodeResource(resources, com.example.lesson_1.walkcity.R.drawable.hill)
+        desert = BitmapFactory.decodeResource(resources, com.example.lesson_1.walkcity.R.drawable.desert)
+        sea = BitmapFactory.decodeResource(resources, com.example.lesson_1.walkcity.R.drawable.sea)
+
         mCanvas = Canvas(mBitmap)
         scrollBy(matrX.toInt() - 500, matrY.toInt() - 500)
 
@@ -62,11 +72,14 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         paint = Paint()
         paint.isAntiAlias = true
         paint.isDither = true
-        paint.color = -0xfafb
+        paint.color = -0x99999
         paint.strokeWidth = 5f
         paint.style = Paint.Style.STROKE
         paint.strokeJoin = Paint.Join.ROUND
         paint.strokeCap = Paint.Cap.ROUND
+        paint.setDither(false)
+        paint.setAntiAlias(false)
+
 //
 //        mCanvas.drawLine(200f, 0f, 400f, 100f, paint)
 //        mCanvas.drawLine(0f, 100f, 200f, 0f, paint)
@@ -111,12 +124,18 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
       //  mCanvas.drawLine(X - xHightTile, Y, X, Y - yHightTile, paint)
        // mCanvas.drawLine(X - xHightTile, Y, X, yHightTile + Y, paint)
        // mCanvas.drawLine(X, yHightTile + Y, xHightTile + X, Y, paint)
-        if(T.type == "forest"){
+        if(T.type == "hill"){
             //mCanvas.drawCircle(X, Y, 50f, paint)
-            mCanvas.drawBitmap(picTile2, X - xHightTile, Y - yHightTile, paint)
+            mCanvas.drawBitmap(hill, X - xHightTile, Y - yHightTile, paint)
+        }
+        else if(T.type == "desert") {
+            mCanvas.drawBitmap(desert, X - xHightTile,Y - yHightTile, paint)
+        }
+        else if(T.type == "sea") {
+            mCanvas.drawBitmap(sea, X - xHightTile, Y - yHightTile, paint)
         }
         else {
-            mCanvas.drawBitmap(picTile, X - xHightTile, Y - yHightTile, paint)
+            mCanvas.drawBitmap(field, X - xHightTile, Y - yHightTile, paint)
         }
     }
 
@@ -262,7 +281,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         if(cord.I > N-1 || cord.J > N-1 || cord.I < 0 || cord.J < 0){}
         else {
             println("I =  ${cord.I}   J =  ${cord.J} ")
-            Map[cord.I][cord.J].type = "forest"
+            Map[cord.I][cord.J].type = "hill"
            // println("aaa")
             drawMatr()
         }
