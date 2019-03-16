@@ -59,12 +59,6 @@ class Game_Map_Class : AppCompatActivity() {
             return sharedPref.getInt(KEY_NAME, 0)
         }
 
-        var st : Int = getValueInt("exitingApp")
-        if(st == 1){
-            finish()
-            System.exit(0)
-        }
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game__map)
         manager = Manager(this@Game_Map_Class)

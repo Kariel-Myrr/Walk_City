@@ -14,12 +14,6 @@ import kotlin.system.exitProcess
 
 
 class Settings_Class : AppCompatActivity() {
-    fun getValueInt(KEY_NAME: String): Int {
-        val sharedPref: SharedPreferences = getSharedPreferences(KEY_NAME, Context.MODE_PRIVATE)
-        return sharedPref.getInt(KEY_NAME, 0)
-    }
-
-
     lateinit var manager : Manager
 
     companion object {
@@ -50,11 +44,6 @@ class Settings_Class : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        var st : Int = getValueInt("exitingApp")
-        if(st == 1){
-            finish()
-            System.exit(0)
-        }
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
