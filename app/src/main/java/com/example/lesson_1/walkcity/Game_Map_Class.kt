@@ -11,8 +11,7 @@ import android.widget.Toast
 import com.example.lesson_1.walkcity.DataBase.Manager
 import com.example.lesson_1.walkcity.DataBase.Settings
 import kotlinx.android.synthetic.main.activity_game__map.*
-import kotlin.system.exitProcess
-import android.content.SharedPreferences
+
 
 class Game_Map_Class : AppCompatActivity() {
 
@@ -36,9 +35,9 @@ class Game_Map_Class : AppCompatActivity() {
     }
 
     override fun onPause() {
-        super.onPause()
         manager.tile = ViewMap.Map
         manager.unload()
+        super.onPause()
     }
 
     fun changeActtoBack(){

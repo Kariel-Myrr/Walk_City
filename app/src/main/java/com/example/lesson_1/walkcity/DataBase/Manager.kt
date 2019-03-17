@@ -401,7 +401,7 @@ class Manager(context: Context){
         Log.d("FLAG_TAG", "tile unload")
         unloadResourceTile()
         Log.d("FLAG_TAG", "resource tile unload")
-        Log.d("FLAG_TAG", "COMLETE UNLOAD DB")
+        Log.d("FLAG_TAG", "COMPLETE UNLOAD DB")
     }
 
     private fun unloadCity(id: Int){
