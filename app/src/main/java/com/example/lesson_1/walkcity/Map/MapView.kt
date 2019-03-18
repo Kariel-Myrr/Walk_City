@@ -31,7 +31,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     public var Map : MutableList<MutableList<Tile>>
     private val xHightTile = 150f
     private val yHightTile = 75f
-    public val N = 4//должно быть четным
+    public val N = 6//должно быть четным
     private val matrX = 800f//координаты центра поля
     private val matrY = 400f
     private val dMatrX = matrX - N*xHightTile//то на сколько поле отходит от края(от х и у)
