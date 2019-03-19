@@ -40,6 +40,10 @@ class Game_Map_Class : AppCompatActivity() {
         super.onPause()
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
+
     fun changeActtoBack(){
         val intent = Intent(this@Game_Map_Class,Menu_Class::class.java)
         ViewMap.Map = manager.tile

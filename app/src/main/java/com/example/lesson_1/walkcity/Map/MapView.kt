@@ -77,8 +77,6 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         paint.style = Paint.Style.STROKE
         paint.strokeJoin = Paint.Join.ROUND
         paint.strokeCap = Paint.Cap.ROUND
-        paint.setDither(false)
-        paint.setAntiAlias(false)
 
 //
 //        mCanvas.drawLine(200f, 0f, 400f, 100f, paint)
