@@ -22,5 +22,4 @@
         <activity android:name=".Game_Map_Class" />
         <activity android:name=".Inventory_Class" />
     </application>
-
 </manifest>
