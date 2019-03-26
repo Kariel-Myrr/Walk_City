@@ -1,4 +1,4 @@
-package com.example.lesson_1.walkcity
+package cool_guys.walkcity
 
 import org.junit.Test
 

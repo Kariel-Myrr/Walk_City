@@ -1,4 +1,4 @@
-package com.example.lesson_1.walkcity.DataBase
+package cool_guys.walkcity.DataBase
 
 import android.content.ContentValues
 import android.content.Context

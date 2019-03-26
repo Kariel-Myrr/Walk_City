@@ -1,10 +1,10 @@
-package com.example.lesson_1.walkcity
+package cool_guys.walkcity
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.example.lesson_1.walkcity.R.layout.activity_botton_list
+import cool_guys.walkcity.R.layout.activity_botton_list
 
 class Inventory_Class : AppCompatActivity() {
 

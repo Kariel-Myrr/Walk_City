@@ -1,4 +1,4 @@
-package com.example.lesson_1.walkcity
+package cool_guys.walkcity
 
 import android.content.Context
 import android.content.Intent
@@ -8,9 +8,10 @@ import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.example.lesson_1.walkcity.DataBase.Manager
-import com.example.lesson_1.walkcity.DataBase.Settings
+import cool_guys.walkcity.DataBase.Manager
+import cool_guys.walkcity.DataBase.Settings
 import kotlinx.android.synthetic.main.activity_game__map.*
+
 
 
 class Game_Map_Class : AppCompatActivity() {

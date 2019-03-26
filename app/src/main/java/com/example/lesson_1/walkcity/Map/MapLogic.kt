@@ -1,4 +1,4 @@
-package com.example.lesson_1.walkcity.Map
+package cool_guys.walkcity.Map
 
 class MapLogic(){
 

@@ -1,4 +1,4 @@
-package com.example.lesson_1.walkcity.Map
+package cool_guys.walkcity.Map
 
 import android.content.Context
 import android.graphics.*
@@ -7,7 +7,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
-import com.example.lesson_1.walkcity.DataBase.Tile
+import cool_guys.walkcity.DataBase.Tile
 import org.jetbrains.anko.dip
 import java.lang.Math.abs
 import android.graphics.BitmapFactory
@@ -59,10 +59,10 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         val options = BitmapFactory.Options()
         options.inScaled = false
 
-        field = BitmapFactory.decodeResource(resources, com.example.lesson_1.walkcity.R.drawable.fields)
-        hill = BitmapFactory.decodeResource(resources, com.example.lesson_1.walkcity.R.drawable.hill)
-        desert = BitmapFactory.decodeResource(resources, com.example.lesson_1.walkcity.R.drawable.desert)
-        sea = BitmapFactory.decodeResource(resources, com.example.lesson_1.walkcity.R.drawable.sea)
+        field = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.fields)
+        hill = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.hill)
+        desert = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.desert)
+        sea = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.sea)
 
         mCanvas = Canvas(mBitmap)
         scrollBy(matrX.toInt() - 500, matrY.toInt() - 500)

@@ -1,4 +1,4 @@
-package com.example.lesson_1.walkcity
+package cool_guys.walkcity
 
 import android.content.Context
 import android.content.Intent
