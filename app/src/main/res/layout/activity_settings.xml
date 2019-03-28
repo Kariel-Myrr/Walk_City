@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Settings_Class"
-    android:background="@drawable/wrenches2">
+    android:background="@drawable/mechanics">
 
     <Button
         android:background="@color/gray"
@@ -15,22 +15,28 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"/>
 
-    <LinearLayout
-        android:background="#ffffff"
+    <RelativeLayout
+        android:background="@drawable/menu_button_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true">
         <Switch
             android:id="@+id/switch_turns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Disable switch turn dialog" />
+            android:text="@string/settings1" />
 
         <Switch
             android:id="@+id/switch_back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Disable switch exiting dialog" />
-    </LinearLayout>
+            android:text="@string/settings2" />
+        </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

@@ -3,6 +3,9 @@
     <string name="inv">Inventory</string>
     <string name="nt">NEXT TURN</string>
     <string name="play">Play</string>
-    <string name="settings">Settings</string>
-    <string name="exit">EXIT</string>
+    <string name="settings1">Disable switch
+        turn dialog</string>
+    <string name="settings2">Disable switch
+        exiting dialog</string>
+
 </resources>
