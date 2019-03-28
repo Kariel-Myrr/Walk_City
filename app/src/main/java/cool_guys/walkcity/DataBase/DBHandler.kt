@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.database.sqlite.SQLiteQueryBuilder
+import android.util.Log
 
 class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVersion) {
 
@@ -29,13 +30,14 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
         var active = "active"
         var people = "people"
         var damage = "damage"
+        var protection = "protection"
         var idInventory = "idInventory"
 
         var idItemResource = "idItemResource"
         var idItemWeapon = "idItemWeapon"
         var idItemProtection = "idItemProtection"
 
-        var tree = "tree"
+        var wood = "wood"
         var stone = "stone"
         var iron = "iron"
         var food = "food"
@@ -57,11 +59,11 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
     private var sqlObj: SQLiteDatabase = this.writableDatabase // Сущность SQLiteDatabase
 
     override fun onCreate(p0: SQLiteDatabase?) { // Вызывается при генерации БД
-        var sql1 = "CREATE TABLE IF NOT EXISTS $CityDataName ( $id  INTEGER PRIMARY KEY, $name TEXT, $hp TEXT, $type TEXT, $active TEXT, $people TEXT, $damage TEXT, $idInventory TEXT);"
+        var sql1 = "CREATE TABLE IF NOT EXISTS $CityDataName ( $id  INTEGER PRIMARY KEY, $name TEXT, $hp TEXT, $type TEXT, $active TEXT, $people TEXT, $damage TEXT, $protection Text, $idInventory TEXT, $x Text, $y Text);"
         p0!!.execSQL(sql1)
         sql1 = "CREATE TABLE IF NOT EXISTS $InventoryDataName ( $id  INTEGER PRIMARY KEY, $idItemResource TEXT, $idItemWeapon TEXT, $idItemProtection TEXT);"
         p0.execSQL(sql1)
-        sql1 = "CREATE TABLE IF NOT EXISTS $ItemResourceName ( $id  INTEGER PRIMARY KEY, $tree TEXT, $stone TEXT, $iron TEXT, $food TEXT, $water TEXT);"
+        sql1 = "CREATE TABLE IF NOT EXISTS $ItemResourceName ( $id  INTEGER PRIMARY KEY, $wood TEXT, $stone TEXT, $iron TEXT, $food TEXT, $water TEXT);"
         p0.execSQL(sql1)
         sql1 = "CREATE TABLE IF NOT EXISTS $ItemWeaponName ( $id  INTEGER PRIMARY KEY, $slots TEXT, $storage TEXT);"
         p0.execSQL(sql1)
@@ -115,27 +117,46 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
     fun updateSettings(values: ContentValues, id: Int) = sqlObj.update(SettingsName, values, "id=?", arrayOf(id.toString()))
 
     fun cityList(key: String): ArrayList<CityData> {
+        Log.d("FLAG_TAG", "DB test 1")
         val arraylist = ArrayList<CityData>()
         val sqlQB = SQLiteQueryBuilder()
         sqlQB.tables = CityDataName
-        val cols = arrayOf(id, name, hp, type, active, people, damage, idInventory)
+        val cols = arrayOf(id, name, hp, type, active, people, damage, protection, idInventory, x, y)
         val selectArgs = arrayOf(key)
         val cursor = sqlQB.query(sqlObj, cols, "$id like ?", selectArgs, null, null, id)
+        Log.d("FLAG_TAG", "DB test 2")
         if (cursor.moveToFirst()) {
+            Log.d("FLAG_TAG", "DB test 3")
             do {
+                Log.d("FLAG_TAG", "DB test 4")
                 val id = cursor.getInt(cursor.getColumnIndex(id))
+                Log.d("FLAG_TAG", "DB test 4.1")
                 val name = cursor.getString(cursor.getColumnIndex(name))
+                Log.d("FLAG_TAG", "DB test 4.2")
                 val hp = cursor.getInt(cursor.getColumnIndex(hp))
+                Log.d("FLAG_TAG", "DB test 4.3")
                 val type = cursor.getString(cursor.getColumnIndex(type))
+                Log.d("FLAG_TAG", "DB test 4.4")
                 val active = cursor.getInt(cursor.getColumnIndex(active))
+                Log.d("FLAG_TAG", "DB test 4.5")
                 val people = cursor.getInt(cursor.getColumnIndex(people))
+                Log.d("FLAG_TAG", "DB test 4.6")
                 val damage = cursor.getInt(cursor.getColumnIndex(damage))
+                Log.d("FLAG_TAG", "DB test 4.7")
+                val protection = cursor.getInt(cursor.getColumnIndex(protection))
+                Log.d("FLAG_TAG", "DB test 4.8")
                 val idInventory = cursor.getInt(cursor.getColumnIndex(idInventory))
-
-                arraylist.add(CityData(id, name, hp, type, active, people, damage, idInventory))
-
+                Log.d("FLAG_TAG", "DB test 4.9")
+                val x = cursor.getInt(cursor.getColumnIndex(x))
+                Log.d("FLAG_TAG", "DB test 4.10")
+                val y = cursor.getInt(cursor.getColumnIndex(y))
+                Log.d("FLAG_TAG", "DB test 5")
+                arraylist.add(CityData(id, name, hp, type, active, people, damage, protection, idInventory, x, y))
+                Log.d("FLAG_TAG", "DB test 6")
             } while (cursor.moveToNext())
+            Log.d("FLAG_TAG", "DB test 7")
         }
+        Log.d("FLAG_TAG", "DB test 8")
         return arraylist
     }
 
@@ -201,19 +222,19 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
         val arraylist = ArrayList<ItemResource>()
         val sqlQB = SQLiteQueryBuilder()
         sqlQB.tables = ItemResourceName
-        val cols = arrayOf(id, tree, stone, iron, food, water)
+        val cols = arrayOf(id, wood, stone, iron, food, water)
         val selectArgs = arrayOf(key)
         val cursor = sqlQB.query(sqlObj, cols, "$id like ?", selectArgs, null, null, id)
         if (cursor.moveToFirst()) {
             do {
                 val id = cursor.getInt(cursor.getColumnIndex(id))
-                val tree = cursor.getInt(cursor.getColumnIndex(tree))
+                val wood = cursor.getInt(cursor.getColumnIndex(wood))
                 val stone = cursor.getInt(cursor.getColumnIndex(stone))
                 val iron = cursor.getInt(cursor.getColumnIndex(iron))
                 val food = cursor.getInt(cursor.getColumnIndex(food))
                 val water = cursor.getInt(cursor.getColumnIndex(water))
 
-                arraylist.add(ItemResource(id, tree, stone, iron, food, water))
+                arraylist.add(ItemResource(id, wood, stone, iron, food, water))
 
             } while (cursor.moveToNext())
         }
