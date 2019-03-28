@@ -27,6 +27,41 @@ class Menu_Class : AppCompatActivity() {
         intent.putExtra("status", "continue game")
         startActivity(intent)
     }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("FLAG_TAG", "Menu_Class onStart()")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("FLAG_TAG", "Menu_Class onPause()")
+        finish()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("FLAG_TAG", "Menu_Class onStop()")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("FLAG_TAG", "Menu_Class onDestroy()")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("FLAG_TAG", "Menu_Class onResume()")
+    }
+
+    fun changeActtoBack(){
+        finish()
+    }
+
+    override fun onBackPressed() {
+        changeActtoBack()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)

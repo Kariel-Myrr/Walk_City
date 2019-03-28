@@ -25,6 +25,7 @@ class Game_Map_Class : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        Log.d("FLAG_TAG", "Game_Map_Class onStart()")
         var getIntentFromMenu = intent
         var status = ""
         if(getIntentFromMenu.hasExtra("status"))
@@ -36,13 +37,26 @@ class Game_Map_Class : AppCompatActivity() {
     }
 
     override fun onPause() {
+        super.onPause()
+        Log.d("FLAG_TAG", "Game_Map_Class onPause()")
         manager.tile = ViewMap.Map
         manager.unload()
-        super.onPause()
+        finish()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("FLAG_TAG", "Game_Map_Class onStop()")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("FLAG_TAG", "Game_Map_Class onDestroy()")
     }
 
     override fun onResume() {
         super.onResume()
+        Log.d("FLAG_TAG", "Game_Map_Class onResume()")
     }
 
     fun changeActtoBack(){
@@ -54,6 +68,7 @@ class Game_Map_Class : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("FLAG_TAG", "Game_Map_Class onCreate()")
         setContentView(R.layout.activity_game__map)
         manager = Manager(this@Game_Map_Class)
         var settings : Settings

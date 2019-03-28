@@ -20,12 +20,14 @@ class Settings_Class : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        Log.d("FLAG_TAG", "Setting_Class onStart()")
         manager = Manager(this@Settings_Class)
         if(manager.tryingSettings() != 0)manager.downloadSettings()
     }
 
     override fun onPause() {
         super.onPause()
+        Log.d("FLAG_TAG", "Setting_Class onPause()")
         flag_back = switch_back_button.isChecked
         flag_move = switch_turns.isChecked
         if(flag_back == false)manager.settings.backDialog = 0
@@ -33,6 +35,22 @@ class Settings_Class : AppCompatActivity() {
         if (flag_move == false)manager.settings.nextTurnDialog = 0
         else manager.settings.nextTurnDialog = 1
         manager.unloadSettings()
+        finish()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("FLAG_TAG", "Setting_Class onStop()")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("FLAG_TAG", "Setting_Class onDestroy()")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("FLAG_TAG", "Setting_Class onResume()")
     }
 
     fun changeActtoBack(demo : View){
@@ -40,9 +58,14 @@ class Settings_Class : AppCompatActivity() {
         startActivity(intent)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    fun changeActtoBack(){
+        val intent = Intent(this@Settings_Class,Menu_Class::class.java)
+        startActivity(intent)
+    }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("FLAG_TAG", "Setting_Class onCreate()")
         setContentView(R.layout.activity_settings)
         onStart()
         var settings : Settings
@@ -60,5 +83,9 @@ class Settings_Class : AppCompatActivity() {
         switch_back_button.isChecked = flag_back
         switch_turns.isChecked = flag_move
         settings_back.setOnClickListener(::changeActtoBack)
+    }
+
+    override fun onBackPressed() {
+        changeActtoBack()
     }
 }
