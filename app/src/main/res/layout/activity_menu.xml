@@ -29,14 +29,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:background="@drawable/new_game_button" />
+                    android:background="@drawable/menu_button"
+                    android:text="@string/new_game"/>
 
                 <ImageButton
                     android:id="@+id/play"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:background="@drawable/play_button" />
+                    android:background="@drawable/menu_button"
+                    android:text="@string/play"/>
 
                 <ImageButton
                     android:id="@+id/settings"
@@ -44,7 +46,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:background="@drawable/settings_button"/>
+                    android:background="@drawable/menu_button"
+                    android:text="@string/settings"/>
             </LinearLayout>
 
         </RelativeLayout>

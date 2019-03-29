@@ -8,10 +8,10 @@ import java.util.*
 class Manager(context: Context){
 
     private var city : MutableList<CityData> = mutableListOf()
-    private var inventory : MutableList<InventoryData> = mutableListOf()
-    private var protection : MutableList<ItemProtection> = mutableListOf()
-    private var resource : MutableList<ItemResource> = mutableListOf()
-    private var weapon : MutableList<ItemWeapon> = mutableListOf()
+    var inventory : MutableList<InventoryData> = mutableListOf()
+    var protection : MutableList<ItemProtection> = mutableListOf()
+    var resource : MutableList<ItemResource> = mutableListOf()
+    var weapon : MutableList<ItemWeapon> = mutableListOf()
     private var dataBase = DBHandler(context)
     private var map = Map()
     var tile : MutableList<MutableList<Tile>> = mutableListOf()
@@ -223,7 +223,7 @@ class Manager(context: Context){
         else Log.d("FLAG_TAG", "ERROR: cityList.size = ${cityList.size}")
     }
 
-    fun downloadCity(id: Int){
+    private fun downloadCity(id: Int){
         val cityList = dataBase.cityList("%")
         if(cityList.size != 0) {
             city[id] = cityList[id]

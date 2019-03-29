@@ -3,9 +3,10 @@
     <string name="inv">Inventory</string>
     <string name="nt">NEXT TURN</string>
     <string name="play">Play</string>
-    <string name="settings1">Disable switch
-        turn dialog</string>
-    <string name="settings2">Disable switch
-        exiting dialog</string>
+    <string name="new_game">New Game</string>
+    <string name="settings">Settings</string>
+    <string name="settings1">Disable switch turn dialog</string>
+    <string name="settings2">Disable switch exiting dialog</string>
+    <string name="btm">Back to Menu</string>
 
 </resources>
