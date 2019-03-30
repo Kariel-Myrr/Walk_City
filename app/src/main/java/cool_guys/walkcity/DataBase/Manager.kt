@@ -793,4 +793,20 @@ class Manager(context: Context){
             4 -> city[cityId].protection += 4
         }
     }
+
+    fun giveHomeCity(): CityData{
+        return city[0]
+    }
+
+    fun giveHomeResource(): ItemResource{
+        return resource[0]
+    }
+
+    fun giveHomeProtection(): ItemProtection{
+        return protection[0]
+    }
+
+    fun giveHomeWeapon(): ItemWeapon{
+        return weapon[0]
+    }
 }
