@@ -17,14 +17,14 @@ class Inventory_Class : AppCompatActivity() {
         Log.d("FLAG_TAG", "Inventory_Class onCreate()")
         setContentView(activity_inventory)
         manager = Manager(this@Inventory_Class)
-        var inventory : MutableList<InventoryData>
-        var resource : MutableList<ItemResource> = mutableListOf()
-        var protection : MutableList<ItemProtection> = mutableListOf()
-        var weapon : MutableList<ItemWeapon> = mutableListOf()
-        inventory = manager.inventory
-        resource = manager.resource
-        protection = manager.protection
-        weapon = manager.weapon
+        var city : CityData
+        var resource : ItemResource
+        var protection : ItemProtection
+        var weapon : ItemWeapon
+        city = manager.giveHomeCity()
+        resource = manager.giveHomeResource()
+        protection = manager.giveHomeProtection()
+        weapon = manager.giveHomeWeapon()
         setContentView(resource_bar)
         val ResourceList : ArrayList<ResourceBlock>  = ArrayList()
         ResourceList.add(ResourceBlock(cool_guys.walkcity.R.drawable.population, "Population", "Line 2"))
