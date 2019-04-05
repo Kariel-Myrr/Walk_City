@@ -39,4 +39,5 @@
             android:text="@string/settings2" />
         </LinearLayout>
     </RelativeLayout>
+
 </RelativeLayout>
