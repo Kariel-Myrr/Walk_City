@@ -16,7 +16,7 @@ class Manager(context: Context){
     private var map = Map()
     var tile : MutableList<MutableList<Tile>> = mutableListOf()
     private var resourceTile: MutableList<MutableList<ItemResource>> = mutableListOf()
-    private val countCity = 5
+    private val countCity = 6
     var settings = Settings()
 
     private fun IntRange.random() = Random().nextInt((endInclusive + 1) - start) +  start
@@ -32,7 +32,7 @@ class Manager(context: Context){
             1 -> {
                 tile[i][e].type = "field"
                 tile[i][e].idItemResource = i * map.y + e + countCity
-                resourceTile[i][e].tree = (0..5).random()
+                resourceTile[i][e].wood = (0..5).random()
                 resourceTile[i][e].stone = (0..5).random()
                 resourceTile[i][e].iron = (0..0).random()
                 resourceTile[i][e].food = (5..15).random()
@@ -41,7 +41,7 @@ class Manager(context: Context){
             2 -> {
                 tile[i][e].type = "hill"
                 tile[i][e].idItemResource = i * map.y + e + countCity
-                resourceTile[i][e].tree = (5..15).random()
+                resourceTile[i][e].wood = (5..15).random()
                 resourceTile[i][e].stone = (0..0).random()
                 resourceTile[i][e].iron = (0..0).random()
                 resourceTile[i][e].food = (0..10).random()
@@ -50,7 +50,7 @@ class Manager(context: Context){
             3 -> {
                 tile[i][e].type = "lake"
                 tile[i][e].idItemResource = i * map.y + e + countCity
-                resourceTile[i][e].tree = (0..0).random()
+                resourceTile[i][e].wood = (0..0).random()
                 resourceTile[i][e].stone = (0..10).random()
                 resourceTile[i][e].iron = (0..5).random()
                 resourceTile[i][e].food = (5..10).random()
@@ -59,7 +59,7 @@ class Manager(context: Context){
             4 -> {
                 tile[i][e].type = "sea"
                 tile[i][e].idItemResource = i * map.y + e + countCity
-                resourceTile[i][e].tree = (0..0).random()
+                resourceTile[i][e].wood = (0..0).random()
                 resourceTile[i][e].stone = (0..10).random()
                 resourceTile[i][e].iron = (0..5).random()
                 resourceTile[i][e].food = (5..10).random()
@@ -68,7 +68,7 @@ class Manager(context: Context){
             5 -> {
                 tile[i][e].type = "desert"
                 tile[i][e].idItemResource = i * map.y + e + countCity
-                resourceTile[i][e].tree = (0..5).random()
+                resourceTile[i][e].wood = (0..5).random()
                 resourceTile[i][e].stone = (0..5).random()
                 resourceTile[i][e].iron = (0..10).random()
                 resourceTile[i][e].food = (0..5).random()
@@ -77,7 +77,7 @@ class Manager(context: Context){
             else -> {
                 tile[i][e].type = "forest"
                 tile[i][e].idItemResource = i * map.y + e + countCity
-                resourceTile[i][e].tree = (0..0).random()
+                resourceTile[i][e].wood = (0..0).random()
                 resourceTile[i][e].stone = (5..10).random()
                 resourceTile[i][e].iron = (5..15).random()
                 resourceTile[i][e].food = (0..5).random()
@@ -88,7 +88,7 @@ class Manager(context: Context){
 
     fun initTile(i: Int, e: Int, type: String, tree: Int, stone: Int, iron: Int, food: Int, water: Int){
         tile[i][e].type = type
-        resourceTile[i][e].tree = tree
+        resourceTile[i][e].wood = tree
         resourceTile[i][e].stone = stone
         resourceTile[i][e].iron = iron
         resourceTile[i][e].food = food
@@ -112,12 +112,12 @@ class Manager(context: Context){
                 val type = tile[i][e].type
                 val idItemResource = tile[i][e].idItemResource
                 Log.d("FLAG_TAG", "tile[$i][$e]: type = $type idItemResource = $idItemResource")
-                val tree = resourceTile[i][e].tree
+                val tree = resourceTile[i][e].wood
                 val stone = resourceTile[i][e].stone
                 val iron = resourceTile[i][e].iron
                 val food = resourceTile[i][e].food
                 val water = resourceTile[i][e].water
-                Log.d("FLAG_TAG", "resourceTile[$i][$e]: tree = $tree stone = $stone iron = $iron food = $food water = $water")
+                Log.d("FLAG_TAG", "resourceTile[$i][$e]: wood = $tree stone = $stone iron = $iron food = $food water = $water")
             }
         }
 
@@ -132,18 +132,24 @@ class Manager(context: Context){
         tmpCity.active = 1
         tmpCity.people = 1
         tmpCity.damage = 0
+        tmpCity.protection = 0
         tmpCity.idInventory = id
-        Log.d("FLAG_TAG", "city: name = ${tmpCity.name} hp = ${tmpCity.hp} type = ${tmpCity.type} active = ${tmpCity.active} people = ${tmpCity.people} damage = ${tmpCity.damage} idInventory = ${tmpCity.idInventory}")
+        tmpCity.x = id
+        tmpCity.y = id
+        Log.d("FLAG_TAG", "city: name = ${tmpCity.name} hp = ${tmpCity.hp} type = ${tmpCity.type} active = ${tmpCity.active} people = ${tmpCity.people} damage = ${tmpCity.damage} protection = ${tmpCity.protection} idInventory = ${tmpCity.idInventory} x = ${tmpCity.x} y = ${tmpCity.y}")
         city.add(tmpCity)
     }
 
-    fun initCity(id: Int, name: String, hp: Int, type: String, active: Int, people: Int, damage: Int){
+    fun initCity(id: Int, name: String, hp: Int, type: String, active: Int, people: Int, damage: Int, protection: Int, x: Int, y: Int){
         city[id].name = name
         city[id].hp = hp
         city[id].type = type
         city[id].active = active
         city[id].people = people
         city[id].damage = damage
+        city[id].protection = protection
+        city[id].x = x
+        city[id].y = y
     }
 
     private fun initInventory(id: Int){
@@ -168,17 +174,17 @@ class Manager(context: Context){
 
     private fun initResource(){
         val tmpResource = ItemResource()
-        tmpResource.tree = 0
+        tmpResource.wood = 0
         tmpResource.stone = 0
         tmpResource.iron = 0
         tmpResource.food = 2
         tmpResource.water = 3
-        Log.d("FLAG_TAG", "resource: tree = ${tmpResource.tree} stone = ${tmpResource.stone} iron = ${tmpResource.iron} food = ${tmpResource.food} water = ${tmpResource.water}")
+        Log.d("FLAG_TAG", "resource: wood = ${tmpResource.wood} stone = ${tmpResource.stone} iron = ${tmpResource.iron} food = ${tmpResource.food} water = ${tmpResource.water}")
         resource.add(tmpResource)
     }
 
     fun initResource(id: Int, tree: Int, stone: Int, iron: Int, food: Int, water: Int){
-        resource[id].tree = 0
+        resource[id].wood = 0
         resource[id].stone = 0
         resource[id].iron = 0
         resource[id].food = 2
@@ -212,16 +218,16 @@ class Manager(context: Context){
         val cityList = dataBase.cityList("%")
         if(cityList.size != 0) {
             city = cityList
-            for(i in 0 until countCity)Log.d("FLAG_TAG", "city: name = ${city[i].name} hp = ${city[i].hp} type = ${city[i].type} active = ${city[i].active} people = ${city[i].people} damage = ${city[i].damage} idInventory = ${city[i].idInventory}")
+            for(i in 0 until countCity)Log.d("FLAG_TAG", "city: name = ${city[i].name} hp = ${city[i].hp} type = ${city[i].type} active = ${city[i].active} people = ${city[i].people} damage = ${city[i].damage} protection = ${city[i].protection} idInventory = ${city[i].idInventory} x = ${city[i].x} y = ${city[i].y}")
         }
         else Log.d("FLAG_TAG", "ERROR: cityList.size = ${cityList.size}")
     }
 
-    fun downloadCity(id: Int){
+    private fun downloadCity(id: Int){
         val cityList = dataBase.cityList("%")
         if(cityList.size != 0) {
             city[id] = cityList[id]
-            Log.d("FLAG_TAG", "city: name = ${city[id].name} hp = ${city[id].hp} type = ${city[id].type} active = ${city[id].active} people = ${city[id].people} damage = ${city[id].damage} idInventory = ${city[id].idInventory}")
+            Log.d("FLAG_TAG", "city: name = ${city[id].name} hp = ${city[id].hp} type = ${city[id].type} active = ${city[id].active} people = ${city[id].people} damage = ${city[id].damage} protection = ${city[id].protection} idInventory = ${city[id].idInventory} x = ${city[id].x} y = ${city[id].y}")
         }
         else Log.d("FLAG_TAG", "ERROR: cityList.size = ${cityList.size}")
     }
@@ -267,7 +273,7 @@ class Manager(context: Context){
         if(resourceList.size != 0) {
             for(i in 0 until countCity){
                 resource.add(resourceList[i])
-                Log.d("FLAG_TAG", "resource: tree = ${resource[i].tree} stone = ${resource[i].stone} iron = ${resource[i].iron} food = ${resource[i].food} water = ${resource[i].water}")
+                Log.d("FLAG_TAG", "resource: wood = ${resource[i].wood} stone = ${resource[i].stone} iron = ${resource[i].iron} food = ${resource[i].food} water = ${resource[i].water}")
             }
         }
         else Log.d("FLAG_TAG", "ERROR: resurceList.size = ${resourceList.size}")
@@ -277,7 +283,7 @@ class Manager(context: Context){
         val resourceList = dataBase.itemResourceList("%")
         if(resourceList.size != 0) {
             resource[id] = resourceList[id]
-            Log.d("FLAG_TAG", "resource: tree = ${resource[id].tree} stone = ${resource[id].stone} iron = ${resource[id].iron} food = ${resource[id].food} water = ${resource[id].water}")
+            Log.d("FLAG_TAG", "resource: wood = ${resource[id].wood} stone = ${resource[id].stone} iron = ${resource[id].iron} food = ${resource[id].food} water = ${resource[id].water}")
         }
         else Log.d("FLAG_TAG", "ERROR: resurceList.size = ${resourceList.size}")
     }
@@ -344,12 +350,12 @@ class Manager(context: Context){
                 resourceTile.add(mutableListOf())
                 for(e in 0 until map.x){
                     resourceTile[i].add(resourceTileList[tile[i][e].idItemResource])
-                    val tree = resourceTile[i][e].tree
+                    val tree = resourceTile[i][e].wood
                     val stone = resourceTile[i][e].stone
                     val iron = resourceTile[i][e].iron
                     val food = resourceTile[i][e].food
                     val water = resourceTile[i][e].water
-                    Log.d("FLAG_TAG", "resourceTile[$i][$e]: tree = $tree stone = $stone iron = $iron food = $food water = $water")
+                    Log.d("FLAG_TAG", "resourceTile[$i][$e]: wood = $tree stone = $stone iron = $iron food = $food water = $water")
                 }
             }
         }
@@ -360,12 +366,12 @@ class Manager(context: Context){
         val resourceTileList = dataBase.itemResourceList("%")
         if(resourceTileList.size != 0){
             resourceTile[i][e] = resourceTileList[tile[i][e].idItemResource]
-            val tree = resourceTile[i][e].tree
+            val tree = resourceTile[i][e].wood
             val stone = resourceTile[i][e].stone
             val iron = resourceTile[i][e].iron
             val food = resourceTile[i][e].food
             val water = resourceTile[i][e].water
-            Log.d("FLAG_TAG", "resourceTile[$i][$e]: tree = $tree stone = $stone iron = $iron food = $food water = $water")
+            Log.d("FLAG_TAG", "resourceTile[$i][$e]: wood = $tree stone = $stone iron = $iron food = $food water = $water")
         }
         else Log.d("FLAG_TAG", "ERROR: resourceTileList.size = ${resourceTileList.size}")
     }
@@ -405,6 +411,7 @@ class Manager(context: Context){
     }
 
     private fun unloadCity(id: Int){
+        Log.d("FLAG_TAG", "unload city $id")
         val values = ContentValues()
         values.put(DBHandler.name, city[id].name)
         values.put(DBHandler.hp, city[id].hp)
@@ -412,9 +419,14 @@ class Manager(context: Context){
         values.put(DBHandler.active, city[id].active)
         values.put(DBHandler.people, city[id].people)
         values.put(DBHandler.damage, city[id].damage)
+        values.put(DBHandler.protection, city[id].protection)
         values.put(DBHandler.idInventory, city[id].idInventory)
+        values.put(DBHandler.x, city[id].x)
+        values.put(DBHandler.y, city[id].y)
+        Log.d("FLAG_TAG", "test unload city 1")
         if(tryingCity() < countCity)dataBase.addCity(values)
         else dataBase.updateCity(values, id + 1)
+        Log.d("FLAG_TAG", "test unload city 2")
     }
 
     private  fun unloadInvenory(id: Int){
@@ -435,7 +447,7 @@ class Manager(context: Context){
 
     private fun unloadResource(id: Int){
         val values = ContentValues()
-        values.put(DBHandler.tree, resource[id].tree)
+        values.put(DBHandler.wood, resource[id].wood)
         values.put(DBHandler.stone, resource[id].stone)
         values.put(DBHandler.iron, resource[id].iron)
         values.put(DBHandler.food, resource[id].food)
@@ -495,7 +507,7 @@ class Manager(context: Context){
         for(i in 0 until map.y){
             for(e in 0 until map.x){
                 values = ContentValues()
-                values.put(DBHandler.tree, resourceTile[i][e].tree)
+                values.put(DBHandler.wood, resourceTile[i][e].wood)
                 values.put(DBHandler.stone, resourceTile[i][e].stone)
                 values.put(DBHandler.iron, resourceTile[i][e].iron)
                 values.put(DBHandler.food, resourceTile[i][e].food)
@@ -520,9 +532,11 @@ class Manager(context: Context){
     }
 
     private fun tryingCity(): Int{
+        Log.d("FLAG_TAG", "trying city test 1")
         val status : Int
         val cityList = dataBase.cityList("%")
         status = cityList.size
+        Log.d("FLAG_TAG", "status = $status")
         return status
     }
 
@@ -582,5 +596,217 @@ class Manager(context: Context){
 
     fun tile(): MutableList<MutableList<Tile>>{
         return tile
+    }
+
+    fun clearTile(cityId: Int){
+        val x = city[cityId].x
+        val y = city[cityId].y
+        resource[cityId].wood += resourceTile[y][x].wood
+        resourceTile[y][x].wood = 0
+        resource[cityId].stone += resourceTile[y][x].stone
+        resourceTile[y][x].stone = 0
+        resource[cityId].iron += resourceTile[y][x].iron
+        resourceTile[y][x].iron = 0
+        resource[cityId].food += resourceTile[y][x].food
+        resourceTile[y][x].food = 0
+        resource[cityId].water += resourceTile[y][x].water
+        resourceTile[y][x].water = 0
+    }
+
+    fun removeCity(id: Int, newX: Int, newY: Int){
+        city[id].x = newX
+        city[id].y = newY
+    }
+
+    fun craftWeapon(cityId: Int, type: Int){
+        when(type){
+            1 -> {
+                if(resource[cityId].wood >= 2 && weapon[cityId].storage.size < 10){
+                    resource[cityId].wood -= 2
+                    weapon[cityId].storage.add(type)
+                    Log.d("FLAG_TAG", "Type 1 made")
+                }
+                else Log.d("FLAG_TAG", "Not enough resources for type 1 or not enough space in storage")
+            }
+            2 -> {
+                if(resource[cityId].wood >= 3 && resource[cityId].stone >= 1 && weapon[cityId].storage.size < 10){
+                    resource[cityId].wood -= 3
+                    resource[cityId].stone -= 1
+                    weapon[cityId].storage.add(type)
+                    Log.d("FLAG_TAG", "Type 2 made")
+                }
+                else Log.d("FLAG_TAG", "Not enough resources for type 2 or not enough space in storage")
+            }
+            3 -> {
+                if(resource[cityId].wood >= 1 && resource[cityId].stone >= 2 && weapon[cityId].storage.size < 10){
+                    resource[cityId].wood -= 1
+                    resource[cityId].stone -= 2
+                    weapon[cityId].storage.add(type)
+                    Log.d("FLAG_TAG", "Type 3 made")
+                }
+                else Log.d("FLAG_TAG", "Not enough resources for type 3 or not enough space in storage")
+            }
+            4 -> {
+                if(resource[cityId].wood >= 3 && resource[cityId].stone >= 3 && weapon[cityId].storage.size < 10){
+                    resource[cityId].wood -= 3
+                    resource[cityId].stone -= 3
+                    weapon[cityId].storage.add(type)
+                    Log.d("FLAG_TAG", "Type 4 made")
+                }
+                else Log.d("FLAG_TAG", "Not enough resources for type 4 or not enough space in storage")
+            }
+            5 -> {
+                if(resource[cityId].wood >= 2 && resource[cityId].stone >= 4 && weapon[cityId].storage.size < 10){
+                    resource[cityId].wood -= 2
+                    resource[cityId].stone -= 4
+                    weapon[cityId].storage.add(type)
+                    Log.d("FLAG_TAG", "Type 5 made")
+                }
+                else Log.d("FLAG_TAG", "Not enough resources for type 5 or not enough space in storage")
+            }
+            6 -> {
+                if(resource[cityId].wood >= 4 && resource[cityId].stone >= 6 && resource[cityId].iron >= 2 && weapon[cityId].storage.size < 10){
+                    resource[cityId].wood -= 4
+                    resource[cityId].stone -= 6
+                    resource[cityId].iron -= 2
+                    weapon[cityId].storage.add(type)
+                    Log.d("FLAG_TAG", "Type 6 made")
+                }
+                else Log.d("FLAG_TAG", "Not enough resources for type 6 or not enough space in storage")
+            }
+        }
+    }
+
+    fun clearStorage(cityId: Int, num: Int){
+        if(num < weapon[cityId].storage.size){
+            weapon[cityId].storage.removeAt(num)
+            Log.d("FLAG_TAG", "Weapon $num removed")
+        }
+        else Log.d("FLAG_TAG", "Weapon $num not found")
+    }
+
+    fun changeWeapon(cityId: Int, num: Int){
+        if(num < weapon[cityId].storage.size){
+            if(weapon[cityId].storage[num] == 1 || weapon[cityId].storage[num] == 2 || weapon[cityId].storage[num] == 5){
+                if(weapon[cityId].slots.size == 0){
+                    weapon[cityId].slots.add(weapon[cityId].storage[num])
+                    weapon[cityId].storage.removeAt(num)
+                }
+                else if(weapon[cityId].slots.size == 1){
+                    weapon[cityId].slots.add(weapon[cityId].slots[0])
+                    weapon[cityId].slots[0] = weapon[cityId].storage[num]
+                    weapon[cityId].storage.removeAt(num)
+                }
+                else{
+                    val type = weapon[cityId].slots[1]
+                    weapon[cityId].slots[1] = weapon[cityId].slots[0]
+                    weapon[cityId].slots[0] = weapon[cityId].storage[num]
+                    weapon[cityId].storage[num] = type
+                }
+            }
+            else{
+                if(weapon[cityId].slots.size == 0){
+                    weapon[cityId].slots.add(weapon[cityId].storage[num])
+                    weapon[cityId].storage.removeAt(num)
+                }
+                else if(weapon[cityId].slots.size == 1){
+                    val type = weapon[cityId].slots[0]
+                    weapon[cityId].slots[0] = weapon[cityId].storage[num]
+                    weapon[cityId].storage[num] = type
+                }
+                else{
+                    if(weapon[cityId].storage.size < 10){
+                        val type1 = weapon[cityId].slots[0]
+                        val type2 = weapon[cityId].slots[1]
+                        weapon[cityId].slots.removeAt(1)
+                        weapon[cityId].slots[0] = weapon[cityId].storage[num]
+                        weapon[cityId].storage[num] = type1
+                        weapon[cityId].storage.add(type2)
+                    }
+                    else Log.d("FLAG_TAG", "Not enough space in storage")
+                }
+            }
+        }
+        else Log.d("FLAG_TAG", "Weapon $num not found")
+    }
+
+    fun craftProtection(cityId: Int, type: Int){
+        when(type){
+            1 -> {
+                if(resource[cityId].wood >= 5){
+                    resource[cityId].wood -= 5
+                    protection[cityId].slot = 1
+                    Log.d("FLAG_TAG", "Type 1 made")
+                }
+                else Log.d("FLAG_TAG", "Not enough resources for type 1")
+            }
+            2 -> {
+                if(resource[cityId].wood >= 10 && resource[cityId].stone >= 5){
+                    resource[cityId].wood -= 10
+                    resource[cityId].stone -= 5
+                    protection[cityId].slot = 2
+                    Log.d("FLAG_TAG", "Type 2 made")
+                }
+                else Log.d("FLAG_TAG", "Not enough resources for type 2")
+            }
+            3 -> {
+                if(resource[cityId].wood >= 5 && resource[cityId].stone >= 15){
+                    resource[cityId].wood -= 5
+                    resource[cityId].stone -= 15
+                    protection[cityId].slot = 3
+                    Log.d("FLAG_TAG", "Type 3 made")
+                }
+                else Log.d("FLAG_TAG", "Not enough resources for type 3")
+            }
+            4 -> {
+                if(resource[cityId].wood >= 10 && resource[cityId].iron >= 10){
+                    resource[cityId].wood -= 10
+                    resource[cityId].iron -= 10
+                    protection[cityId].slot = 4
+                    Log.d("FLAG_TAG", "Type 4 made")
+                }
+                else Log.d("FLAG_TAG", "Not enough resources for type 4")
+            }
+        }
+    }
+
+    fun recountDamage(cityId: Int){
+        city[cityId].damage = 0
+        for(i in 0 until weapon[cityId].slots.size){
+            when(weapon[cityId].slots[i]){
+                1 -> city[cityId].damage += 1
+                2 -> city[cityId].damage += 2
+                3 -> city[cityId].damage += 3
+                4 -> city[cityId].damage += 4
+                5 -> city[cityId].damage += 3
+                6 -> city[cityId].damage += 8
+            }
+        }
+    }
+
+    fun recountProtection(cityId: Int){
+        city[cityId].protection = 0
+        when(protection[cityId].slot){
+            1 -> city[cityId].protection += 1
+            2 -> city[cityId].protection += 2
+            3 -> city[cityId].protection += 3
+            4 -> city[cityId].protection += 4
+        }
+    }
+
+    fun giveHomeCity(): CityData{
+        return city[0]
+    }
+
+    fun giveHomeResource(): ItemResource{
+        return resource[0]
+    }
+
+    fun giveHomeProtection(): ItemProtection{
+        return protection[0]
+    }
+
+    fun giveHomeWeapon(): ItemWeapon{
+        return weapon[0]
     }
 }

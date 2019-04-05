@@ -26,14 +26,15 @@
             android:contentDescription="TODO"
             android:background="@drawable/inv" />
 
-        <ImageButton
+        <Button
             android:id="@+id/nt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="0dp"
             android:contentDescription="TODO"
-            android:background="@drawable/nt" />
+            android:background="@drawable/nt"
+            android:text="@string/nt"/>
 
     </RelativeLayout>
 
