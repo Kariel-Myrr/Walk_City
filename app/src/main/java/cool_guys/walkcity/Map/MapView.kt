@@ -114,9 +114,6 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
         }
 
-        for (i in 0..6) {
-            drawCity(xHightTile * (CityArr[i].x - CityArr[i].y) + matrX, yHightTile * (CityArr[i].x + CityArr[i].y + 1) + dMatrY, CityArr[i], paint)
-        }
         invalidate()
     }
 
@@ -146,6 +143,9 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         }
         else {
             mCanvas.drawBitmap(field, X - xHightTile, Y - yHightTile, paint)
+        }
+        if(T.city.type == "village"){
+            mCanvas.drawBitmap(fielthiscity,  X - xHightTile, Y - yHightTile, paint)
         }
     }
 

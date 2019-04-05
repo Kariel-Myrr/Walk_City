@@ -40,7 +40,7 @@ class Game_Map_Class : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         Log.d("FLAG_TAG", "Game_Map_Class onPause()")
-        manager.tile = ViewMap.Map
+       // manager.tile = ViewMap.Map
         manager.city = ViewMap.CityArr
         manager.unload()
         finish()

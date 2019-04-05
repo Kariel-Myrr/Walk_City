@@ -211,6 +211,9 @@ class Manager(context: Context){
         for(i in 0 until countCity)initResource()
         for(i in 0 until countCity)initWeapon()
         initMap()
+        for(i in 0..5){
+            tile[city[i].x][city[i].y].city = city[i]
+        }
         Log.d("FLAG_TAG", "COMLETE INIT MANAGER")
     }
 
@@ -386,6 +389,9 @@ class Manager(context: Context){
         downloadMap()
         downloadTile()
         downloadResourceTile()
+        for(i in 0..5){
+            tile[city[i].x][city[i].y].city = city[i]
+        }
         Log.d("FLAG_TAG", "COMLETE DOWNLOAD DB")
     }
 
