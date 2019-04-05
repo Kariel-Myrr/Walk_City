@@ -33,6 +33,7 @@ class Game_Map_Class : AppCompatActivity() {
         if(status == "new game")manager.init()
         else manager.download()
         ViewMap.Map = manager.tile
+        ViewMap.CityArr = manager.city
         ViewMap.drawMatr()
     }
 
@@ -40,6 +41,7 @@ class Game_Map_Class : AppCompatActivity() {
         super.onPause()
         Log.d("FLAG_TAG", "Game_Map_Class onPause()")
         manager.tile = ViewMap.Map
+        manager.city = ViewMap.CityArr
         manager.unload()
         finish()
     }

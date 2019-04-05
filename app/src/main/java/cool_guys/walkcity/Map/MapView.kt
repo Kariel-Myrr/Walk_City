@@ -11,8 +11,7 @@ import cool_guys.walkcity.DataBase.Tile
 import org.jetbrains.anko.dip
 import java.lang.Math.abs
 import android.graphics.BitmapFactory
-
-
+import cool_guys.walkcity.DataBase.CityData
 
 
 class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
@@ -22,6 +21,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var hill: Bitmap
     private var desert: Bitmap
     private  var sea : Bitmap
+    private var fielthiscity : Bitmap
     private var mCanvas: Canvas
     private var paint: Paint
     private var mBitmapPaint: Paint
@@ -29,6 +29,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     //Задаем матрицу
     public var Map : MutableList<MutableList<Tile>>
+    var CityArr : MutableList<CityData>
     private val xHightTile = 150f
     private val yHightTile = 75f
     public val N = 6//должно быть четным
@@ -48,7 +49,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     init {
 
         Map = MutableList(N, { MutableList(N, {Tile("field")}) })
-
+        CityArr = MutableList(6 , {CityData()})
 
         canvasSize = dip(2000f).toFloat()
 
@@ -63,6 +64,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         hill = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.hill)
         desert = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.desert)
         sea = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.sea)
+        fielthiscity = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.fieldthiscity)
 
         mCanvas = Canvas(mBitmap)
         scrollBy(matrX.toInt() - 500, matrY.toInt() - 500)
@@ -102,16 +104,26 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
 
 
-        for(i in 0..(N-1)){
-            if(i%2 == 0) paint.color = Color.GREEN
+        for(i in 0..(N-1)) {
+            if (i % 2 == 0) paint.color = Color.GREEN
             else paint.color = Color.BLUE
-            for(j in 0..i){
-                drawTile((i-j)*xHightTile + matrX, (i+j)*yHightTile + dMatrY + yHightTile, Map[i][j], paint)
-                drawTile(-(i-j)*xHightTile + matrX, (i+j)*yHightTile + dMatrY + yHightTile, Map[j][i], paint)
+            for (j in 0..i) {
+                drawTile((i - j) * xHightTile + matrX, (i + j) * yHightTile + dMatrY + yHightTile, Map[i][j], paint)
+                drawTile(-(i - j) * xHightTile + matrX, (i + j) * yHightTile + dMatrY + yHightTile, Map[j][i], paint)
             }
 
         }
+
+        for (i in 0..6) {
+            drawCity(xHightTile * (CityArr[i].x - CityArr[i].y) + matrX, yHightTile * (CityArr[i].x + CityArr[i].y + 1) + dMatrY, CityArr[i], paint)
+        }
         invalidate()
+    }
+
+    private fun drawCity(X : Float, Y : Float, city : CityData, paint : Paint){
+
+            mCanvas.drawBitmap(fielthiscity, X - xHightTile, Y - yHightTile, paint)
+
     }
 
 

@@ -7,7 +7,7 @@ import java.util.*
 
 class Manager(context: Context){
 
-    private var city : MutableList<CityData> = mutableListOf()
+    var city : MutableList<CityData> = mutableListOf()
     private var inventory : MutableList<InventoryData> = mutableListOf()
     private var protection : MutableList<ItemProtection> = mutableListOf()
     private var resource : MutableList<ItemResource> = mutableListOf()
