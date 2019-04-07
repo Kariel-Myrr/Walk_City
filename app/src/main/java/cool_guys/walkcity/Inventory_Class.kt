@@ -33,12 +33,21 @@ class Inventory_Class : AppCompatActivity() {
         resource = manager.giveHomeResource()
         protection = manager.giveHomeProtection()
         weapon = manager.giveHomeWeapon()
- //       setContentView(resource_bar)
+        var popul = city.people
+        var wood = resource.wood
+        var iron = resource.iron
+        var stone = resource.stone
+        var food = resource.stone
+        var water = resource.water
+
         val resourceList : ArrayList<ResourceBlock>  = ArrayList()
-        resourceList.add(ResourceBlock(cool_guys.walkcity.R.drawable.population, "Population", "Line 2"))
-        resourceList.add(ResourceBlock(cool_guys.walkcity.R.drawable.wood, "Wood", "Line 4"))
-        resourceList.add(ResourceBlock(cool_guys.walkcity.R.drawable.iron, "Iron", "Line 6"))
-        val swamp = findViewById<LinearLayout>(R.id.inventory)
+        resourceList.add(ResourceBlock(cool_guys.walkcity.R.drawable.population, "Population ", popul.toString()))
+        resourceList.add(ResourceBlock(cool_guys.walkcity.R.drawable.wood, "Wood ", wood.toString()))
+        resourceList.add(ResourceBlock(cool_guys.walkcity.R.drawable.iron, "Iron ", iron.toString()))
+        resourceList.add(ResourceBlock(cool_guys.walkcity.R.drawable.stone, "Stone ", stone.toString()))
+        resourceList.add(ResourceBlock(cool_guys.walkcity.R.drawable.food, "Food ", food.toString()))
+        resourceList.add(ResourceBlock(cool_guys.walkcity.R.drawable.water, "Water ", water.toString()))
+        val swamp = findViewById<LinearLayout>(cool_guys.walkcity.R.id.inventory)
         resourceList.forEach {
             val inflate = layoutInflater.inflate(R.layout.resource_list_item, null)
             var img = inflate.findViewById<ImageView>(R.id.imageView)
