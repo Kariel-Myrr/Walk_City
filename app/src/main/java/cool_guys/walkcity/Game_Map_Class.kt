@@ -40,8 +40,6 @@ class Game_Map_Class : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         Log.d("FLAG_TAG", "Game_Map_Class onPause()")
-       // manager.tile = ViewMap.Map
-        manager.city = ViewMap.CityArr
         manager.unload()
         finish()
     }
@@ -63,10 +61,15 @@ class Game_Map_Class : AppCompatActivity() {
 
     fun changeActtoBack(){
         val intent = Intent(this@Game_Map_Class,Menu_Class::class.java)
-        ViewMap.Map = manager.tile
         startActivity(intent)
     }
 
+    fun nextTurn(){
+        Toast.makeText(applicationContext, "Turn made, game saved.", Toast.LENGTH_SHORT).show()
+        manager.nextTurn()
+        val intent = Intent(this@Game_Map_Class,Game_Map_Class::class.java)
+        startActivity(intent)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,15 +96,13 @@ class Game_Map_Class : AppCompatActivity() {
             startActivity(intent)
         }
         nt.setOnClickListener{
-            if(flag_move == true) {
-                Toast.makeText(applicationContext, "Turn made, game saved.", Toast.LENGTH_SHORT).show()
-            }
+            if(flag_move == true)nextTurn()
             else {
                 val builder = AlertDialog.Builder(this@Game_Map_Class)
                 builder.setTitle("Confirm Turn")
                 builder.setMessage("Are you sure you want to confirm Turn?")
                 builder.setPositiveButton("YES") { dialog, which ->
-                    Toast.makeText(applicationContext, "Ok, turn made, game saved.", Toast.LENGTH_SHORT).show()
+                    nextTurn()
                 }
                 builder.setNegativeButton("No") { dialog, which ->
                     Toast.makeText(applicationContext, "Turn not confirmed", Toast.LENGTH_SHORT).show()

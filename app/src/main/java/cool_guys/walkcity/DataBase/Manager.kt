@@ -174,7 +174,7 @@ class Manager(context: Context){
 
     private fun initResource(){
         val tmpResource = ItemResource()
-        tmpResource.wood = 0
+        tmpResource.wood = 2
         tmpResource.stone = 0
         tmpResource.iron = 0
         tmpResource.food = 2
@@ -203,6 +203,25 @@ class Manager(context: Context){
         weapon[id].slots = slots
     }
 
+    fun allocation(){
+        if(city[0].x + 1 < map.x){
+            if(tile[city[0].x + 1][city[0].y].busy == false)tile[city[0].x + 1][city[0].y].allocation = 1
+            else tile[city[0].x + 1][city[0].y].allocation = 2
+        }
+        if(city[0].x - 1 >= 0){
+            if(tile[city[0].x - 1][city[0].y].busy == false)tile[city[0].x - 1][city[0].y].allocation = 1
+            else tile[city[0].x - 1][city[0].y].allocation = 2
+        }
+        if(city[0].y + 1 < map.y){
+            if(tile[city[0].x][city[0].y + 1].busy == false)tile[city[0].x][city[0].y + 1].allocation = 1
+            else tile[city[0].x][city[0].y + 1].allocation = 2
+        }
+        if(city[0].y - 1 >= 0){
+            if(tile[city[0].x][city[0].y - 1].busy == false)tile[city[0].x][city[0].y - 1].allocation = 1
+            else tile[city[0].x][city[0].y - 1].allocation = 2
+        }
+    }
+
     fun init(){
         Log.d("FLAG_TAG", "INIT MANAGER")
         for(i in 0 until countCity)initCity(i)
@@ -213,7 +232,10 @@ class Manager(context: Context){
         initMap()
         for(i in 0..5){
             tile[city[i].x][city[i].y].city = city[i]
+            tile[city[i].x][city[i].y].busy = true
+            Log.d("FLAG_TAG", "tile[city[i].x][city[i].y].city.id = ${tile[city[i].x][city[i].y].city.id}")
         }
+        allocation()
         Log.d("FLAG_TAG", "COMLETE INIT MANAGER")
     }
 
@@ -292,12 +314,17 @@ class Manager(context: Context){
     }
 
     private fun downloadWeapon(){
+        //Log.d("FLAG_TAG", "downloadWeapon() test 1")
         val weaponList = dataBase.itemWeaponList("%")
         if(weaponList.size != 0) {
+            //Log.d("FLAG_TAG", "downloadWeapon() test 2")
             weapon = weaponList
+            //Log.d("FLAG_TAG", "downloadWeapon() test 3")
             for(i in 0 until countCity)Log.d("FLAG_TAG", "weapon: weapon.slots.size = ${weapon[i].slots.size} weapn.storage.size = ${weapon[i].storage.size}")
+            //Log.d("FLAG_TAG", "downloadWeapon() test 4")
         }
         else Log.d("FLAG_TAG", "ERROR: weaponList.size = ${weaponList.size}")
+        //Log.d("FLAG_TAG", "downloadWeapon() test 5")
     }
 
     private fun downloadWeapon(id: Int){
@@ -390,8 +417,14 @@ class Manager(context: Context){
         downloadTile()
         downloadResourceTile()
         for(i in 0..5){
+            if(city[i].active == 0)continue
             tile[city[i].x][city[i].y].city = city[i]
+            tile[city[i].x][city[i].y].city.id -= 1
+            tile[city[i].x][city[i].y].busy = true
+            Log.d("FLAG_TAG", "tile[city[i].x][city[i].y].city.id = ${tile[city[i].x][city[i].y].city.id}")
+
         }
+        allocation()
         Log.d("FLAG_TAG", "COMLETE DOWNLOAD DB")
     }
 
@@ -417,7 +450,7 @@ class Manager(context: Context){
     }
 
     private fun unloadCity(id: Int){
-        Log.d("FLAG_TAG", "unload city $id")
+        //Log.d("FLAG_TAG", "unload city $id")
         val values = ContentValues()
         values.put(DBHandler.name, city[id].name)
         values.put(DBHandler.hp, city[id].hp)
@@ -429,10 +462,10 @@ class Manager(context: Context){
         values.put(DBHandler.idInventory, city[id].idInventory)
         values.put(DBHandler.x, city[id].x)
         values.put(DBHandler.y, city[id].y)
-        Log.d("FLAG_TAG", "test unload city 1")
+        //Log.d("FLAG_TAG", "test unload city 1")
         if(tryingCity() < countCity)dataBase.addCity(values)
         else dataBase.updateCity(values, id + 1)
-        Log.d("FLAG_TAG", "test unload city 2")
+        //Log.d("FLAG_TAG", "test unload city 2")
     }
 
     private  fun unloadInvenory(id: Int){
@@ -463,6 +496,7 @@ class Manager(context: Context){
     }
 
     private fun unloadWeapon(id: Int){
+        //Log.d("FLAG_TAG", "unloadWeapon() test 1")
         val values = ContentValues()
         var slotsString = ""
         for(i in 0 until weapon[id].slots.size)slotsString += weapon[id].slots[i].toString() + " "
@@ -470,8 +504,10 @@ class Manager(context: Context){
         var storageString = ""
         for (i in 0 until weapon[id].storage.size)storageString += weapon[id].storage[i].toString() + " "
         values.put(DBHandler.storage, storageString)
+        //Log.d("FLAG_TAG", "unloadWeapon() test 2")
         if(tryingWeapon() < countCity)dataBase.addItemWeapon(values)
         else dataBase.updateItemWeapon(values, id + 1)
+        //Log.d("FLAG_TAG", "unloadWeapon() test 3")
     }
 
     private fun unloadMap(){
@@ -538,11 +574,11 @@ class Manager(context: Context){
     }
 
     private fun tryingCity(): Int{
-        Log.d("FLAG_TAG", "trying city test 1")
+        //Log.d("FLAG_TAG", "trying city test 1")
         val status : Int
         val cityList = dataBase.cityList("%")
         status = cityList.size
-        Log.d("FLAG_TAG", "status = $status")
+        //Log.d("FLAG_TAG", "status = $status")
         return status
     }
 
@@ -575,9 +611,11 @@ class Manager(context: Context){
     }
 
     private fun tryingWeapon(): Int{
+        //Log.d("FLAG_TAG", "tryingWeapon() test 1")
         val status : Int
         val weaponList = dataBase.itemWeaponList("%")
         status = weaponList.size
+        //Log.d("FLAG_TAG", "tryingWeapon() test 2 satus = $status")
         return status
     }
 
@@ -605,6 +643,7 @@ class Manager(context: Context){
     }
 
     fun clearTile(cityId: Int){
+        Log.d("FLAG_TAG", "clearTile() cityId = $cityId")
         val x = city[cityId].x
         val y = city[cityId].y
         resource[cityId].wood += resourceTile[y][x].wood
@@ -624,15 +663,19 @@ class Manager(context: Context){
         city[id].y = newY
     }
 
-    fun craftWeapon(cityId: Int, type: Int){
+    fun craftWeapon(cityId: Int, type: Int): Int{
         when(type){
             1 -> {
                 if(resource[cityId].wood >= 2 && weapon[cityId].storage.size < 10){
                     resource[cityId].wood -= 2
                     weapon[cityId].storage.add(type)
                     Log.d("FLAG_TAG", "Type 1 made")
+                    return 1
                 }
-                else Log.d("FLAG_TAG", "Not enough resources for type 1 or not enough space in storage")
+                else{
+                    Log.d("FLAG_TAG", "Not enough resources for type 1 or not enough space in storage")
+                    return 0
+                }
             }
             2 -> {
                 if(resource[cityId].wood >= 3 && resource[cityId].stone >= 1 && weapon[cityId].storage.size < 10){
@@ -640,8 +683,12 @@ class Manager(context: Context){
                     resource[cityId].stone -= 1
                     weapon[cityId].storage.add(type)
                     Log.d("FLAG_TAG", "Type 2 made")
+                    return 1
                 }
-                else Log.d("FLAG_TAG", "Not enough resources for type 2 or not enough space in storage")
+                else{
+                    Log.d("FLAG_TAG", "Not enough resources for type 2 or not enough space in storage")
+                    return 0
+                }
             }
             3 -> {
                 if(resource[cityId].wood >= 1 && resource[cityId].stone >= 2 && weapon[cityId].storage.size < 10){
@@ -649,8 +696,12 @@ class Manager(context: Context){
                     resource[cityId].stone -= 2
                     weapon[cityId].storage.add(type)
                     Log.d("FLAG_TAG", "Type 3 made")
+                    return 1
                 }
-                else Log.d("FLAG_TAG", "Not enough resources for type 3 or not enough space in storage")
+                else{
+                    Log.d("FLAG_TAG", "Not enough resources for type 3 or not enough space in storage")
+                    return 0
+                }
             }
             4 -> {
                 if(resource[cityId].wood >= 3 && resource[cityId].stone >= 3 && weapon[cityId].storage.size < 10){
@@ -658,8 +709,12 @@ class Manager(context: Context){
                     resource[cityId].stone -= 3
                     weapon[cityId].storage.add(type)
                     Log.d("FLAG_TAG", "Type 4 made")
+                    return 1
                 }
-                else Log.d("FLAG_TAG", "Not enough resources for type 4 or not enough space in storage")
+                else{
+                    Log.d("FLAG_TAG", "Not enough resources for type 4 or not enough space in storage")
+                    return 0
+                }
             }
             5 -> {
                 if(resource[cityId].wood >= 2 && resource[cityId].stone >= 4 && weapon[cityId].storage.size < 10){
@@ -667,8 +722,12 @@ class Manager(context: Context){
                     resource[cityId].stone -= 4
                     weapon[cityId].storage.add(type)
                     Log.d("FLAG_TAG", "Type 5 made")
+                    return 1
                 }
-                else Log.d("FLAG_TAG", "Not enough resources for type 5 or not enough space in storage")
+                else{
+                    Log.d("FLAG_TAG", "Not enough resources for type 5 or not enough space in storage")
+                    return 0
+                }
             }
             6 -> {
                 if(resource[cityId].wood >= 4 && resource[cityId].stone >= 6 && resource[cityId].iron >= 2 && weapon[cityId].storage.size < 10){
@@ -677,10 +736,15 @@ class Manager(context: Context){
                     resource[cityId].iron -= 2
                     weapon[cityId].storage.add(type)
                     Log.d("FLAG_TAG", "Type 6 made")
+                    return 1
                 }
-                else Log.d("FLAG_TAG", "Not enough resources for type 6 or not enough space in storage")
+                else{
+                    Log.d("FLAG_TAG", "Not enough resources for type 6 or not enough space in storage")
+                    return 0
+                }
             }
         }
+        return 0
     }
 
     fun clearStorage(cityId: Int, num: Int){
@@ -693,44 +757,20 @@ class Manager(context: Context){
 
     fun changeWeapon(cityId: Int, num: Int){
         if(num < weapon[cityId].storage.size){
-            if(weapon[cityId].storage[num] == 1 || weapon[cityId].storage[num] == 2 || weapon[cityId].storage[num] == 5){
-                if(weapon[cityId].slots.size == 0){
-                    weapon[cityId].slots.add(weapon[cityId].storage[num])
-                    weapon[cityId].storage.removeAt(num)
-                }
-                else if(weapon[cityId].slots.size == 1){
-                    weapon[cityId].slots.add(weapon[cityId].slots[0])
-                    weapon[cityId].slots[0] = weapon[cityId].storage[num]
-                    weapon[cityId].storage.removeAt(num)
-                }
-                else{
-                    val type = weapon[cityId].slots[1]
-                    weapon[cityId].slots[1] = weapon[cityId].slots[0]
-                    weapon[cityId].slots[0] = weapon[cityId].storage[num]
-                    weapon[cityId].storage[num] = type
-                }
+            if(weapon[cityId].slots.size == 0){
+                weapon[cityId].slots.add(weapon[cityId].storage[num])
+                weapon[cityId].storage.removeAt(num)
+            }
+            else if(weapon[cityId].slots.size == 1){
+                weapon[cityId].slots.add(weapon[cityId].slots[0])
+                weapon[cityId].slots[0] = weapon[cityId].storage[num]
+                weapon[cityId].storage.removeAt(num)
             }
             else{
-                if(weapon[cityId].slots.size == 0){
-                    weapon[cityId].slots.add(weapon[cityId].storage[num])
-                    weapon[cityId].storage.removeAt(num)
-                }
-                else if(weapon[cityId].slots.size == 1){
-                    val type = weapon[cityId].slots[0]
-                    weapon[cityId].slots[0] = weapon[cityId].storage[num]
-                    weapon[cityId].storage[num] = type
-                }
-                else{
-                    if(weapon[cityId].storage.size < 10){
-                        val type1 = weapon[cityId].slots[0]
-                        val type2 = weapon[cityId].slots[1]
-                        weapon[cityId].slots.removeAt(1)
-                        weapon[cityId].slots[0] = weapon[cityId].storage[num]
-                        weapon[cityId].storage[num] = type1
-                        weapon[cityId].storage.add(type2)
-                    }
-                    else Log.d("FLAG_TAG", "Not enough space in storage")
-                }
+                val type = weapon[cityId].slots[1]
+                weapon[cityId].slots[1] = weapon[cityId].slots[0]
+                weapon[cityId].slots[0] = weapon[cityId].storage[num]
+                weapon[cityId].storage[num] = type
             }
         }
         else Log.d("FLAG_TAG", "Weapon $num not found")
@@ -784,11 +824,13 @@ class Manager(context: Context){
                 2 -> city[cityId].damage += 2
                 3 -> city[cityId].damage += 3
                 4 -> city[cityId].damage += 4
-                5 -> city[cityId].damage += 3
+                5 -> city[cityId].damage += 5
                 6 -> city[cityId].damage += 8
             }
         }
     }
+
+
 
     fun recountProtection(cityId: Int){
         city[cityId].protection = 0
@@ -814,5 +856,152 @@ class Manager(context: Context){
 
     fun giveHomeWeapon(): ItemWeapon{
         return weapon[0]
+    }
+
+    fun attacCity(cityId1: Int, cityId2: Int): Int{
+        Log.d("FLAG_TAG", "attacCity test 1 cityId1 = $cityId1, cityId2 = $cityId2")
+        if(city[cityId2].protection < city[cityId1].damage){
+            Log.d("FLAG_TAG", "attacCity test 2 cityId1 = $cityId1, cityId2 = $cityId2")
+            city[cityId2].hp += city[cityId2].protection
+            Log.d("FLAG_TAG", "attacCity test 3 cityId1 = $cityId1, cityId2 = $cityId2")
+            city[cityId2].hp -= city[cityId1].damage
+            Log.d("FLAG_TAG", "attacCity test 4 cityId1 = $cityId1, cityId2 = $cityId2")
+            if(city[cityId2].hp <= 0){
+                Log.d("FLAG_TAG", "attacCity test 5 cityId1 = $cityId1, cityId2 = $cityId2")
+                city[cityId2].active = 0
+                Log.d("FLAG_TAG", "attacCity test 6 cityId1 = $cityId1, cityId2 = $cityId2")
+                return 1
+            }
+            Log.d("FLAG_TAG", "attacCity test 7 cityId1 = $cityId1, cityId2 = $cityId2")
+        }
+        return 0
+    }
+
+    fun attacLogic(cityId : Int): Int{
+        var stat = 1
+        Log.d("FLAG_TAG", "ACL test 1 cityId = $cityId")
+        if(city[cityId].x + 1 < map.x && stat == 1){
+            if(tile[city[cityId].x + 1][city[cityId].y].busy == true){
+                if(attacCity(cityId, tile[city[cityId].x + 1][city[cityId].y].city.id) == 1){
+                    removeCity(cityId, city[cityId].x + 1, city[cityId].y)
+                    tile[city[cityId].x][city[cityId].y].busy = false
+                }
+                stat = 0
+            }
+        }
+        Log.d("FLAG_TAG", "ACL test 2 cityId = $cityId")
+        if(city[cityId].y + 1 < map.y && stat == 1){
+            Log.d("FLAG_TAG", "ACL test 2.1 cityId = $cityId")
+            if(tile[city[cityId].x][city[cityId].y + 1].busy == true){
+                Log.d("FLAG_TAG", "ACL test 2.2 cityId = $cityId")
+                if(attacCity(cityId, tile[city[cityId].x][city[cityId].y + 1].city.id) == 1){
+                    Log.d("FLAG_TAG", "ACL test 2.3 cityId = $cityId")
+                    removeCity(cityId, city[cityId].x, city[cityId].y + 1)
+                    Log.d("FLAG_TAG", "ACL test 2.4 cityId = $cityId")
+                    tile[city[cityId].x][city[cityId].y].busy = false
+                    Log.d("FLAG_TAG", "ACL test 2.5 cityId = $cityId")
+                }
+                stat = 0
+            }
+        }
+        Log.d("FLAG_TAG", "ACL test 3 cityId = $cityId")
+        if(city[cityId].x - 1 >= 0 && stat == 1){
+            if(tile[city[cityId].x - 1][city[cityId].y].busy == true){
+                if(attacCity(cityId, tile[city[cityId].x - 1][city[cityId].y].city.id) == 1){
+                    removeCity(cityId, city[cityId].x - 1, city[cityId].y)
+                    tile[city[cityId].x][city[cityId].y].busy = false
+                }
+                stat = 0
+            }
+        }
+        Log.d("FLAG_TAG", "ACL test 4 cityId = $cityId")
+        if(city[cityId].y - 1 >= 0 && stat == 1){
+            if(tile[city[cityId].x][city[cityId].y - 1].busy == true){
+                if(attacCity(cityId, tile[city[cityId].x][city[cityId].y - 1].city.id ) == 1){
+                    removeCity(cityId, city[cityId].x, city[cityId].y - 1)
+                    tile[city[cityId].x][city[cityId].y].busy = false
+                }
+                stat = 0
+            }
+        }
+        Log.d("FLAG_TAG", "ACL test 5 cityId = $cityId")
+        return stat
+    }
+
+    fun moveLogic(cityId: Int){
+        var stat = 1
+        Log.d("FLAG_TAG", "MVL test 1 cityId = $cityId")
+        if(city[cityId].x + 1 < map.x && stat == 1){
+            if(tile[city[cityId].x + 1][city[cityId].y].busy == false){
+                tile[city[cityId].x + 1][city[cityId].y].busy = true
+                tile[city[cityId].x][city[cityId].y].busy = false
+                removeCity(cityId, city[cityId].x + 1, city[cityId].y)
+                stat = 0
+            }
+        }
+        Log.d("FLAG_TAG", "MVL test 2 cityId = $cityId")
+        if(city[cityId].y + 1 < map.y && stat == 1){
+            if(tile[city[cityId].x][city[cityId].y + 1].busy == false){
+                tile[city[cityId].x][city[cityId].y + 1].busy = true
+                tile[city[cityId].x][city[cityId].y].busy = false
+                removeCity(cityId, city[cityId].x, city[cityId].y + 1)
+                stat = 0
+            }
+        }
+        Log.d("FLAG_TAG", "MVL test 3 cityId = $cityId")
+        if(city[cityId].x - 1 >= 0 && stat == 1){
+            if(tile[city[cityId].x - 1][city[cityId].y].busy == false){
+                tile[city[cityId].x - 1][city[cityId].y].busy = true
+                tile[city[cityId].x][city[cityId].y].busy = false
+                removeCity(cityId, city[cityId].x - 1, city[cityId].y)
+                stat = 0
+            }
+        }
+        Log.d("FLAG_TAG", "MVL test 3 cityId = $cityId")
+        if(city[cityId].y - 1 >= 0 && stat == 1){
+            if(tile[city[cityId].x][city[cityId].y - 1].busy == false){
+                tile[city[cityId].x][city[cityId].y - 1].busy = true
+                tile[city[cityId].x][city[cityId].y].busy = false
+                removeCity(cityId, city[cityId].x, city[cityId].y - 1)
+                stat = 0
+            }
+        }
+        Log.d("FLAG_TAG", "MVL test 4 cityId = $cityId")
+
+    }
+
+    fun craftLogic(cityId: Int){
+        var stat = 0
+        stat = craftWeapon(cityId, 6)
+        if(stat == 0)stat = craftWeapon(cityId, 5)
+        if(stat == 0)stat = craftWeapon(cityId, 4)
+        if(stat == 0)stat = craftWeapon(cityId, 3)
+        if(stat == 0)stat = craftWeapon(cityId, 2)
+        if(stat == 0)stat = craftWeapon(cityId, 1)
+    }
+
+    fun changeLogic(cityId: Int){
+        var max: Int = 0
+        for(a in weapon[cityId].slots)if(a > max)max = a
+        for(i in 0 until weapon[cityId].storage.size)if(weapon[cityId].storage[i] > max || weapon[cityId].slots.size < 2)changeWeapon(cityId, i)
+    }
+
+    fun nextTurn(){
+        Log.d("FLAG_TAG", "next turn test 1")
+        for(i in 0 until countCity){
+            if(city[i].active == 0)continue
+            Log.d("FLAG_TAG", "i = $i")
+            Log.d("FLAG_TAG", "next turn test 2")
+            clearTile(i)
+            if(attacLogic(i) != 0)moveLogic(i)
+            clearTile(i)
+            Log.d("FLAG_TAG", "next turn test 3")
+            craftLogic(i)
+            Log.d("FLAG_TAG", "next turn test 4")
+            changeLogic(i)
+            Log.d("FLAG_TAG", "next turn test 5")
+            recountDamage(i)
+            Log.d("FLAG_TAG", "next turn test 6")
+        }
     }
 }
