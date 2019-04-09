@@ -7,13 +7,9 @@ import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
 import cool_guys.walkcity.DataBase.*
 import cool_guys.walkcity.R.layout.activity_inventory
-import cool_guys.walkcity.R.layout.resource_list_item
-import kotlinx.android.synthetic.main.activity_inventory.*
-import org.jetbrains.anko.intentFor
 
 
 class Inventory_Class : AppCompatActivity() {
@@ -37,8 +33,8 @@ class Inventory_Class : AppCompatActivity() {
         var wood = resource.wood
         var iron = resource.iron
         var stone = resource.stone
-        var food = resource.stone
-        var water = resource.water
+        var food = resource.food
+        var water = resource.fuel
 
         val resourceList : ArrayList<ResourceBlock>  = ArrayList()
         resourceList.add(ResourceBlock(cool_guys.walkcity.R.drawable.population, "Population ", popul.toString()))

@@ -41,7 +41,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
         var stone = "stone"
         var iron = "iron"
         var food = "food"
-        var water = "water"
+        var fuel = "fuel"
 
         var slots = "slots"
         var storage = "storage"
@@ -63,7 +63,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
         p0!!.execSQL(sql1)
         sql1 = "CREATE TABLE IF NOT EXISTS $InventoryDataName ( $id  INTEGER PRIMARY KEY, $idItemResource TEXT, $idItemWeapon TEXT, $idItemProtection TEXT);"
         p0.execSQL(sql1)
-        sql1 = "CREATE TABLE IF NOT EXISTS $ItemResourceName ( $id  INTEGER PRIMARY KEY, $wood TEXT, $stone TEXT, $iron TEXT, $food TEXT, $water TEXT);"
+        sql1 = "CREATE TABLE IF NOT EXISTS $ItemResourceName ( $id  INTEGER PRIMARY KEY, $wood TEXT, $stone TEXT, $iron TEXT, $food TEXT, $fuel TEXT, $people TEXT);"
         p0.execSQL(sql1)
         sql1 = "CREATE TABLE IF NOT EXISTS $ItemWeaponName ( $id  INTEGER PRIMARY KEY, $slots TEXT, $storage TEXT);"
         p0.execSQL(sql1)
@@ -213,7 +213,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
         val arraylist = ArrayList<ItemResource>()
         val sqlQB = SQLiteQueryBuilder()
         sqlQB.tables = ItemResourceName
-        val cols = arrayOf(id, wood, stone, iron, food, water)
+        val cols = arrayOf(id, wood, stone, iron, food, fuel, people)
         val selectArgs = arrayOf(key)
         val cursor = sqlQB.query(sqlObj, cols, "$id like ?", selectArgs, null, null, id)
         if (cursor.moveToFirst()) {
@@ -223,9 +223,10 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
                 val stone = cursor.getInt(cursor.getColumnIndex(stone))
                 val iron = cursor.getInt(cursor.getColumnIndex(iron))
                 val food = cursor.getInt(cursor.getColumnIndex(food))
-                val water = cursor.getInt(cursor.getColumnIndex(water))
+                val fuel = cursor.getInt(cursor.getColumnIndex(fuel))
+                val people = cursor.getInt(cursor.getColumnIndex(people))
 
-                arraylist.add(ItemResource(id, wood, stone, iron, food, water))
+                arraylist.add(ItemResource(id, wood, stone, iron, food, fuel, people))
 
             } while (cursor.moveToNext())
         }

@@ -11,6 +11,8 @@ import cool_guys.walkcity.DataBase.Tile
 import org.jetbrains.anko.dip
 import java.lang.Math.abs
 import android.graphics.BitmapFactory
+import android.support.v7.app.AlertDialog
+import android.widget.Toast
 import cool_guys.walkcity.DataBase.CityData
 
 
@@ -144,7 +146,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         else {
             mCanvas.drawBitmap(field, X - xHightTile, Y - yHightTile, paint)
         }
-        if(T.city.type == "village"){
+        if(T.city.name != ""){
             mCanvas.drawBitmap(fielthiscity,  X - xHightTile, Y - yHightTile, paint)
         }
     }
@@ -291,9 +293,25 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         if(cord.I > N-1 || cord.J > N-1 || cord.I < 0 || cord.J < 0){}
         else {
             println("I =  ${cord.I}   J =  ${cord.J} ")
-            Map[cord.I][cord.J].type = "hill"
-           // println("aaa")
-            drawMatr()
+            val y = cord.I
+            val x = cord.J
+            if(Map[y][x].city.name != ""){
+                val builder = AlertDialog.Builder(context)
+                builder.setTitle("City stats")
+                builder.setMessage("Name: ${Map[y][x].city.name} ${Map[y][x].city.type}\n" +
+                        "Hp: ${Map[y][x].city.hp}\n" +
+                        "Damage: ${Map[y][x].city.damage}\n" +
+                        "Protection: ${Map[y][x].city.protection}")
+                builder.setPositiveButton("Ok") { dialog, which ->
+
+                }
+                val dialog: AlertDialog = builder.create()
+                dialog.show()
+                //drawMatr()
+            }
+            //Map[cord.I][cord.J].type = "hill"
+            //println("aaa")
+
         }
     }
 
