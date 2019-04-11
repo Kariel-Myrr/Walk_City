@@ -16,7 +16,7 @@ class Manager(context: Context){
     private var map = Map()
     var tile : MutableList<MutableList<Tile>> = mutableListOf()
     private var resourceTile: MutableList<MutableList<ItemResource>> = mutableListOf()
-    private val countCity = 6
+    private val countCity = 10
     var settings = Settings()
 
     private fun IntRange.random() = Random().nextInt((endInclusive + 1) - start) +  start
@@ -38,6 +38,7 @@ class Manager(context: Context){
                 resourceTile[i][e].food = (5..15).random()
                 resourceTile[i][e].fuel = (0..10).random()
                 resourceTile[i][e].people = (0..5).random()
+
             }
             2 -> {
                 tile[i][e].type = "hill"
@@ -90,6 +91,7 @@ class Manager(context: Context){
                 resourceTile[i][e].people = (0..5).random()
             }
         }
+        tile[i][e].resource = resourceTile[i][e]
     }
 
     fun initTile(i: Int, e: Int, type: String, tree: Int, stone: Int, iron: Int, food: Int, fuel: Int){
@@ -132,21 +134,127 @@ class Manager(context: Context){
 
     private fun initCity(id: Int){
         val tmpCity = CityData()
-        if(id == 0)tmpCity.name = "my"
-        else if(id == 1)tmpCity.name = "drisch"
-        else if(id == 2)tmpCity.name = "loh"
-        else if(id == 3)tmpCity.name = "lazy"
-        else if(id == 4)tmpCity.name = "dummy"
-        else if(id == 5)tmpCity.name = "stupid"
-        tmpCity.hp = 10
-        tmpCity.type = "town"
-        tmpCity.active = 1
-        tmpCity.people = 1
-        tmpCity.damage = 0
-        tmpCity.protection = 0
-        tmpCity.idInventory = id
-        tmpCity.x = id
-        tmpCity.y = id
+        if(id == 0){
+            tmpCity.name = "my"
+            tmpCity.hp = 10
+            tmpCity.type = "town"
+            tmpCity.active = 1
+            tmpCity.people = 3
+            tmpCity.damage = 16
+            tmpCity.protection = 10
+            tmpCity.idInventory = id
+            tmpCity.x = 0
+            tmpCity.y = 0
+        }
+        else if(id == 1){
+            tmpCity.name = "drisch"
+            tmpCity.hp = 30
+            tmpCity.type = "city"
+            tmpCity.active = 1
+            tmpCity.people = 25
+            tmpCity.damage = 3
+            tmpCity.protection = 5
+            tmpCity.idInventory = id
+            tmpCity.x = 1
+            tmpCity.y = 1
+        }
+        else if(id == 2){
+            tmpCity.name = "loh"
+            tmpCity.hp = 20
+            tmpCity.type = "village"
+            tmpCity.active = 1
+            tmpCity.people = 15
+            tmpCity.damage = 2
+            tmpCity.protection = 4
+            tmpCity.idInventory = id
+            tmpCity.x = 3
+            tmpCity.y = 0
+        }
+        else if(id == 3){
+            tmpCity.name = "lazy"
+            tmpCity.hp = 20
+            tmpCity.type = "village"
+            tmpCity.active = 1
+            tmpCity.people = 15
+            tmpCity.damage = 2
+            tmpCity.protection = 4
+            tmpCity.idInventory = id
+            tmpCity.x = 0
+            tmpCity.y = 3
+        }
+        else if(id == 4){
+            tmpCity.name = "dummy"
+            tmpCity.hp = 15
+            tmpCity.type = "town"
+            tmpCity.active = 1
+            tmpCity.people = 5
+            tmpCity.damage = 2
+            tmpCity.protection = 2
+            tmpCity.idInventory = id
+            tmpCity.x = 4
+            tmpCity.y = 2
+        }
+        else if(id == 5){
+            tmpCity.name = "stupid"
+            tmpCity.hp = 20
+            tmpCity.type = "village"
+            tmpCity.active = 1
+            tmpCity.people = 10
+            tmpCity.damage = 4
+            tmpCity.protection = 3
+            tmpCity.idInventory = id
+            tmpCity.x = 3
+            tmpCity.y = 3
+        }
+        else if(id == 6){
+            tmpCity.name = "stupid2"
+            tmpCity.hp = 15
+            tmpCity.type = "town"
+            tmpCity.active = 1
+            tmpCity.people = 5
+            tmpCity.damage = 2
+            tmpCity.protection = 2
+            tmpCity.idInventory = id
+            tmpCity.x = 2
+            tmpCity.y = 4
+        }
+        else if(id == 7){
+            tmpCity.name = "stupid3"
+            tmpCity.hp = 40
+            tmpCity.type = "city"
+            tmpCity.active = 1
+            tmpCity.people = 20
+            tmpCity.damage = 10
+            tmpCity.protection = 8
+            tmpCity.idInventory = id
+            tmpCity.x = 5
+            tmpCity.y = 4
+        }
+        else if(id == 8){
+            tmpCity.name = "stupid4"
+            tmpCity.hp = 40
+            tmpCity.type = "city"
+            tmpCity.active = 1
+            tmpCity.people = 20
+            tmpCity.damage = 10
+            tmpCity.protection = 8
+            tmpCity.idInventory = id
+            tmpCity.x = 4
+            tmpCity.y = 5
+        }
+        else{
+            tmpCity.name = "stupid5"
+            tmpCity.hp = 50
+            tmpCity.type = "metropolis"
+            tmpCity.active = 1
+            tmpCity.people = 25
+            tmpCity.damage = 15
+            tmpCity.protection = 10
+            tmpCity.idInventory = id
+            tmpCity.x = 5
+            tmpCity.y = 5
+        }
+
         Log.d("FLAG_TAG", "city: name = ${tmpCity.name} hp = ${tmpCity.hp} type = ${tmpCity.type} active = ${tmpCity.active} people = ${tmpCity.people} damage = ${tmpCity.damage} protection = ${tmpCity.protection} idInventory = ${tmpCity.idInventory} x = ${tmpCity.x} y = ${tmpCity.y}")
         city.add(tmpCity)
     }
@@ -183,14 +291,48 @@ class Manager(context: Context){
         protection[id].slot = slot
     }
 
-    private fun initResource(){
+    private fun initResource(cityId: Int){
         val tmpResource = ItemResource()
+        when(cityId){
+            0 -> {
+                tmpResource.people = 3
+
+            }
+            1 -> {
+                tmpResource.people = 25
+            }
+            2 -> {
+                tmpResource.people = 15
+            }
+            3 -> {
+                tmpResource.people = 15
+            }
+            4 -> {
+                tmpResource.people = 5
+            }
+            5 -> {
+                tmpResource.people = 10
+            }
+            6 -> {
+                tmpResource.people = 5
+            }
+            7 -> {
+                tmpResource.people = 25
+            }
+            8 -> {
+                tmpResource.people = 25
+            }
+            9 -> {
+                tmpResource.people = 30
+            }
+        }
+        tmpResource.food = tmpResource.people * 30
         tmpResource.wood = 0
         tmpResource.stone = 0
         tmpResource.iron = 0
-        tmpResource.food = 5
-        tmpResource.fuel = 10
-        tmpResource.people = 1
+
+        tmpResource.fuel = 5 * 20
+
         Log.d("FLAG_TAG", "resource: wood = ${tmpResource.wood} stone = ${tmpResource.stone} iron = ${tmpResource.iron} food = ${tmpResource.food} fuel = ${tmpResource.fuel}")
         resource.add(tmpResource)
     }
@@ -239,10 +381,10 @@ class Manager(context: Context){
         for(i in 0 until countCity)initCity(i)
         for(i in 0 until countCity)initInventory(i)
         for(i in 0 until countCity)initProtection()
-        for(i in 0 until countCity)initResource()
+        for(i in 0 until countCity)initResource(i)
         for(i in 0 until countCity)initWeapon()
         initMap()
-        for(i in 0..5){
+        for(i in 0 until countCity){
             tile[city[i].x][city[i].y].city = city[i]
             tile[city[i].x][city[i].y].busy = true
             Log.d("FLAG_TAG", "tile[city[i].x][city[i].y].city.id = ${tile[city[i].x][city[i].y].city.id}")
@@ -365,6 +507,7 @@ class Manager(context: Context){
 
                 for (e in 0 until map.x) {
                     tile[i].add(tileList[i * map.y + e])
+
                     val type = tile[i][e].type
                     val idItemResource = tile[i][e].idItemResource
                     Log.d("FLAG_TAG", "tile[$i][$e]: type = $type idItemResource = $idItemResource")
@@ -392,6 +535,7 @@ class Manager(context: Context){
                 resourceTile.add(mutableListOf())
                 for(e in 0 until map.x){
                     resourceTile[i].add(resourceTileList[tile[i][e].idItemResource])
+                    tile[i][e].resource = resourceTile[i][e]
                     val tree = resourceTile[i][e].wood
                     val stone = resourceTile[i][e].stone
                     val iron = resourceTile[i][e].iron
@@ -429,7 +573,7 @@ class Manager(context: Context){
         downloadMap()
         downloadTile()
         downloadResourceTile()
-        for(i in 0..5){
+        for(i in 0 until countCity){
             if(city[i].active == 0)continue
             tile[city[i].x][city[i].y].city = city[i]
             tile[city[i].x][city[i].y].city.id -= 1
@@ -878,10 +1022,10 @@ class Manager(context: Context){
     fun recountProtection(cityId: Int){
         city[cityId].protection = 0
         when(protection[cityId].slot){
-            1 -> city[cityId].protection += 1
-            2 -> city[cityId].protection += 2
-            3 -> city[cityId].protection += 3
-            4 -> city[cityId].protection += 4
+            1 -> city[cityId].protection += 2
+            2 -> city[cityId].protection += 4
+            3 -> city[cityId].protection += 8
+            4 -> city[cityId].protection += 10
         }
     }
 
@@ -914,54 +1058,62 @@ class Manager(context: Context){
     }
 
     fun lootingCity(cityId1: Int, cityId2: Int){
-        resource[cityId1].wood += resource[cityId2].wood
+        resource[cityId1].wood += resource[cityId2].wood / 3
         resource[cityId2].wood = 0
-        resource[cityId1].stone += resource[cityId2].stone
+        resource[cityId1].stone += resource[cityId2].stone / 3
         resource[cityId2].stone = 0
-        resource[cityId1].iron += resource[cityId2].iron
+        resource[cityId1].iron += resource[cityId2].iron / 3
         resource[cityId2].iron = 0
-        resource[cityId1].food += resource[cityId2].food
+        resource[cityId1].food += resource[cityId2].food / 3
         resource[cityId2].food = 0
-        resource[cityId1].fuel += resource[cityId2].fuel
+        resource[cityId1].fuel += resource[cityId2].fuel / 3
         resource[cityId2].fuel = 0
-        resource[cityId1].people += resource[cityId2].people
+        resource[cityId1].people += resource[cityId2].people / 3
         resource[cityId2].people = 0
     }
 
     fun attacLogic(cityId : Int): Int{
         var stat = 1
         if(city[cityId].x + 1 < map.x && stat == 1){
-            if(tile[city[cityId].x + 1][city[cityId].y].busy == true){
+            if(tile[city[cityId].x + 1][city[cityId].y].busy == true && (tile[city[cityId].x + 1][city[cityId].y].city.name == "my" || cityId == 0)){
                 if(attacCity(cityId, tile[city[cityId].x + 1][city[cityId].y].city.id) == 1){
                     lootingCity(cityId, tile[city[cityId].x + 1][city[cityId].y].city.id)
-                    removeCity(cityId, city[cityId].x + 1, city[cityId].y)
+                    if(cityId == 0 || cityId == 4 || cityId == 5 || cityId == 6 || cityId == 9) {
+                        removeCity(cityId, city[cityId].x + 1, city[cityId].y)
+                    }
                 }
                 stat = 0
             }
         }
         if(city[cityId].y + 1 < map.y && stat == 1){
-            if(tile[city[cityId].x][city[cityId].y + 1].busy == true){
+            if(tile[city[cityId].x][city[cityId].y + 1].busy == true && (tile[city[cityId].x][city[cityId].y + 1].city.name == "my" || cityId == 0)){
                 if(attacCity(cityId, tile[city[cityId].x][city[cityId].y + 1].city.id) == 1){
                     lootingCity(cityId, tile[city[cityId].x][city[cityId].y + 1].city.id)
-                    removeCity(cityId, city[cityId].x, city[cityId].y + 1)
+                    if(cityId == 0 || cityId == 4 || cityId == 5 || cityId == 6 || cityId == 9) {
+                        removeCity(cityId, city[cityId].x, city[cityId].y + 1)
+                    }
                 }
                 stat = 0
             }
         }
         if(city[cityId].x - 1 >= 0 && stat == 1){
-            if(tile[city[cityId].x - 1][city[cityId].y].busy == true){
+            if(tile[city[cityId].x - 1][city[cityId].y].busy == true && (tile[city[cityId].x - 1][city[cityId].y].city.name == "my" || cityId == 0)){
                 if(attacCity(cityId, tile[city[cityId].x - 1][city[cityId].y].city.id) == 1){
                     lootingCity(cityId, tile[city[cityId].x - 1][city[cityId].y].city.id)
-                    removeCity(cityId, city[cityId].x - 1, city[cityId].y)
+                    if(cityId == 0 || cityId == 4 || cityId == 5 || cityId == 6 || cityId == 9) {
+                        removeCity(cityId, city[cityId].x - 1, city[cityId].y)
+                    }
                 }
                 stat = 0
             }
         }
         if(city[cityId].y - 1 >= 0 && stat == 1){
-            if(tile[city[cityId].x][city[cityId].y - 1].busy == true){
+            if(tile[city[cityId].x][city[cityId].y - 1].busy == true && (tile[city[cityId].x][city[cityId].y - 1].city.name == "my" || cityId == 0)){
                 if(attacCity(cityId, tile[city[cityId].x][city[cityId].y - 1].city.id ) == 1){
                     lootingCity(cityId, tile[city[cityId].x][city[cityId].y - 1].city.id)
-                    removeCity(cityId, city[cityId].x, city[cityId].y - 1)
+                    if(cityId == 0 || cityId == 4 || cityId == 5 || cityId == 6 || cityId == 9) {
+                        removeCity(cityId, city[cityId].x, city[cityId].y - 1)
+                    }
                 }
                 stat = 0
             }
@@ -971,36 +1123,42 @@ class Manager(context: Context){
 
     fun moveLogic(cityId: Int){
         var stat = 1
-        if(city[cityId].x + 1 < map.x && stat == 1){
-            if(tile[city[cityId].x + 1][city[cityId].y].busy == false){
-                if(removeCity(cityId, city[cityId].x + 1, city[cityId].y) == 1){
-                    tile[city[cityId].x][city[cityId].y].busy = true
-                    stat = 0
+        var test : MutableList<Int> = mutableListOf(0, 1, 2, 3)
+        while(test.size != 0) {
+            val flag = test.random()
+            Log.d("FLAG_TAG", "flag = $flag")
+            if (city[cityId].x + 1 < map.x && stat == 1 && flag == 0) {
+                if (tile[city[cityId].x + 1][city[cityId].y].busy == false) {
+                    if (removeCity(cityId, city[cityId].x + 1, city[cityId].y) == 1) {
+                        tile[city[cityId].x][city[cityId].y].busy = true
+                        stat = 0
+                    }
                 }
             }
-        }
-        if(city[cityId].y + 1 < map.y && stat == 1){
-            if(tile[city[cityId].x][city[cityId].y + 1].busy == false){
-                if(removeCity(cityId, city[cityId].x, city[cityId].y + 1) == 1) {
-                    tile[city[cityId].x][city[cityId].y].busy = true
-                    stat = 0
+            if (city[cityId].y + 1 < map.y && stat == 1 && flag == 1) {
+                if (tile[city[cityId].x][city[cityId].y + 1].busy == false) {
+                    if (removeCity(cityId, city[cityId].x, city[cityId].y + 1) == 1) {
+                        tile[city[cityId].x][city[cityId].y].busy = true
+                        stat = 0
+                    }
                 }
             }
-        }
-        if(city[cityId].x - 1 >= 0 && stat == 1){
-            if(tile[city[cityId].x - 1][city[cityId].y].busy == false){
-                if(removeCity(cityId, city[cityId].x - 1, city[cityId].y) == 1) {
-                    tile[city[cityId].x][city[cityId].y].busy = true
-                    stat = 0
+            if (city[cityId].x - 1 >= 0 && stat == 1 && flag == 2) {
+                if (tile[city[cityId].x - 1][city[cityId].y].busy == false) {
+                    if (removeCity(cityId, city[cityId].x - 1, city[cityId].y) == 1) {
+                        tile[city[cityId].x][city[cityId].y].busy = true
+                        stat = 0
+                    }
                 }
             }
-        }
-        if(city[cityId].y - 1 >= 0 && stat == 1){
-            if(tile[city[cityId].x][city[cityId].y - 1].busy == false){
-                if(removeCity(cityId, city[cityId].x, city[cityId].y - 1) == 1) {
-                    tile[city[cityId].x][city[cityId].y].busy = true
+            if (city[cityId].y - 1 >= 0 && stat == 1 && flag == 3) {
+                if (tile[city[cityId].x][city[cityId].y - 1].busy == false) {
+                    if (removeCity(cityId, city[cityId].x, city[cityId].y - 1) == 1) {
+                        tile[city[cityId].x][city[cityId].y].busy = true
+                    }
                 }
             }
+            test.remove(flag)
         }
     }
 
@@ -1063,14 +1221,19 @@ class Manager(context: Context){
     fun nextTurn(){
         Log.d("FLAG_TAG", "next turn test 1")
         for(i in 0 until countCity){
-            if(city[i].active == 0)continue
+            if (city[i].active == 0) continue
             clearTile(i)
-            if(attacLogic(i) != 0)moveLogic(i)
+            if(i == 0 || i == 4 || i == 5 || i == 6 || i == 9) {
+                if (attacLogic(i) != 0) moveLogic(i)
+            }
+            else{
+                attacLogic(i)
+            }
             clearTile(i)
-            craftLogic(i)
-            changeLogic(i)
-            recountDamage(i)
-            recountProtection(i)
+            //craftLogic(i)
+            //changeLogic(i)
+            //recountDamage(i)
+            //recountProtection(i)
             recountPeople(i)
             renameCity(i)
             recountActive(i)

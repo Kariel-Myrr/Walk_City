@@ -309,6 +309,22 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                 dialog.show()
                 //drawMatr()
             }
+            else{
+                val builder = AlertDialog.Builder(context)
+                builder.setTitle("Tile stats")
+                builder.setMessage("Wood: ${Map[y][x].resource.wood}\n" +
+                        "Stone: ${Map[y][x].resource.stone}\n" +
+                        "Iron: ${Map[y][x].resource.iron}\n" +
+                        "Food: ${Map[y][x].resource.food}\n" +
+                        "Fuel: ${Map[y][x].resource.fuel}\n" +
+                        "People: ${Map[y][x].resource.people}\n")
+                builder.setPositiveButton("Ok") { dialog, which ->
+
+                }
+                val dialog: AlertDialog = builder.create()
+                dialog.show()
+                //drawMatr()
+            }
             //Map[cord.I][cord.J].type = "hill"
             //println("aaa")
 
