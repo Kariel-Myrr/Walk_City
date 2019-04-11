@@ -8,5 +8,6 @@
     <string name="settings1">Disable switch turn dialog</string>
     <string name="settings2">Disable switch exiting dialog</string>
     <string name="btm">Back to Menu</string>
+    <string name="crft">Craft</string>
 
 </resources>

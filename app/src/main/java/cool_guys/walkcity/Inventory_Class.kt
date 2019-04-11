@@ -5,9 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.util.Log
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import cool_guys.walkcity.DataBase.*
 import cool_guys.walkcity.R.layout.activity_inventory
 
@@ -34,7 +32,7 @@ class Inventory_Class : AppCompatActivity() {
         var iron = resource.iron
         var stone = resource.stone
         var food = resource.food
-        var water = resource.fuel
+        var fuel = resource.fuel
 
         val resourceList : ArrayList<ResourceBlock>  = ArrayList()
         resourceList.add(ResourceBlock(cool_guys.walkcity.R.drawable.population, "Population ", popul.toString()))
@@ -42,7 +40,8 @@ class Inventory_Class : AppCompatActivity() {
         resourceList.add(ResourceBlock(cool_guys.walkcity.R.drawable.iron, "Iron ", iron.toString()))
         resourceList.add(ResourceBlock(cool_guys.walkcity.R.drawable.stone, "Stone ", stone.toString()))
         resourceList.add(ResourceBlock(cool_guys.walkcity.R.drawable.food, "Food ", food.toString()))
-        resourceList.add(ResourceBlock(cool_guys.walkcity.R.drawable.water, "Water ", water.toString()))
+        resourceList.add(ResourceBlock(cool_guys.walkcity.R.drawable.water, "Fuel ", fuel.toString()))
+
         val swamp = findViewById<LinearLayout>(cool_guys.walkcity.R.id.inventory)
         resourceList.forEach {
             val inflate = layoutInflater.inflate(R.layout.resource_list_item, null)
@@ -58,7 +57,50 @@ class Inventory_Class : AppCompatActivity() {
             swamp.addView(inflate)
         }
 
+        val swamp2 = findViewById<ScrollView>(cool_guys.walkcity.R.id.craftScroll)
 
+
+        var craftList : ArrayList<CraftBlock> = ArrayList()
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 1", "Damage = 1\nCosts: 2 wood", findViewById<Button>(cool_guys.walkcity.R.id.craft_list_button)))
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 2", "Damage = 2\nCosts: 3 wood & 1 stone", findViewById<Button>(cool_guys.walkcity.R.id.craft_list_button) ))
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 3", "Damage = 3\nCosts: 1 wood & 2 stone", findViewById<Button>(cool_guys.walkcity.R.id.craft_list_button) ))
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 4", "Damage = 4\nCosts: 3 wood & 4 stone", findViewById<Button>(cool_guys.walkcity.R.id.craft_list_button) ))
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 5", "Damage = 3\nCosts: 2 wood & 4 stone", findViewById<Button>(cool_guys.walkcity.R.id.craft_list_button) ))
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 6", "Damage = 8\nCosts: 4 wood & 6 stone & 2 iron", findViewById<Button>(cool_guys.walkcity.R.id.craft_list_button) ))
+
+        craftList.forEach {
+            val inflate = layoutInflater.inflate(R.layout.craft_list_item, null)
+            var img = inflate.findViewById<ImageView>(R.id.imageView)
+            var txt1 = inflate.findViewById<TextView>(R.id.craftTextView1)
+            var txt2 = inflate.findViewById<TextView>(R.id.craftTextView2)
+
+            var draw  = ContextCompat.getDrawable(this, it.imageResource)
+            img.setImageDrawable(draw)
+
+            txt1.setText(it.text1)
+            txt2.setText(it.text2)
+
+            swamp2.addView(inflate)
+        }
+
+        craftList[0].but.setOnClickListener {
+            //craft weapon 1 here
+        }
+        craftList[1].but.setOnClickListener {
+            //craft weapon 2 here
+        }
+        craftList[2].but.setOnClickListener {
+            //craft weapon 3 here
+        }
+        craftList[3].but.setOnClickListener {
+            //craft weapon 4 here
+        }
+        craftList[4].but.setOnClickListener {
+            //craft weapon 5 here
+        }
+        craftList[5].but.setOnClickListener {
+            //craft weapon 6 here
+        }
     }
 
 
