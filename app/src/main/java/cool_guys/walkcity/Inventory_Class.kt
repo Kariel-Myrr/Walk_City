@@ -35,11 +35,11 @@ class Inventory_Class : AppCompatActivity() {
         var fuel = resource.fuel
 
         val resourceList1 : ArrayList<ResourceBlock>  = ArrayList()
-        resourceList1.add(ResourceBlock(cool_guys.walkcity.R.drawable.population, "Population ", popul.toString()))
+        resourceList1.add(ResourceBlock(cool_guys.walkcity.R.drawable.stone, "Stone ", stone.toString()))
         resourceList1.add(ResourceBlock(cool_guys.walkcity.R.drawable.wood, "Wood ", wood.toString()))
         resourceList1.add(ResourceBlock(cool_guys.walkcity.R.drawable.iron, "Iron ", iron.toString()))
         val resourceList2 : ArrayList<ResourceBlock>  = ArrayList()
-        resourceList2.add(ResourceBlock(cool_guys.walkcity.R.drawable.stone, "Stone ", stone.toString()))
+        resourceList2.add(ResourceBlock(cool_guys.walkcity.R.drawable.population, "Population ", popul.toString()))
         resourceList2.add(ResourceBlock(cool_guys.walkcity.R.drawable.food, "Food ", food.toString()))
         resourceList2.add(ResourceBlock(cool_guys.walkcity.R.drawable.water, "Fuel ", fuel.toString()))
 
@@ -81,6 +81,11 @@ class Inventory_Class : AppCompatActivity() {
         craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 4", "Damage = 4\nCosts: 3 wood & 4 stone", 3, 4, 0))
         craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 5", "Damage = 3\nCosts: 2 wood & 4 stone", 2, 4, 0))
         craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 6", "Damage = 8\nCosts: 4 wood & 6 stone\n& 2 iron", 4, 6, 2))
+
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.iron, "Protection 1", "Defence = 1\nCosts: 5 wood", 5, 0, 0))
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.iron, "Protection 2", "Defence = 2\nCosts: 10 wood & 5 stone", 10, 5, 0))
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.iron, "Protection 3", "Defence = 3\nCosts: 5 wood & 15 stone",5, 15, 0))
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.iron, "Protection 4", "Defence = 4\nCosts: 10 wood & 10 iron", 10, 0, 10))
 
         craftList.forEach {
             if(wood >= it.craft_wood && stone >= it.craft_stone && iron >= it.craft_iron) {
