@@ -42,7 +42,7 @@ class Inventory_Class : AppCompatActivity() {
         resourceList.add(ResourceBlock(cool_guys.walkcity.R.drawable.food, "Food ", food.toString()))
         resourceList.add(ResourceBlock(cool_guys.walkcity.R.drawable.water, "Fuel ", fuel.toString()))
 
-        val swamp = findViewById<LinearLayout>(cool_guys.walkcity.R.id.inventory)
+        val swamp = findViewById<LinearLayout>(cool_guys.walkcity.R.id.linear_res)
         resourceList.forEach {
             val inflate = layoutInflater.inflate(R.layout.resource_list_item, null)
             var img = inflate.findViewById<ImageView>(R.id.imageView)
@@ -61,26 +61,28 @@ class Inventory_Class : AppCompatActivity() {
 
 
         var craftList : ArrayList<CraftBlock> = ArrayList()
-        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 1", "Damage = 1\nCosts: 2 wood"))
-        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 2", "Damage = 2\nCosts: 3 wood & 1 stone"))
-        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 3", "Damage = 3\nCosts: 1 wood & 2 stone"))
-        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 4", "Damage = 4\nCosts: 3 wood & 4 stone"))
-        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 5", "Damage = 3\nCosts: 2 wood & 4 stone"))
-        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 6", "Damage = 8\nCosts: 4 wood & 6 stone & 2 iron"))
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 1", "Damage = 1\nCosts: 2 wood", 2, 0, 0))
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 2", "Damage = 2\nCosts: 3 wood & 1 stone", 3, 1, 0))
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 3", "Damage = 3\nCosts: 1 wood & 2 stone",1, 2, 0))
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 4", "Damage = 4\nCosts: 3 wood & 4 stone", 3, 4, 0))
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 5", "Damage = 3\nCosts: 2 wood & 4 stone", 2, 4, 0))
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 6", "Damage = 8\nCosts: 4 wood & 6 stone & 2 iron", 4, 6, 2))
 
         craftList.forEach {
-            val inflate = layoutInflater.inflate(R.layout.craft_list_item, null)
-            var img = inflate.findViewById<ImageView>(R.id.imageView)
-            var txt1 = inflate.findViewById<TextView>(R.id.craftTextView1)
-            var txt2 = inflate.findViewById<TextView>(R.id.craftTextView2)
+            if(wood >= it.craft_wood && stone >= it.craft_stone && iron >= it.craft_iron) {
+                val inflate = layoutInflater.inflate(R.layout.craft_list_item, null)
+                var img = inflate.findViewById<ImageView>(R.id.imageView)
+                var txt1 = inflate.findViewById<TextView>(R.id.craftTextView1)
+                var txt2 = inflate.findViewById<TextView>(R.id.craftTextView2)
 
-            var draw  = ContextCompat.getDrawable(this, it.imageResource)
-            img.setImageDrawable(draw)
+                var draw = ContextCompat.getDrawable(this, it.imageResource)
+                img.setImageDrawable(draw)
 
-            txt1.setText(it.text1)
-            txt2.setText(it.text2)
+                txt1.setText(it.text1)
+                txt2.setText(it.text2)
 
-            swamp2.addView(inflate)
+                swamp2.addView(inflate)
+            }
         }
 
     }
