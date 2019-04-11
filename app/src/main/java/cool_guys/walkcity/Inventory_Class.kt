@@ -57,7 +57,7 @@ class Inventory_Class : AppCompatActivity() {
             swamp.addView(inflate)
         }
 
-        val swamp2 = findViewById<ScrollView>(cool_guys.walkcity.R.id.craftScroll)
+        val swamp2 = findViewById<LinearLayout>(cool_guys.walkcity.R.id.linear_craft)
 
 
         var craftList : ArrayList<CraftBlock> = ArrayList()
