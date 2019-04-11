@@ -59,15 +59,14 @@ class Inventory_Class : AppCompatActivity() {
 
         val swamp2 = findViewById<ScrollView>(cool_guys.walkcity.R.id.craftScroll)
 
-        var button : Button = findViewById<Button>(cool_guys.walkcity.R.id.craft_list_button)
 
         var craftList : ArrayList<CraftBlock> = ArrayList()
-        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 1", "Damage = 1\nCosts: 2 wood", button))
-        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 2", "Damage = 2\nCosts: 3 wood & 1 stone", button))
-        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 3", "Damage = 3\nCosts: 1 wood & 2 stone", button))
-        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 4", "Damage = 4\nCosts: 3 wood & 4 stone", button))
-        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 5", "Damage = 3\nCosts: 2 wood & 4 stone", button))
-        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 6", "Damage = 8\nCosts: 4 wood & 6 stone & 2 iron", button))
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 1", "Damage = 1\nCosts: 2 wood"))
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 2", "Damage = 2\nCosts: 3 wood & 1 stone"))
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 3", "Damage = 3\nCosts: 1 wood & 2 stone"))
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 4", "Damage = 4\nCosts: 3 wood & 4 stone"))
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 5", "Damage = 3\nCosts: 2 wood & 4 stone"))
+        craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 6", "Damage = 8\nCosts: 4 wood & 6 stone & 2 iron"))
 
         craftList.forEach {
             val inflate = layoutInflater.inflate(R.layout.craft_list_item, null)
@@ -84,24 +83,6 @@ class Inventory_Class : AppCompatActivity() {
             swamp2.addView(inflate)
         }
 
-        craftList[0].but.setOnClickListener {
-            //craft weapon 1 here
-        }
-        craftList[1].but.setOnClickListener {
-            //craft weapon 2 here
-        }
-        craftList[2].but.setOnClickListener {
-            //craft weapon 3 here
-        }
-        craftList[3].but.setOnClickListener {
-            //craft weapon 4 here
-        }
-        craftList[4].but.setOnClickListener {
-            //craft weapon 5 here
-        }
-        craftList[5].but.setOnClickListener {
-            //craft weapon 6 here
-        }
     }
 
 
