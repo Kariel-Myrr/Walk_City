@@ -10,6 +10,7 @@ import cool_guys.walkcity.DataBase.*
 import cool_guys.walkcity.R.layout.activity_inventory
 
 
+
 class Inventory_Class : AppCompatActivity() {
     lateinit var manager : Manager
 
@@ -74,7 +75,7 @@ class Inventory_Class : AppCompatActivity() {
         }
         val swamp2 = findViewById<LinearLayout>(cool_guys.walkcity.R.id.linear_craft)
 
-
+        /*
         var craftList : ArrayList<CraftBlock> = ArrayList()
         craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 1", "Damage = 1\nCosts: 2 wood", 2, 0, 0))
         craftList.add(CraftBlock(cool_guys.walkcity.R.drawable.stone, "Weapon 2", "Damage = 2\nCosts: 3 wood & 1 stone", 3, 1, 0))
@@ -105,7 +106,56 @@ class Inventory_Class : AppCompatActivity() {
             }
         }
 
+*/
+        var weaponCraftList: ArrayList<CraftFragment> = ArrayList()
+        weaponCraftList.add(CraftFragment.create(cool_guys.walkcity.R.drawable.stone, "Weapon 1", "Damage = 1\nCosts: 2 wood", 2, 0, 0, 0, 1))
+        weaponCraftList.add(CraftFragment.create(cool_guys.walkcity.R.drawable.stone, "Weapon 2", "Damage = 2\nCosts: 3 wood & 1 stone", 3, 1, 0, 0, 2))
+        weaponCraftList.add(CraftFragment.create(cool_guys.walkcity.R.drawable.stone, "Weapon 3", "Damage = 3\nCosts: 1 wood & 2 stone",1, 2, 0, 0, 3))
+        weaponCraftList.add(CraftFragment.create(cool_guys.walkcity.R.drawable.stone, "Weapon 4", "Damage = 4\nCosts: 3 wood & 4 stone", 3, 4, 0, 0, 4))
+        weaponCraftList.add(CraftFragment.create(cool_guys.walkcity.R.drawable.stone, "Weapon 5", "Damage = 3\nCosts: 2 wood & 4 stone", 2, 4, 0, 0, 5))
+        weaponCraftList.add(CraftFragment.create(cool_guys.walkcity.R.drawable.stone, "Weapon 6", "Damage = 8\nCosts: 4 wood & 6 stone\n& 2 iron", 4, 6, 2, 0, 6))
+
+        var protectionCraftList : ArrayList<CraftFragment> = ArrayList()
+        protectionCraftList.add(CraftFragment.create(cool_guys.walkcity.R.drawable.iron, "Protection 1", "Defence = 1\nCosts: 5 wood", 5, 0, 0, 1, 1))
+        protectionCraftList.add(CraftFragment.create(cool_guys.walkcity.R.drawable.iron, "Protection 2", "Defence = 2\nCosts: 10 wood & 5 stone", 10, 5, 0, 1, 2))
+        protectionCraftList.add(CraftFragment.create(cool_guys.walkcity.R.drawable.iron, "Protection 3", "Defence = 3\nCosts: 5 wood & 15 stone",5, 15, 0, 1, 3))
+        protectionCraftList.add(CraftFragment.create(cool_guys.walkcity.R.drawable.iron, "Protection 4", "Defence = 4\nCosts: 10 wood & 10 iron", 10, 0, 10, 1, 4))
+
+        weaponCraftList.forEach {
+            if(wood >= it.craft_wood && stone >= it.craft_stone && iron >= it.craft_iron) {
+                val inflate = layoutInflater.inflate(R.layout.craft_list_item, null)
+                var img = inflate.findViewById<ImageView>(R.id.imageView)
+                var txt1 = inflate.findViewById<TextView>(R.id.craftTextView1)
+                var txt2 = inflate.findViewById<TextView>(R.id.craftTextView2)
+
+                var draw = ContextCompat.getDrawable(this, it.imageResource)
+                img.setImageDrawable(draw)
+
+                txt1.setText(it.text1)
+                txt2.setText(it.text2)
+
+                swamp2.addView(inflate)
+            }
+        }
+
+        protectionCraftList.forEach {
+            if(wood >= it.craft_wood && stone >= it.craft_stone && iron >= it.craft_iron) {
+                val inflate = layoutInflater.inflate(R.layout.craft_list_item, null)
+                var img = inflate.findViewById<ImageView>(R.id.imageView)
+                var txt1 = inflate.findViewById<TextView>(R.id.craftTextView1)
+                var txt2 = inflate.findViewById<TextView>(R.id.craftTextView2)
+
+                var draw = ContextCompat.getDrawable(this, it.imageResource)
+                img.setImageDrawable(draw)
+
+                txt1.setText(it.text1)
+                txt2.setText(it.text2)
+
+                swamp2.addView(inflate)
+            }
+        }
     }
+
 
 
     override fun onStart() {
