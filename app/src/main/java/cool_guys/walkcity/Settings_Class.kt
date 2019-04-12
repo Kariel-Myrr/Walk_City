@@ -65,6 +65,7 @@ class Settings_Class : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         Log.d("FLAG_TAG", "Setting_Class onCreate()")
         setContentView(R.layout.activity_settings)
         onStart()

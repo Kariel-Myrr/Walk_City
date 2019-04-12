@@ -15,6 +15,7 @@ class Inventory_Class : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         Log.d("FLAG_TAG", "Inventory_Class onCreate()")
         setContentView(activity_inventory)
         manager = Manager(this@Inventory_Class)

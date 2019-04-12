@@ -64,6 +64,7 @@ class Menu_Class : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         setContentView(R.layout.activity_menu)
         play.setOnClickListener(::changeActtoContinueGame)
         settings.setOnClickListener(::changeActtoSettings)
