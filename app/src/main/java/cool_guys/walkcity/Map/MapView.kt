@@ -214,6 +214,19 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             return true
         }
 
+        override fun onLongPress(event: MotionEvent) {
+            val cellX = ((event.x + scrollX) / mScaleFactor).toInt()
+            val cellY = ((event.y + scrollY) / mScaleFactor).toInt()
+
+            val cord = Cord(0, 0, 0, 0, N)
+
+            tileTapCord(cellX.toFloat() - dMatrX, cellY.toFloat() - dMatrY, cord)
+
+            logicLongTapFun(cord)
+
+            super.onLongPress(event)
+        }
+
         //обрабатываем одиночный тап
         override fun onSingleTapConfirmed(event: MotionEvent): Boolean {
             //получаем координаты ячейки, по которой тапнули
@@ -289,7 +302,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
 
 
-    fun logicTapFun(cord : Cord){
+    fun logicLongTapFun(cord : Cord){
         if(cord.I > N-1 || cord.J > N-1 || cord.I < 0 || cord.J < 0){}
         else {
             println("I =  ${cord.I}   J =  ${cord.J} ")
@@ -329,6 +342,12 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             //println("aaa")
 
         }
+    }
+
+    fun logicTapFun(cord : Cord){
+        Map[cord.I][cord.J].type = "hill"
+        drawMatr()
+        //println("aaa")
     }
 
 }
