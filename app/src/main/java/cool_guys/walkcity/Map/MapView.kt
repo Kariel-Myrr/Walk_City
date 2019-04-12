@@ -11,9 +11,12 @@ import cool_guys.walkcity.DataBase.Tile
 import org.jetbrains.anko.dip
 import java.lang.Math.abs
 import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.widget.Toast
 import cool_guys.walkcity.DataBase.CityData
+import cool_guys.walkcity.R
 
 
 class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
@@ -25,6 +28,8 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private  var sea : Bitmap
     private var smallcity : Bitmap
     private var mediumcity : Bitmap
+    private var spot : Bitmap
+  //  private var forest : Bitmap
     //private var fielthiscity : Bitmap
     private var mCanvas: Canvas
     private var paint: Paint
@@ -75,6 +80,8 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         //fielthiscity = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.fieldthiscity)
         smallcity = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.smallcity)
         mediumcity = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.mediumcity)
+        //forest = (ContextCompat.getDrawable(context, R.drawable.forest) as BitmapDrawable).bitmap
+        spot = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.spot)
 
         mCanvas = Canvas(mBitmap)
         scrollBy(matrX.toInt() - 500, matrY.toInt() - 500)
@@ -151,10 +158,16 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         else if(T.type == "sea") {
             mCanvas.drawBitmap(sea, X - xHightTile, Y - yHightTile, paint)
         }
+        //else if(T.type == "forest"){
+          //  mCanvas.drawBitmap(forest, X - xHightTile, Y - yHightTile - 110, paint)
+        //}
         else {
             mCanvas.drawBitmap(field, X - xHightTile, Y - yHightTile, paint)
         }
         if(T.busy == true) {
+            if(T.city.name == "my"){
+                mCanvas.drawBitmap(spot, X - xHightTile , Y - yHightTile - 118, paint)
+            }
             if (T.city.type == "town") {
                 mCanvas.drawBitmap(smallcity, X - xHightTile , Y - yHightTile - 110, paint)
             }
