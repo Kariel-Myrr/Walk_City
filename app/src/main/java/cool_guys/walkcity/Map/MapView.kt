@@ -173,7 +173,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             }
             else if (T.city.type != "town") {
                 mCanvas.drawBitmap(mediumcity, X - xHightTile, Y - yHightTile - 115, paint)
-            }
+            } 
         }
     }
 
