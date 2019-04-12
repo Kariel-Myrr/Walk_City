@@ -1221,7 +1221,7 @@ class Manager(context: Context){
     fun nextTurn(){
         Log.d("FLAG_TAG", "next turn test 1")
         for(i in 0 until countCity){
-            if (city[i].active == 0) continue
+            if (city[i].active == 0 || i == 0) continue
             clearTile(i)
             if(i == 0 || i == 4 || i == 5 || i == 6 || i == 9) {
                 if (attacLogic(i) != 0) moveLogic(i)

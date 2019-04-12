@@ -14,6 +14,7 @@ import android.graphics.BitmapFactory
 import android.support.v7.app.AlertDialog
 import android.widget.Toast
 import cool_guys.walkcity.DataBase.CityData
+import cool_guys.walkcity.DataBase.Manager
 
 
 class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
@@ -31,7 +32,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var mBitmapPaint: Paint
     private var canvasXSize: Float = 0f
     private var canvasYSize: Float = 0f
-
+    var manager : Manager = Manager(context)
     //Задаем матрицу
     public var Map : MutableList<MutableList<Tile>>
     var CityArr : MutableList<CityData>
@@ -43,6 +44,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private val dMatrX = matrX - N*xHightTile//то на сколько поле отходит от края(от х и у)
     private val dMatrY = matrY - N*50f
 
+    var statMyCity = 1
 
     //for scroll
     private val scaleGestureDetector = ScaleGestureDetector(context, MyScaleGestureListener())
@@ -358,9 +360,26 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     fun logicTapFun(cord : Cord){
         if(cord.I > N-1 || cord.J > N-1 || cord.I < 0 || cord.J < 0){}
-        else {
-            Map[cord.I][cord.J].type = "hill"
-            drawMatr()
+        else if(statMyCity == 1){
+            //Map[cord.I][cord.J].type = "hill"
+            val y = cord.I
+            val x = cord.J
+            if(Map[y][x].allocation == 1){
+                Map[manager.city[0].y][manager.city[0].x].busy = false
+                manager.removeCity(0, x, y)
+                Map[y][x].busy = true
+                statMyCity = 0
+            }
+            else if(Map[y][x].allocation == 2){
+                if(manager.attacCity(0, Map[y][x].city.id) == 1){
+                    manager.lootingCity(0, Map[y][x].city.id)
+                    Map[manager.city[0].y][manager.city[0].x].busy = false
+                    manager.removeCity(0, x, y)
+                    Map[y][x].busy = true
+                }
+                statMyCity = 0
+            }
+            //drawMatr()
             //println("aaa")
         }
     }
