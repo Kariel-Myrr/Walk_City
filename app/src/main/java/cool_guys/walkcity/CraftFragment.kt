@@ -3,16 +3,19 @@ package cool_guys.walkcity
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import kotlinx.android.synthetic.main.craft_list_item.*
 import cool_guys.walkcity.DataBase.Manager
 
 class CraftFragment : Fragment(){
-    var imageResource: Int = 0
-    var text1: String? = null
-    var text2: String? = null
+    var imageResource: Int = cool_guys.walkcity.R.drawable.stone
+    var text1: String = ""
+    var text2: String = ""
     var craft_wood : Int = 0
     var craft_stone : Int = 0
     var craft_iron : Int = 0
@@ -62,7 +65,18 @@ class CraftFragment : Fragment(){
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater!!.inflate(R.layout.craft_list_item, container, false)
+        val inflate = layoutInflater.inflate(R.layout.craft_list_item, null)
+        var img = inflate.findViewById<ImageView>(R.id.imageView)
+        var txt1 = inflate.findViewById<TextView>(R.id.craftTextView1)
+        var txt2 = inflate.findViewById<TextView>(R.id.craftTextView2)
+
+        var draw = ContextCompat.getDrawable(requireContext(), imageResource)
+        img.setImageDrawable(draw)
+
+        txt1.setText(text1)
+        txt2.setText(text2)
+
+        return inflate
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

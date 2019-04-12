@@ -123,35 +123,13 @@ class Inventory_Class : AppCompatActivity() {
 
         weaponCraftList.forEach {
             if(wood >= it.craft_wood && stone >= it.craft_stone && iron >= it.craft_iron) {
-                val inflate = layoutInflater.inflate(R.layout.craft_list_item, null)
-                var img = inflate.findViewById<ImageView>(R.id.imageView)
-                var txt1 = inflate.findViewById<TextView>(R.id.craftTextView1)
-                var txt2 = inflate.findViewById<TextView>(R.id.craftTextView2)
-
-                var draw = ContextCompat.getDrawable(this, it.imageResource)
-                img.setImageDrawable(draw)
-
-                txt1.setText(it.text1)
-                txt2.setText(it.text2)
-
-                swamp2.addView(inflate)
+                supportFragmentManager.beginTransaction().add(cool_guys.walkcity.R.id.linear_craft, it, "craftList").commit()
             }
         }
 
         protectionCraftList.forEach {
-            if(wood >= it.craft_wood && stone >= it.craft_stone && iron >= it.craft_iron) {
-                val inflate = layoutInflater.inflate(R.layout.craft_list_item, null)
-                var img = inflate.findViewById<ImageView>(R.id.imageView)
-                var txt1 = inflate.findViewById<TextView>(R.id.craftTextView1)
-                var txt2 = inflate.findViewById<TextView>(R.id.craftTextView2)
-
-                var draw = ContextCompat.getDrawable(this, it.imageResource)
-                img.setImageDrawable(draw)
-
-                txt1.setText(it.text1)
-                txt2.setText(it.text2)
-
-                swamp2.addView(inflate)
+            if (wood >= it.craft_wood && stone >= it.craft_stone && iron >= it.craft_iron) {
+                supportFragmentManager.beginTransaction().add(cool_guys.walkcity.R.id.linear_craft, it, "craftList").commit()
             }
         }
     }
