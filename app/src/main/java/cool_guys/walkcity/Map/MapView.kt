@@ -38,7 +38,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private val xHightTile = 150f
     private val yHightTile = 75f
     public val N = 6//должно быть четным
-    private val matrX = 850f//координаты центра поля
+    private val matrX = 950f//координаты центра поля
     private val matrY = 300f
     private val dMatrX = matrX - N*xHightTile//то на сколько поле отходит от края(от х и у)
     private val dMatrY = matrY - N*50f
@@ -47,7 +47,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     //for scroll
     private val scaleGestureDetector = ScaleGestureDetector(context, MyScaleGestureListener())
     private var viewXSize: Int = 1000
-    private var viewYSize: Int = 600
+    private var viewYSize: Int = 0
 
     private var mScaleFactor: Float = 1f
     private var detector = GestureDetector(context, MyGestureListener())
@@ -58,8 +58,8 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         Map = MutableList(N, { MutableList(N, {Tile("field")}) })
         CityArr = MutableList(6 , {CityData()})
 
-        canvasXSize = dip(1000f).toFloat()
-        canvasYSize = dip(600f).toFloat()
+        canvasXSize = dip(950f).toFloat()
+        canvasYSize = dip(500f).toFloat()
 
 
         mBitmap = Bitmap.createBitmap(canvasXSize.toInt(), canvasYSize.toInt(), Bitmap.Config.ARGB_8888)
@@ -189,7 +189,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             val focusX = scaleGestureDetector.focusX
             val focusY = scaleGestureDetector.focusY
 
-            if (mScaleFactor * scaleFactor > 1 && mScaleFactor * scaleFactor < 2) {
+            if (mScaleFactor * scaleFactor > 1 && mScaleFactor * scaleFactor <= 1) {
                 mScaleFactor *= scaleGestureDetector.scaleFactor
                 canvasXSize = viewXSize * mScaleFactor//изменяем хранимое в памяти значение размера канваса
                 canvasYSize = viewYSize * mScaleFactor
