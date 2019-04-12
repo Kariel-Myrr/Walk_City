@@ -154,11 +154,13 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         else {
             mCanvas.drawBitmap(field, X - xHightTile, Y - yHightTile, paint)
         }
-        if(T.city.name == "town"){
-            mCanvas.drawBitmap(smallcity,  X - xHightTile, Y - yHightTile, paint)
-        }
-        else if(T.city.name != "town"){
-            mCanvas.drawBitmap(mediumcity,  X - xHightTile, Y - yHightTile, paint)
+        if(T.busy == true) {
+            if (T.city.type == "town") {
+                mCanvas.drawBitmap(smallcity, X - xHightTile , Y - yHightTile - 110, paint)
+            }
+            else if (T.city.type != "town") {
+                mCanvas.drawBitmap(mediumcity, X - xHightTile, Y - yHightTile - 110, paint)
+            }
         }
     }
 
