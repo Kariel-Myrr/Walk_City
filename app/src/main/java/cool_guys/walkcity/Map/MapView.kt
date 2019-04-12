@@ -29,7 +29,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var smallcity : Bitmap
     private var mediumcity : Bitmap
     private var spot : Bitmap
-  //  private var forest : Bitmap
+    private var forest : Bitmap
     //private var fielthiscity : Bitmap
     private var mCanvas: Canvas
     private var paint: Paint
@@ -80,7 +80,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         //fielthiscity = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.fieldthiscity)
         smallcity = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.smallcity)
         mediumcity = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.mediumcity)
-        //forest = (ContextCompat.getDrawable(context, R.drawable.forest) as BitmapDrawable).bitmap
+        forest = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.forest)
         spot = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.spot)
 
         mCanvas = Canvas(mBitmap)
@@ -158,21 +158,21 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         else if(T.type == "sea") {
             mCanvas.drawBitmap(sea, X - xHightTile, Y - yHightTile, paint)
         }
-        //else if(T.type == "forest"){
-          //  mCanvas.drawBitmap(forest, X - xHightTile, Y - yHightTile - 110, paint)
-        //}
+        else if(T.type == "forest"){
+            mCanvas.drawBitmap(forest, X - xHightTile, Y - yHightTile - 115, paint)
+        }
         else {
             mCanvas.drawBitmap(field, X - xHightTile, Y - yHightTile, paint)
         }
         if(T.busy == true) {
             if(T.city.name == "my"){
-                mCanvas.drawBitmap(spot, X - xHightTile , Y - yHightTile - 118, paint)
+                mCanvas.drawBitmap(spot, X - xHightTile , Y - yHightTile - 115, paint)
             }
             if (T.city.type == "town") {
-                mCanvas.drawBitmap(smallcity, X - xHightTile , Y - yHightTile - 110, paint)
+                mCanvas.drawBitmap(smallcity, X - xHightTile , Y - yHightTile - 115, paint)
             }
             else if (T.city.type != "town") {
-                mCanvas.drawBitmap(mediumcity, X - xHightTile, Y - yHightTile - 110, paint)
+                mCanvas.drawBitmap(mediumcity, X - xHightTile, Y - yHightTile - 115, paint)
             }
         }
     }
