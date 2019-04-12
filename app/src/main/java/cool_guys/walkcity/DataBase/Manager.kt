@@ -147,7 +147,7 @@ class Manager(context: Context){
             tmpCity.y = 0
         }
         else if(id == 1){
-            tmpCity.name = "drisch"
+            tmpCity.name = "upfort"
             tmpCity.hp = 30
             tmpCity.type = "city"
             tmpCity.active = 1
@@ -159,7 +159,7 @@ class Manager(context: Context){
             tmpCity.y = 1
         }
         else if(id == 2){
-            tmpCity.name = "loh"
+            tmpCity.name = "middlefort"
             tmpCity.hp = 20
             tmpCity.type = "village"
             tmpCity.active = 1
@@ -171,7 +171,7 @@ class Manager(context: Context){
             tmpCity.y = 0
         }
         else if(id == 3){
-            tmpCity.name = "lazy"
+            tmpCity.name = "downfort"
             tmpCity.hp = 20
             tmpCity.type = "village"
             tmpCity.active = 1
@@ -183,7 +183,7 @@ class Manager(context: Context){
             tmpCity.y = 3
         }
         else if(id == 4){
-            tmpCity.name = "dummy"
+            tmpCity.name = "hillexp"
             tmpCity.hp = 15
             tmpCity.type = "town"
             tmpCity.active = 1
@@ -195,7 +195,7 @@ class Manager(context: Context){
             tmpCity.y = 2
         }
         else if(id == 5){
-            tmpCity.name = "stupid"
+            tmpCity.name = "forestexp"
             tmpCity.hp = 20
             tmpCity.type = "village"
             tmpCity.active = 1
@@ -207,7 +207,7 @@ class Manager(context: Context){
             tmpCity.y = 3
         }
         else if(id == 6){
-            tmpCity.name = "stupid2"
+            tmpCity.name = "desertexp"
             tmpCity.hp = 15
             tmpCity.type = "town"
             tmpCity.active = 1
@@ -219,7 +219,7 @@ class Manager(context: Context){
             tmpCity.y = 4
         }
         else if(id == 7){
-            tmpCity.name = "stupid3"
+            tmpCity.name = "southwall"
             tmpCity.hp = 40
             tmpCity.type = "city"
             tmpCity.active = 1
@@ -231,7 +231,7 @@ class Manager(context: Context){
             tmpCity.y = 4
         }
         else if(id == 8){
-            tmpCity.name = "stupid4"
+            tmpCity.name = "westwall"
             tmpCity.hp = 40
             tmpCity.type = "city"
             tmpCity.active = 1
@@ -243,7 +243,7 @@ class Manager(context: Context){
             tmpCity.y = 5
         }
         else{
-            tmpCity.name = "stupid5"
+            tmpCity.name = "gamma"
             tmpCity.hp = 50
             tmpCity.type = "metropolis"
             tmpCity.active = 1
