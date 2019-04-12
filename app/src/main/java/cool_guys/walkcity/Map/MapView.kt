@@ -345,9 +345,12 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
     fun logicTapFun(cord : Cord){
-        Map[cord.I][cord.J].type = "hill"
-        drawMatr()
-        //println("aaa")
+        if(cord.I > N-1 || cord.J > N-1 || cord.I < 0 || cord.J < 0){}
+        else {
+            Map[cord.I][cord.J].type = "hill"
+            drawMatr()
+            //println("aaa")
+        }
     }
 
 }
