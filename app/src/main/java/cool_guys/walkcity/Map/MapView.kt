@@ -23,11 +23,14 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var hill: Bitmap
     private var desert: Bitmap
     private  var sea : Bitmap
-    private var fielthiscity : Bitmap
+    private var smallcity : Bitmap
+    private var mediumcity : Bitmap
+    //private var fielthiscity : Bitmap
     private var mCanvas: Canvas
     private var paint: Paint
     private var mBitmapPaint: Paint
-    private var canvasSize: Float = 0f
+    private var canvasXSize: Float = 0f
+    private var canvasYSize: Float = 0f
 
     //Задаем матрицу
     public var Map : MutableList<MutableList<Tile>>
@@ -35,15 +38,17 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private val xHightTile = 150f
     private val yHightTile = 75f
     public val N = 6//должно быть четным
-    private val matrX = 800f//координаты центра поля
-    private val matrY = 400f
+    private val matrX = 850f//координаты центра поля
+    private val matrY = 300f
     private val dMatrX = matrX - N*xHightTile//то на сколько поле отходит от края(от х и у)
     private val dMatrY = matrY - N*50f
 
 
     //for scroll
     private val scaleGestureDetector = ScaleGestureDetector(context, MyScaleGestureListener())
-    private var viewSize: Int = 2000
+    private var viewXSize: Int = 1000
+    private var viewYSize: Int = 600
+
     private var mScaleFactor: Float = 1f
     private var detector = GestureDetector(context, MyGestureListener())
 
@@ -53,10 +58,11 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         Map = MutableList(N, { MutableList(N, {Tile("field")}) })
         CityArr = MutableList(6 , {CityData()})
 
-        canvasSize = dip(2000f).toFloat()
+        canvasXSize = dip(1000f).toFloat()
+        canvasYSize = dip(600f).toFloat()
 
 
-        mBitmap = Bitmap.createBitmap(canvasSize.toInt(), canvasSize.toInt(), Bitmap.Config.ARGB_8888)
+        mBitmap = Bitmap.createBitmap(canvasXSize.toInt(), canvasYSize.toInt(), Bitmap.Config.ARGB_8888)
         mBitmapPaint = Paint(Paint.DITHER_FLAG)
 
         val options = BitmapFactory.Options()
@@ -66,7 +72,9 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         hill = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.hill)
         desert = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.desert)
         sea = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.sea)
-        fielthiscity = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.fieldthiscity)
+        //fielthiscity = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.fieldthiscity)
+        smallcity = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.smallcity)
+        mediumcity = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.mediumcity)
 
         mCanvas = Canvas(mBitmap)
         scrollBy(matrX.toInt() - 500, matrY.toInt() - 500)
@@ -121,7 +129,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private fun drawCity(X : Float, Y : Float, city : CityData, paint : Paint){
 
-            mCanvas.drawBitmap(fielthiscity, X - xHightTile, Y - yHightTile, paint)
+            mCanvas.drawBitmap(smallcity, X - xHightTile, Y - yHightTile, paint)
 
     }
 
@@ -146,8 +154,11 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         else {
             mCanvas.drawBitmap(field, X - xHightTile, Y - yHightTile, paint)
         }
-        if(T.city.name != ""){
-            mCanvas.drawBitmap(fielthiscity,  X - xHightTile, Y - yHightTile, paint)
+        if(T.city.name == "town"){
+            mCanvas.drawBitmap(smallcity,  X - xHightTile, Y - yHightTile, paint)
+        }
+        else if(T.city.name != "town"){
+            mCanvas.drawBitmap(mediumcity,  X - xHightTile, Y - yHightTile, paint)
         }
     }
 
@@ -178,16 +189,17 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
             if (mScaleFactor * scaleFactor > 1 && mScaleFactor * scaleFactor < 2) {
                 mScaleFactor *= scaleGestureDetector.scaleFactor
-                canvasSize = viewSize * mScaleFactor//изменяем хранимое в памяти значение размера канваса
+                canvasXSize = viewXSize * mScaleFactor//изменяем хранимое в памяти значение размера канваса
+                canvasYSize = viewYSize * mScaleFactor
                 //используется при расчетах
                 //по умолчанию после зума канвас отскролит в левый верхний угол.
                 //Скролим канвас так, чтобы на экране оставалась
                 //область канваса, над которой был жест зума
                 //Для получения данной формулы достаточно школьных знаний математики (декартовы координаты).
                 var scrollX = ((scrollX + focusX) * scaleFactor - focusX).toInt()
-                scrollX = Math.min(Math.max(scrollX, 0), canvasSize.toInt() - viewSize)
+                scrollX = Math.min(Math.max(scrollX, 0), canvasXSize.toInt() - viewXSize)
                 var scrollY = ((scrollY + focusY) * scaleFactor - focusY).toInt()
-                scrollY = Math.min(Math.max(scrollY, 0), canvasSize.toInt() - viewSize)
+                scrollY = Math.min(Math.max(scrollY, 0), canvasXSize.toInt() - viewYSize)
                 scrollTo(scrollX, scrollY)
             }
             //вызываем перерисовку принудительно
@@ -204,11 +216,11 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         //обрабатываем скролл (перемещение пальца по экрану)
         override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
             //не даем канвасу показать края по горизонтали
-            if (scrollX + distanceX <= canvasSize - viewSize && scrollX + distanceX > 0) {
+            if (scrollX + distanceX <= canvasXSize - viewXSize && scrollX + distanceX > 0) {
                 scrollBy(distanceX.toInt(), 0)
             }
             //не даем канвасу показать края по вертикали
-            if (scrollY + distanceY <= canvasSize - viewSize && scrollY + distanceY > 0) {
+            if (scrollY + distanceY <= canvasYSize - viewYSize && scrollY + distanceY > 0) {
                 scrollBy(0, distanceY.toInt())
             }
             return true
