@@ -30,6 +30,10 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var mediumcity : Bitmap
     private var spot : Bitmap
     private var forest : Bitmap
+    private var gamma : Bitmap
+    private var fort : Bitmap
+
+
     //private var fielthiscity : Bitmap
     private var mCanvas: Canvas
     private var paint: Paint
@@ -82,6 +86,8 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         mediumcity = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.mediumcity)
         forest = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.forest)
         spot = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.spot)
+        fort = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.defstatcity)
+        gamma = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.gamma)
 
         mCanvas = Canvas(mBitmap)
         scrollBy(matrX.toInt() - 500, matrY.toInt() - 500)
@@ -170,6 +176,12 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             }
             if (T.city.type == "town") {
                 mCanvas.drawBitmap(smallcity, X - xHightTile , Y - yHightTile - 115, paint)
+            }
+            else if (T.city.idInventory <=3 && T.city.idInventory != 0){
+                mCanvas.drawBitmap(fort, X - xHightTile, Y - yHightTile - 115, paint)
+            }
+            else if(T.city.type == "metropolis"){
+                mCanvas.drawBitmap(gamma, X - xHightTile, Y - yHightTile - 115, paint)
             }
             else if (T.city.type != "town") {
                 mCanvas.drawBitmap(mediumcity, X - xHightTile, Y - yHightTile - 115, paint)
