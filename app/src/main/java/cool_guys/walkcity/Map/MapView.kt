@@ -367,21 +367,34 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             val y = cord.I
             val x = cord.J
             if(Map[y][x].allocation == 1){
+                Toast.makeText(context, "My city remove.", Toast.LENGTH_SHORT).show()
+                manager.clearTile(0)
                 Map[manager.city[0].y][manager.city[0].x].busy = false
-                manager.removeCity(0, x, y)
+                manager.removeCity(0, y, x)
                 Map[y][x].busy = true
+                manager.clearTile(0)
+                manager.recountPeople(0)
+                manager.renameCity(0)
+                manager.recountActive(0)
                 statMyCity = 0
             }
             else if(Map[y][x].allocation == 2){
+                Toast.makeText(context, "My city attac.", Toast.LENGTH_SHORT).show()
                 if(manager.attacCity(0, Map[y][x].city.id) == 1){
+                    Toast.makeText(context, "You have destroied enemy city.", Toast.LENGTH_SHORT).show()
+                    manager.clearTile(0)
                     manager.lootingCity(0, Map[y][x].city.id)
                     Map[manager.city[0].y][manager.city[0].x].busy = false
-                    manager.removeCity(0, x, y)
+                    manager.removeCity(0, y, x)
+                    manager.clearTile(0)
+                    manager.recountPeople(0)
+                    manager.renameCity(0)
+                    manager.recountActive(0)
                     Map[y][x].busy = true
                 }
                 statMyCity = 0
             }
-            //drawMatr()
+            drawMatr()
             //println("aaa")
         }
     }
