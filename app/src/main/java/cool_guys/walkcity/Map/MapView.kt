@@ -32,6 +32,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var forest : Bitmap
     private var gamma : Bitmap
     private var fort : Bitmap
+    private var lake : Bitmap
 
 
     //private var fielthiscity : Bitmap
@@ -88,6 +89,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         spot = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.spot)
         fort = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.defstatcity)
         gamma = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.gamma)
+        lake = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.lake)
 
         mCanvas = Canvas(mBitmap)
         scrollBy(matrX.toInt() - 500, matrY.toInt() - 500)
@@ -166,6 +168,9 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         }
         else if(T.type == "forest"){
             mCanvas.drawBitmap(forest, X - xHightTile, Y - yHightTile - 115, paint)
+        }
+        else if(T.type == "lake"){
+            mCanvas.drawBitmap(lake, X - xHightTile , Y - yHightTile - 115, paint)
         }
         else {
             mCanvas.drawBitmap(field, X - xHightTile, Y - yHightTile, paint)
