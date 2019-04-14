@@ -21,7 +21,8 @@ class CraftFragment : Fragment(){
     var craft_iron : Int = 0
     var craft_type : Int = 0
     var craft_id : Int = 0
-    private val manager by lazy { Manager(requireContext()) }
+    var thiscontext : Context = getContext()!!
+    var manager: Manager = Manager(thiscontext)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,12 +66,13 @@ class CraftFragment : Fragment(){
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        thiscontext = container?.getContext()!!
         val inflate = layoutInflater.inflate(R.layout.craft_list_item, null)
         var img = inflate.findViewById<ImageView>(R.id.imageView)
         var txt1 = inflate.findViewById<TextView>(R.id.craftTextView1)
         var txt2 = inflate.findViewById<TextView>(R.id.craftTextView2)
 
-        var draw = ContextCompat.getDrawable(requireContext(), imageResource)
+        var draw = ContextCompat.getDrawable(thiscontext, imageResource)
         img.setImageDrawable(draw)
 
         txt1.setText(text1)
@@ -91,4 +93,6 @@ class CraftFragment : Fragment(){
             }
         }
     }
+
+
 }
