@@ -33,7 +33,7 @@ class Game_Map_Class : AppCompatActivity() {
         if(status == "new game"){
             manager.init()
             val builder = AlertDialog.Builder(this@Game_Map_Class)
-            builder.setTitle("Game Gide")
+            builder.setTitle("Game Guide")
             builder.setMessage("...")
             builder.setPositiveButton("Ok") { dialog, which ->
 
