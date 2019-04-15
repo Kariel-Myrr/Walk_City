@@ -2,10 +2,11 @@ package cool_guys.walkcity.DataBase
 
 import android.content.ContentValues
 import android.content.Context
+import android.support.v7.app.AlertDialog
 import android.util.Log
 import java.util.*
 
-class Manager(context: Context){
+class Manager(val context: Context){
 
     var city : MutableList<CityData> = mutableListOf()
     private var inventory : MutableList<InventoryData> = mutableListOf()
@@ -1235,8 +1236,15 @@ class Manager(context: Context){
 
     fun nextTurn(){
         Log.d("FLAG_TAG", "next turn test 1")
+        if(city[0].active == 0){
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Game info")
+            builder.setMessage("You die")
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }
         for(i in 0 until countCity){
-            if (city[i].active == 0) continue
+            if (city[i].active == 0 || i == 0) continue
             clearTile(i)
             if(i == 0 || i == 4 || i == 5 || i == 6 || i == 9) {
                 if (attacLogic(i) != 0) moveLogic(i)

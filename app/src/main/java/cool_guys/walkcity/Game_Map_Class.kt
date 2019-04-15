@@ -34,6 +34,7 @@ class Game_Map_Class : AppCompatActivity() {
         else manager.download()
         ViewMap.Map = manager.tile
         ViewMap.CityArr = manager.city
+        ViewMap.manager = manager
         ViewMap.drawMatr()
     }
 
