@@ -79,34 +79,22 @@ class Game_Map_Class : AppCompatActivity() {
         Toast.makeText(applicationContext, "Turn made, game saved.", Toast.LENGTH_SHORT).show()
         val stat = manager.check()
         if(stat == 1){
-            val builder = AlertDialog.Builder(this@Game_Map_Class)
-            builder.setTitle("Game Info")
-            builder.setMessage("You lose.")
-            builder.setPositiveButton("YES") { dialog, which ->
-                Log.d("FLAG_TAG", "You lose. Yes")
-            }
-            builder.setNegativeButton("No") { dialog, which ->
-                Log.d("FLAG_TAG", "You lose. No")
-            }
-            val dialog: AlertDialog = builder.create()
-            dialog.show()
+            //manager.delCity()
+            val intent = Intent(this@Game_Map_Class, Menu_Class::class.java)
+            intent.putExtra("statgame", "lose")
+            startActivity(intent)
         }
         else if(stat == 2){
-            val builder = AlertDialog.Builder(this@Game_Map_Class)
-            builder.setTitle("Game Info")
-            builder.setMessage("You won.")
-            builder.setPositiveButton("YES") { dialog, which ->
-                Log.d("FLAG_TAG", "You won. Yes")
-            }
-            builder.setNegativeButton("No") { dialog, which ->
-                Log.d("FLAG_TAG", "You won. No")
-            }
-            val dialog: AlertDialog = builder.create()
-            dialog.show()
+            //manager.delCity()
+            val intent = Intent(this@Game_Map_Class, Menu_Class::class.java)
+            intent.putExtra("statgame", "won")
+            startActivity(intent)
         }
-        else manager.nextTurn()
-        val intent = Intent(this@Game_Map_Class,Game_Map_Class::class.java)
-        startActivity(intent)
+        else {
+            manager.nextTurn()
+            val intent = Intent(this@Game_Map_Class, Game_Map_Class::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -141,8 +141,8 @@ class Manager(val context: Context){
             tmpCity.type = "town"
             tmpCity.active = 1
             tmpCity.people = 3
-            tmpCity.damage = 16
-            tmpCity.protection = 10
+            tmpCity.damage = 0
+            tmpCity.protection = 0
             tmpCity.idInventory = id
             tmpCity.x = 0
             tmpCity.y = 0
@@ -297,7 +297,6 @@ class Manager(val context: Context){
         when(cityId){
             0 -> {
                 tmpResource.people = 3
-
             }
             1 -> {
                 tmpResource.people = 25
@@ -1271,5 +1270,9 @@ class Manager(val context: Context){
         if(city[0].active == 0)return 1
         if(city[9].active == 0)return 2
         return 0
+    }
+
+    fun delCity(){
+        for(i in 10 .. 1)dataBase.removeCity(i)
     }
 }

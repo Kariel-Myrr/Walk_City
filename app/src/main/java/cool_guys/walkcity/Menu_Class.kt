@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -41,6 +42,7 @@ class Menu_Class : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         Log.d("FLAG_TAG", "Menu_Class onStart()")
+
     }
 
     override fun onPause() {
@@ -86,6 +88,31 @@ class Menu_Class : AppCompatActivity() {
         play.setOnClickListener(::changeActtoContinueGame)
         settings.setOnClickListener(::changeActtoSettings)
         new_game.setOnClickListener(::changeActtoNewGame)
+
+        var getIntentFromMenu = intent
+        var statgame = ""
+        if(getIntentFromMenu.hasExtra("statgame"))
+            statgame = getIntentFromMenu.getStringExtra("statgame")
+        if(statgame == "lose"){
+            val builder = AlertDialog.Builder(this@Menu_Class)
+            builder.setTitle("Game Info")
+            builder.setMessage("You lose.")
+            builder.setPositiveButton("Ok") { dialog, which ->
+                Log.d("FLAG_TAG", "You lose. Yes")
+            }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }
+        else if(statgame == "won"){
+            val builder = AlertDialog.Builder(this@Menu_Class)
+            builder.setTitle("Game Info")
+            builder.setMessage("You won.")
+            builder.setPositiveButton("Ok") { dialog, which ->
+                Log.d("FLAG_TAG", "You won. Yes")
+            }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }
     }
 }
 
