@@ -22,7 +22,7 @@ class Game_Map_Class : AppCompatActivity() {
         var flag_move = false
         var flag_back = false
     }
- 
+
     override fun onStart() {
         super.onStart()
         Log.d("FLAG_TAG", "Game_Map_Class onStart()")
