@@ -1,9 +1,11 @@
 package cool_guys.walkcity
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +14,7 @@ import android.widget.TextView
 import kotlinx.android.synthetic.main.craft_list_item.*
 import cool_guys.walkcity.DataBase.Manager
 
-class CraftFragment : Fragment(){
+class CraftFragment() : Fragment(){
     var imageResource: Int = cool_guys.walkcity.R.drawable.stone
     var text1: String = ""
     var text2: String = ""
@@ -21,12 +23,11 @@ class CraftFragment : Fragment(){
     var craft_iron : Int = 0
     var craft_type : Int = 0
     var craft_id : Int = 0
-    private val manager by lazy { Manager(requireContext()) }
-
+    //val manager by lazy { Manager(requireContext()) }
+    lateinit var manager : Manager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val arguments = arguments
-
         if (arguments != null) {
             imageResource = arguments.getInt(IRKey)
             text1 = arguments.getString(t1)
@@ -83,12 +84,46 @@ class CraftFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
 
         craft_list_button.setOnClickListener{
+            Log.d("FLAG_TAG", "Fragment test 1")
             if(craft_type == 0){
                 manager.craftWeapon(0,craft_id)
             }
             if(craft_type == 1){
                 manager.craftProtection(0, craft_id)
             }
+            Log.d("FLAG_TAG", "Fragment test 2")
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        manager = Manager(context)
+        manager.download()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("FLAG_TAG", "CraftFragment onStart()")
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("FLAG_TAG", "CraftFragment onPause()")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("FLAG_TAG", "CraftFragment onStop()")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("FLAG_TAG", "CraftFragment onDestroy()")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("FLAG_TAG", "CraftFragment onResume()")
     }
 }
