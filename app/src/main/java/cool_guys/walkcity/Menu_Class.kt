@@ -7,10 +7,14 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
+import cool_guys.walkcity.DataBase.Manager
 import kotlinx.android.synthetic.main.activity_menu.*
 import kotlin.system.exitProcess
 
 class Menu_Class : AppCompatActivity() {
+    lateinit var manager : Manager
+
     fun changeActtoSettings(demo : View){
         val intent = Intent(this@Menu_Class,Settings_Class::class.java)
         startActivity(intent)
@@ -22,10 +26,16 @@ class Menu_Class : AppCompatActivity() {
         startActivity(intent)
     }
     fun changeActtoContinueGame(demo : View){
-        Log.d("FLAG_TAG", "Pressed continue game")
-        val intent = Intent(this@Menu_Class,Game_Map_Class::class.java)
-        intent.putExtra("status", "continue game")
-        startActivity(intent)
+        Log.d("FLAG_TAG", "Menu test sizeCity = ${manager.tryingCity()}")
+        if(manager.tryingCity() > 0) {
+            Log.d("FLAG_TAG", "Pressed continue game")
+            val intent = Intent(this@Menu_Class, Game_Map_Class::class.java)
+            intent.putExtra("status", "continue game")
+            startActivity(intent)
+        }
+        else{
+            Log.d("FLAG_TAG", "Menu test2")
+        }
     }
 
     override fun onStart() {
@@ -64,7 +74,15 @@ class Menu_Class : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("FLAG_TAG", "Init manager")
+        manager = Manager(this@Menu_Class)
+        Log.d("FLAG_TAG", "Complete init manager")
+        supportActionBar?.hide()
         setContentView(R.layout.activity_menu)
+        if(manager.tryingCity() == 0){
+            play.isClickable=false
+            play.visibility= View.GONE
+        }
         play.setOnClickListener(::changeActtoContinueGame)
         settings.setOnClickListener(::changeActtoSettings)
         new_game.setOnClickListener(::changeActtoNewGame)

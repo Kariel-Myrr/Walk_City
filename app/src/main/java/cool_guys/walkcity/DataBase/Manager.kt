@@ -11,7 +11,7 @@ class Manager(val context: Context){
     var city : MutableList<CityData> = mutableListOf()
     private var inventory : MutableList<InventoryData> = mutableListOf()
     private var protection : MutableList<ItemProtection> = mutableListOf()
-    private var resource : MutableList<ItemResource> = mutableListOf()
+    var resource : MutableList<ItemResource> = mutableListOf()
     private var weapon : MutableList<ItemWeapon> = mutableListOf()
     private var dataBase = DBHandler(context)
     private var map = Map()
@@ -736,7 +736,7 @@ class Manager(val context: Context){
         settings  = settingsList[0]
     }
 
-    private fun tryingCity(): Int{
+    fun tryingCity(): Int{
         //Log.d("FLAG_TAG", "trying city test 1")
         val status : Int
         val cityList = dataBase.cityList("%")
@@ -766,14 +766,14 @@ class Manager(val context: Context){
         return status
     }
 
-    private fun tryingResource(): Int{
+    fun tryingResource(): Int{
         val status : Int
         val resourceList = dataBase.itemResourceList("%")
         status = resourceList.size
         return status
     }
 
-    private fun tryingWeapon(): Int{
+    fun tryingWeapon(): Int{
         //Log.d("FLAG_TAG", "tryingWeapon() test 1")
         val status : Int
         val weaponList = dataBase.itemWeaponList("%")
@@ -835,12 +835,21 @@ class Manager(val context: Context){
     }
 
     fun craftWeapon(cityId: Int, type: Int): Int{
+        Log.d("FLAG_TAG", "cityId = $cityId type = $type")
         when(type){
             1 -> {
+                //Log.d("FLAG_TAG", "Type 1 test1")
+                //Log.d("FLAG_TAG", "tryingResource = ${tryingResource()}")
+                //Log.d("FLAG_TAG", "wood = ${resource.size}")
+                //Log.d("FLAG_TAG", "wood = ${resource[cityId].wood}")
+                //Log.d("FLAG_TAG", "size = ${weapon[cityId].storage.size}")
                 if(resource[cityId].wood >= 2 && weapon[cityId].storage.size < 10){
+                    //Log.d("FLAG_TAG", "Type 1 test2")
                     resource[cityId].wood -= 2
+                    //Log.d("FLAG_TAG", "Type 1 test3")
                     weapon[cityId].storage.add(type)
-                    Log.d("FLAG_TAG", "Type 1 made")
+                    city[cityId].damage += 1
+                    //Log.d("FLAG_TAG", "Type 1 made")
                     return 1
                 }
                 else{
@@ -853,6 +862,7 @@ class Manager(val context: Context){
                     resource[cityId].wood -= 3
                     resource[cityId].stone -= 1
                     weapon[cityId].storage.add(type)
+                    city[cityId].damage += 2
                     Log.d("FLAG_TAG", "Type 2 made")
                     return 1
                 }
@@ -866,6 +876,7 @@ class Manager(val context: Context){
                     resource[cityId].wood -= 1
                     resource[cityId].stone -= 2
                     weapon[cityId].storage.add(type)
+                    city[cityId].damage += 3
                     Log.d("FLAG_TAG", "Type 3 made")
                     return 1
                 }
@@ -879,6 +890,7 @@ class Manager(val context: Context){
                     resource[cityId].wood -= 3
                     resource[cityId].stone -= 3
                     weapon[cityId].storage.add(type)
+                    city[cityId].damage += 4
                     Log.d("FLAG_TAG", "Type 4 made")
                     return 1
                 }
@@ -892,6 +904,7 @@ class Manager(val context: Context){
                     resource[cityId].wood -= 2
                     resource[cityId].stone -= 4
                     weapon[cityId].storage.add(type)
+                    city[cityId].damage += 3
                     Log.d("FLAG_TAG", "Type 5 made")
                     return 1
                 }
@@ -906,6 +919,7 @@ class Manager(val context: Context){
                     resource[cityId].stone -= 6
                     resource[cityId].iron -= 2
                     weapon[cityId].storage.add(type)
+                    city[cityId].damage += 8
                     Log.d("FLAG_TAG", "Type 6 made")
                     return 1
                 }
@@ -915,6 +929,7 @@ class Manager(val context: Context){
                 }
             }
         }
+        Log.d("FLAG_TAG", "Type 1 test4")
         return 0
     }
 

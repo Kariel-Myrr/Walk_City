@@ -74,6 +74,7 @@ class Game_Map_Class : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         Log.d("FLAG_TAG", "Game_Map_Class onCreate()")
         setContentView(R.layout.activity_game__map)
         manager = Manager(this@Game_Map_Class)

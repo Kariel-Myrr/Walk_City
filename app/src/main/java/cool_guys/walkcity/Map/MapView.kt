@@ -11,10 +11,14 @@ import cool_guys.walkcity.DataBase.Tile
 import org.jetbrains.anko.dip
 import java.lang.Math.abs
 import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.widget.Toast
 import cool_guys.walkcity.DataBase.CityData
 import cool_guys.walkcity.DataBase.Manager
+
+import cool_guys.walkcity.R
 
 
 class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
@@ -26,6 +30,13 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private  var sea : Bitmap
     private var smallcity : Bitmap
     private var mediumcity : Bitmap
+    private var spot : Bitmap
+    private var forest : Bitmap
+    private var gamma : Bitmap
+    private var fort : Bitmap
+    private var lake : Bitmap
+
+
     //private var fielthiscity : Bitmap
     private var mCanvas: Canvas
     private var paint: Paint
@@ -39,7 +50,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private val xHightTile = 150f
     private val yHightTile = 75f
     public val N = 6//должно быть четным
-    private val matrX = 850f//координаты центра поля
+    private val matrX = 950f//координаты центра поля
     private val matrY = 300f
     private val dMatrX = matrX - N*xHightTile//то на сколько поле отходит от края(от х и у)
     private val dMatrY = matrY - N*50f
@@ -49,7 +60,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     //for scroll
     private val scaleGestureDetector = ScaleGestureDetector(context, MyScaleGestureListener())
     private var viewXSize: Int = 1000
-    private var viewYSize: Int = 600
+    private var viewYSize: Int = 0
 
     private var mScaleFactor: Float = 1f
     private var detector = GestureDetector(context, MyGestureListener())
@@ -60,8 +71,8 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         Map = MutableList(N, { MutableList(N, {Tile("field")}) })
         CityArr = MutableList(6 , {CityData()})
 
-        canvasXSize = dip(1000f).toFloat()
-        canvasYSize = dip(600f).toFloat()
+        canvasXSize = dip(950f).toFloat()
+        canvasYSize = dip(500f).toFloat()
 
 
         mBitmap = Bitmap.createBitmap(canvasXSize.toInt(), canvasYSize.toInt(), Bitmap.Config.ARGB_8888)
@@ -77,6 +88,11 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         //fielthiscity = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.fieldthiscity)
         smallcity = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.smallcity)
         mediumcity = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.mediumcity)
+        forest = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.forest)
+        spot = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.spot)
+        fort = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.defstatcity)
+        gamma = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.gamma)
+        lake = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.lake)
 
         mCanvas = Canvas(mBitmap)
         scrollBy(matrX.toInt() - 500, matrY.toInt() - 500)
@@ -153,15 +169,30 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         else if(T.type == "sea") {
             mCanvas.drawBitmap(sea, X - xHightTile, Y - yHightTile, paint)
         }
+        else if(T.type == "forest"){
+            mCanvas.drawBitmap(forest, X - xHightTile, Y - yHightTile - 115, paint)
+        }
+        else if(T.type == "lake"){
+            mCanvas.drawBitmap(lake, X - xHightTile , Y - yHightTile - 115, paint)
+        }
         else {
             mCanvas.drawBitmap(field, X - xHightTile, Y - yHightTile, paint)
         }
         if(T.busy == true) {
+            if(T.city.name == "my"){
+                mCanvas.drawBitmap(spot, X - xHightTile , Y - yHightTile - 115, paint)
+            }
             if (T.city.type == "town") {
-                mCanvas.drawBitmap(smallcity, X - xHightTile , Y - yHightTile - 110, paint)
+                mCanvas.drawBitmap(smallcity, X - xHightTile , Y - yHightTile - 115, paint)
+            }
+            else if (T.city.idInventory <=3 && T.city.idInventory != 0){
+                mCanvas.drawBitmap(fort, X - xHightTile, Y - yHightTile - 115, paint)
+            }
+            else if(T.city.type == "metropolis"){
+                mCanvas.drawBitmap(gamma, X - xHightTile, Y - yHightTile - 115, paint)
             }
             else if (T.city.type != "town") {
-                mCanvas.drawBitmap(mediumcity, X - xHightTile, Y - yHightTile - 110, paint)
+                mCanvas.drawBitmap(mediumcity, X - xHightTile, Y - yHightTile - 115, paint)
             }
         }
     }
@@ -191,7 +222,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             val focusX = scaleGestureDetector.focusX
             val focusY = scaleGestureDetector.focusY
 
-            if (mScaleFactor * scaleFactor > 1 && mScaleFactor * scaleFactor < 2) {
+            if (mScaleFactor * scaleFactor > 1 && mScaleFactor * scaleFactor <= 1) {
                 mScaleFactor *= scaleGestureDetector.scaleFactor
                 canvasXSize = viewXSize * mScaleFactor//изменяем хранимое в памяти значение размера канваса
                 canvasYSize = viewYSize * mScaleFactor
