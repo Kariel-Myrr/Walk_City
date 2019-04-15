@@ -84,7 +84,7 @@ class Manager(val context: Context){
             else -> {
                 tile[i][e].type = "forest"
                 tile[i][e].idItemResource = i * map.y + e + countCity
-                resourceTile[i][e].wood = (0..0).random()
+                resourceTile[i][e].wood = (5..15).random()
                 resourceTile[i][e].stone = (5..10).random()
                 resourceTile[i][e].iron = (5..15).random()
                 resourceTile[i][e].food = (0..5).random()
@@ -318,13 +318,13 @@ class Manager(val context: Context){
                 tmpResource.people = 5
             }
             7 -> {
-                tmpResource.people = 25
+                tmpResource.people = 40
             }
             8 -> {
-                tmpResource.people = 25
+                tmpResource.people = 40
             }
             9 -> {
-                tmpResource.people = 30
+                tmpResource.people = 60
             }
         }
         tmpResource.food = tmpResource.people * 30
@@ -360,20 +360,20 @@ class Manager(val context: Context){
 
     fun allocation(){
         if(city[0].x + 1 < map.x){
-            if(tile[city[0].x + 1][city[0].y].busy == false)tile[city[0].x + 1][city[0].y].allocation = 1
-            else tile[city[0].x + 1][city[0].y].allocation = 2
+            if(tile[city[0].y][city[0].x + 1].busy == false)tile[city[0].y][city[0].x + 1].allocation = 1
+            else tile[city[0].y][city[0].x + 1].allocation = 2
         }
         if(city[0].x - 1 >= 0){
-            if(tile[city[0].x - 1][city[0].y].busy == false)tile[city[0].x - 1][city[0].y].allocation = 1
-            else tile[city[0].x - 1][city[0].y].allocation = 2
+            if(tile[city[0].y][city[0].x - 1].busy == false)tile[city[0].y][city[0].x - 1].allocation = 1
+            else tile[city[0].y][city[0].x - 1].allocation = 2
         }
         if(city[0].y + 1 < map.y){
-            if(tile[city[0].x][city[0].y + 1].busy == false)tile[city[0].x][city[0].y + 1].allocation = 1
-            else tile[city[0].x][city[0].y + 1].allocation = 2
+            if(tile[city[0].y + 1][city[0].x].busy == false)tile[city[0].y + 1][city[0].x].allocation = 1
+            else tile[city[0].y + 1][city[0].x].allocation = 2
         }
         if(city[0].y - 1 >= 0){
-            if(tile[city[0].x][city[0].y - 1].busy == false)tile[city[0].x][city[0].y - 1].allocation = 1
-            else tile[city[0].x][city[0].y - 1].allocation = 2
+            if(tile[city[0].y - 1][city[0].x].busy == false)tile[city[0].y - 1][city[0].x].allocation = 1
+            else tile[city[0].y - 1][city[0].x].allocation = 2
         }
     }
 
@@ -386,9 +386,9 @@ class Manager(val context: Context){
         for(i in 0 until countCity)initWeapon()
         initMap()
         for(i in 0 until countCity){
-            tile[city[i].x][city[i].y].city = city[i]
-            tile[city[i].x][city[i].y].busy = true
-            Log.d("FLAG_TAG", "tile[city[i].x][city[i].y].city.id = ${tile[city[i].x][city[i].y].city.id}")
+            tile[city[i].y][city[i].x].city = city[i]
+            tile[city[i].y][city[i].x].busy = true
+            Log.d("FLAG_TAG", "tile[city[i].x][city[i].y].city.id = ${tile[city[i].y][city[i].x].city.id}")
         }
         allocation()
         Log.d("FLAG_TAG", "COMLETE INIT MANAGER")
@@ -576,10 +576,10 @@ class Manager(val context: Context){
         downloadResourceTile()
         for(i in 0 until countCity){
             if(city[i].active == 0)continue
-            tile[city[i].x][city[i].y].city = city[i]
-            tile[city[i].x][city[i].y].city.id -= 1
-            tile[city[i].x][city[i].y].busy = true
-            Log.d("FLAG_TAG", "tile[city[i].x][city[i].y].city.id = ${tile[city[i].x][city[i].y].city.id}")
+            tile[city[i].y][city[i].x].city = city[i]
+            tile[city[i].y][city[i].x].city.id -= 1
+            tile[city[i].y][city[i].x].busy = true
+            Log.d("FLAG_TAG", "tile[city[i].x][city[i].y].city.id = ${tile[city[i].y][city[i].x].city.id}")
 
         }
         for(i in 0..5){
@@ -823,9 +823,9 @@ class Manager(val context: Context){
         resourceTile[y][x].people = 0
     }
 
-    fun removeCity(id: Int, newX: Int, newY: Int): Int{
+    fun removeCity(id: Int, newY: Int, newX: Int): Int{
         if(resource[id].fuel >= 5) {
-            tile[city[id].x][city[id].y].busy = false
+            tile[city[id].y][city[id].x].busy = false
             resource[id].fuel -= 5
             city[id].x = newX
             city[id].y = newY
@@ -968,6 +968,7 @@ class Manager(val context: Context){
                 if(resource[cityId].wood >= 5){
                     resource[cityId].wood -= 5
                     protection[cityId].slot = 1
+                    city[cityId].protection += 1
                     Log.d("FLAG_TAG", "Type 1 made")
                     return 1
                 }
@@ -981,6 +982,7 @@ class Manager(val context: Context){
                     resource[cityId].wood -= 10
                     resource[cityId].stone -= 5
                     protection[cityId].slot = 2
+                    city[cityId].protection += 2
                     Log.d("FLAG_TAG", "Type 2 made")
                     return 1
                 }
@@ -994,6 +996,7 @@ class Manager(val context: Context){
                     resource[cityId].wood -= 5
                     resource[cityId].stone -= 15
                     protection[cityId].slot = 3
+                    city[cityId].protection += 3
                     Log.d("FLAG_TAG", "Type 3 made")
                     return 1
                 }
@@ -1007,6 +1010,7 @@ class Manager(val context: Context){
                     resource[cityId].wood -= 10
                     resource[cityId].iron -= 10
                     protection[cityId].slot = 4
+                    city[cityId].protection += 4
                     Log.d("FLAG_TAG", "Type 4 made")
                     return 1
                 }
@@ -1038,10 +1042,10 @@ class Manager(val context: Context){
     fun recountProtection(cityId: Int){
         city[cityId].protection = 0
         when(protection[cityId].slot){
-            1 -> city[cityId].protection += 2
-            2 -> city[cityId].protection += 4
-            3 -> city[cityId].protection += 8
-            4 -> city[cityId].protection += 10
+            1 -> city[cityId].protection += 1
+            2 -> city[cityId].protection += 2
+            3 -> city[cityId].protection += 3
+            4 -> city[cityId].protection += 4
         }
     }
 
@@ -1091,44 +1095,44 @@ class Manager(val context: Context){
     fun attacLogic(cityId : Int): Int{
         var stat = 1
         if(city[cityId].x + 1 < map.x && stat == 1){
-            if(tile[city[cityId].x + 1][city[cityId].y].busy == true && (tile[city[cityId].x + 1][city[cityId].y].city.name == "my" || cityId == 0)){
-                if(attacCity(cityId, tile[city[cityId].x + 1][city[cityId].y].city.id) == 1){
-                    lootingCity(cityId, tile[city[cityId].x + 1][city[cityId].y].city.id)
+            if(tile[city[cityId].y][city[cityId].x + 1].busy == true && (tile[city[cityId].y][city[cityId].x + 1].city.name == "my" || cityId == 0)){
+                if(attacCity(cityId, tile[city[cityId].y][city[cityId].x + 1].city.id) == 1){
+                    lootingCity(cityId, tile[city[cityId].y][city[cityId].x + 1].city.id)
                     if(cityId == 0 || cityId == 4 || cityId == 5 || cityId == 6 || cityId == 9) {
-                        removeCity(cityId, city[cityId].x + 1, city[cityId].y)
+                        removeCity(cityId, city[cityId].y, city[cityId].x + 1)
                     }
                 }
                 stat = 0
             }
         }
         if(city[cityId].y + 1 < map.y && stat == 1){
-            if(tile[city[cityId].x][city[cityId].y + 1].busy == true && (tile[city[cityId].x][city[cityId].y + 1].city.name == "my" || cityId == 0)){
-                if(attacCity(cityId, tile[city[cityId].x][city[cityId].y + 1].city.id) == 1){
-                    lootingCity(cityId, tile[city[cityId].x][city[cityId].y + 1].city.id)
+            if(tile[city[cityId].y + 1][city[cityId].x].busy == true && (tile[city[cityId].y + 1][city[cityId].x].city.name == "my" || cityId == 0)){
+                if(attacCity(cityId, tile[city[cityId].y + 1][city[cityId].x].city.id) == 1){
+                    lootingCity(cityId, tile[city[cityId].y + 1][city[cityId].x].city.id)
                     if(cityId == 0 || cityId == 4 || cityId == 5 || cityId == 6 || cityId == 9) {
-                        removeCity(cityId, city[cityId].x, city[cityId].y + 1)
+                        removeCity(cityId, city[cityId].y + 1, city[cityId].x)
                     }
                 }
                 stat = 0
             }
         }
         if(city[cityId].x - 1 >= 0 && stat == 1){
-            if(tile[city[cityId].x - 1][city[cityId].y].busy == true && (tile[city[cityId].x - 1][city[cityId].y].city.name == "my" || cityId == 0)){
-                if(attacCity(cityId, tile[city[cityId].x - 1][city[cityId].y].city.id) == 1){
-                    lootingCity(cityId, tile[city[cityId].x - 1][city[cityId].y].city.id)
+            if(tile[city[cityId].y][city[cityId].x - 1].busy == true && (tile[city[cityId].y][city[cityId].x - 1].city.name == "my" || cityId == 0)){
+                if(attacCity(cityId, tile[city[cityId].y][city[cityId].x - 1].city.id) == 1){
+                    lootingCity(cityId, tile[city[cityId].y][city[cityId].x - 1].city.id)
                     if(cityId == 0 || cityId == 4 || cityId == 5 || cityId == 6 || cityId == 9) {
-                        removeCity(cityId, city[cityId].x - 1, city[cityId].y)
+                        removeCity(cityId, city[cityId].y, city[cityId].x - 1)
                     }
                 }
                 stat = 0
             }
         }
         if(city[cityId].y - 1 >= 0 && stat == 1){
-            if(tile[city[cityId].x][city[cityId].y - 1].busy == true && (tile[city[cityId].x][city[cityId].y - 1].city.name == "my" || cityId == 0)){
-                if(attacCity(cityId, tile[city[cityId].x][city[cityId].y - 1].city.id ) == 1){
-                    lootingCity(cityId, tile[city[cityId].x][city[cityId].y - 1].city.id)
+            if(tile[city[cityId].y - 1][city[cityId].x].busy == true && (tile[city[cityId].y - 1][city[cityId].x].city.name == "my" || cityId == 0)){
+                if(attacCity(cityId, tile[city[cityId].y - 1][city[cityId].x].city.id ) == 1){
+                    lootingCity(cityId, tile[city[cityId].y - 1][city[cityId].x].city.id)
                     if(cityId == 0 || cityId == 4 || cityId == 5 || cityId == 6 || cityId == 9) {
-                        removeCity(cityId, city[cityId].x, city[cityId].y - 1)
+                        removeCity(cityId, city[cityId].y - 1, city[cityId].x)
                     }
                 }
                 stat = 0
@@ -1144,33 +1148,33 @@ class Manager(val context: Context){
             val flag = test.random()
             Log.d("FLAG_TAG", "flag = $flag")
             if (city[cityId].x + 1 < map.x && stat == 1 && flag == 0) {
-                if (tile[city[cityId].x + 1][city[cityId].y].busy == false) {
-                    if (removeCity(cityId, city[cityId].x + 1, city[cityId].y) == 1) {
-                        tile[city[cityId].x][city[cityId].y].busy = true
+                if (tile[city[cityId].y][city[cityId].x + 1].busy == false) {
+                    if (removeCity(cityId, newX = city[cityId].x + 1, newY = city[cityId].y) == 1) {
+                        tile[city[cityId].y][city[cityId].x].busy = true
                         stat = 0
                     }
                 }
             }
             if (city[cityId].y + 1 < map.y && stat == 1 && flag == 1) {
-                if (tile[city[cityId].x][city[cityId].y + 1].busy == false) {
-                    if (removeCity(cityId, city[cityId].x, city[cityId].y + 1) == 1) {
-                        tile[city[cityId].x][city[cityId].y].busy = true
+                if (tile[city[cityId].y + 1][city[cityId].x].busy == false) {
+                    if (removeCity(cityId, newX = city[cityId].x, newY = city[cityId].y + 1) == 1) {
+                        tile[city[cityId].y][city[cityId].x].busy = true
                         stat = 0
                     }
                 }
             }
             if (city[cityId].x - 1 >= 0 && stat == 1 && flag == 2) {
-                if (tile[city[cityId].x - 1][city[cityId].y].busy == false) {
-                    if (removeCity(cityId, city[cityId].x - 1, city[cityId].y) == 1) {
-                        tile[city[cityId].x][city[cityId].y].busy = true
+                if (tile[city[cityId].y][city[cityId].x - 1].busy == false) {
+                    if (removeCity(cityId, newX = city[cityId].x - 1, newY = city[cityId].y) == 1) {
+                        tile[city[cityId].y][city[cityId].x].busy = true
                         stat = 0
                     }
                 }
             }
             if (city[cityId].y - 1 >= 0 && stat == 1 && flag == 3) {
-                if (tile[city[cityId].x][city[cityId].y - 1].busy == false) {
-                    if (removeCity(cityId, city[cityId].x, city[cityId].y - 1) == 1) {
-                        tile[city[cityId].x][city[cityId].y].busy = true
+                if (tile[city[cityId].y - 1][city[cityId].x].busy == false) {
+                    if (removeCity(cityId, newX = city[cityId].x, newY = city[cityId].y - 1) == 1) {
+                        tile[city[cityId].y][city[cityId].x].busy = true
                     }
                 }
             }
@@ -1261,5 +1265,11 @@ class Manager(val context: Context){
             renameCity(i)
             recountActive(i)
         }
+    }
+
+    fun check(): Int{
+        if(city[0].active == 0)return 1
+        if(city[9].active == 0)return 2
+        return 0
     }
 }

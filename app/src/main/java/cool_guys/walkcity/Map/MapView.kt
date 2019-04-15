@@ -401,6 +401,8 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                 Toast.makeText(context, "My city remove.", Toast.LENGTH_SHORT).show()
                 manager.clearTile(0)
                 Map[manager.city[0].y][manager.city[0].x].busy = false
+                Map[manager.city[0].y][manager.city[0].x].city = CityData()
+                Map[y][x].city = manager.city[0]
                 manager.removeCity(0, y, x)
                 Map[y][x].busy = true
                 manager.clearTile(0)
@@ -412,10 +414,13 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             else if(Map[y][x].allocation == 2){
                 Toast.makeText(context, "My city attac.", Toast.LENGTH_SHORT).show()
                 if(manager.attacCity(0, Map[y][x].city.id) == 1){
+                    Map[y][x].city.active = 0
                     Toast.makeText(context, "You have destroied enemy city.", Toast.LENGTH_SHORT).show()
                     manager.clearTile(0)
                     manager.lootingCity(0, Map[y][x].city.id)
                     Map[manager.city[0].y][manager.city[0].x].busy = false
+                    Map[manager.city[0].y][manager.city[0].x].city = CityData()
+                    Map[y][x].city = manager.city[0]
                     manager.removeCity(0, y, x)
                     manager.clearTile(0)
                     manager.recountPeople(0)

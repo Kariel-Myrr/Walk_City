@@ -30,7 +30,17 @@ class Game_Map_Class : AppCompatActivity() {
         var status = ""
         if(getIntentFromMenu.hasExtra("status"))
             status = getIntentFromMenu.getStringExtra("status")
-        if(status == "new game")manager.init()
+        if(status == "new game"){
+            manager.init()
+            val builder = AlertDialog.Builder(this@Game_Map_Class)
+            builder.setTitle("Game Gide")
+            builder.setMessage("...")
+            builder.setPositiveButton("Ok") { dialog, which ->
+
+            }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }
         else manager.download()
         ViewMap.Map = manager.tile
         ViewMap.CityArr = manager.city
@@ -67,7 +77,34 @@ class Game_Map_Class : AppCompatActivity() {
 
     fun nextTurn(){
         Toast.makeText(applicationContext, "Turn made, game saved.", Toast.LENGTH_SHORT).show()
-        manager.nextTurn()
+        val stat = manager.check()
+        if(stat == 1){
+            val builder = AlertDialog.Builder(this@Game_Map_Class)
+            builder.setTitle("Game Info")
+            builder.setMessage("You lose.")
+            builder.setPositiveButton("YES") { dialog, which ->
+                Log.d("FLAG_TAG", "You lose. Yes")
+            }
+            builder.setNegativeButton("No") { dialog, which ->
+                Log.d("FLAG_TAG", "You lose. No")
+            }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }
+        else if(stat == 2){
+            val builder = AlertDialog.Builder(this@Game_Map_Class)
+            builder.setTitle("Game Info")
+            builder.setMessage("You won.")
+            builder.setPositiveButton("YES") { dialog, which ->
+                Log.d("FLAG_TAG", "You won. Yes")
+            }
+            builder.setNegativeButton("No") { dialog, which ->
+                Log.d("FLAG_TAG", "You won. No")
+            }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }
+        else manager.nextTurn()
         val intent = Intent(this@Game_Map_Class,Game_Map_Class::class.java)
         startActivity(intent)
     }
