@@ -119,6 +119,7 @@ class Game_Map_Class : AppCompatActivity() {
             flag_back = false
         }
         inv.setOnClickListener{
+            manager.unload()
             val intent = Intent(this@Game_Map_Class,Inventory_Class::class.java)
             startActivity(intent)
         }

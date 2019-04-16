@@ -35,6 +35,10 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var gamma : Bitmap
     private var fort : Bitmap
     private var lake : Bitmap
+    private var pl_mediumcity : Bitmap
+    private var pl_smallcity : Bitmap
+    private var pl_mega : Bitmap
+    private var fon : Bitmap
 
 
     //private var fielthiscity : Bitmap
@@ -51,7 +55,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private val yHightTile = 75f
     public val N = 6//должно быть четным
     private val matrX = 950f//координаты центра поля
-    private val matrY = 300f
+    private val matrY = 400f
     private val dMatrX = matrX - N*xHightTile//то на сколько поле отходит от края(от х и у)
     private val dMatrY = matrY - N*50f
 
@@ -59,7 +63,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     //for scroll
     private val scaleGestureDetector = ScaleGestureDetector(context, MyScaleGestureListener())
-    private var viewXSize: Int = 1000
+    private var viewXSize: Int = 100
     private var viewYSize: Int = 0
 
     private var mScaleFactor: Float = 1f
@@ -71,8 +75,8 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         Map = MutableList(N, { MutableList(N, {Tile("field")}) })
         CityArr = MutableList(6 , {CityData()})
 
-        canvasXSize = dip(950f).toFloat()
-        canvasYSize = dip(500f).toFloat()
+        canvasXSize = dip(1500f).toFloat()
+        canvasYSize = dip(600f).toFloat()
 
 
         mBitmap = Bitmap.createBitmap(canvasXSize.toInt(), canvasYSize.toInt(), Bitmap.Config.ARGB_8888)
@@ -93,6 +97,10 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         fort = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.defstatcity)
         gamma = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.gamma)
         lake = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.lake)
+        pl_mediumcity = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.plmedium)
+        pl_smallcity = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.plsmall)
+        pl_mega = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.mega)
+        fon = BitmapFactory.decodeResource(resources, cool_guys.walkcity.R.drawable.fon3)
 
         mCanvas = Canvas(mBitmap)
         scrollBy(matrX.toInt() - 500, matrY.toInt() - 500)
@@ -102,7 +110,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         paint = Paint()
         paint.isAntiAlias = true
         paint.isDither = true
-        paint.color = -0x99999
+        paint.color = -0x00000
         paint.strokeWidth = 5f
         paint.style = Paint.Style.STROKE
         paint.strokeJoin = Paint.Join.ROUND
@@ -130,6 +138,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     fun drawMatr(){
 
+        mCanvas.drawBitmap(fon, -50f, 0f, paint)
 
 
         for(i in 0..(N-1)) {
@@ -146,7 +155,6 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
     private fun drawCity(X : Float, Y : Float, city : CityData, paint : Paint){
-
             mCanvas.drawBitmap(smallcity, X - xHightTile, Y - yHightTile, paint)
 
     }
@@ -181,11 +189,20 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         if(T.busy == true) {
             if(T.city.name == "my"){
                 mCanvas.drawBitmap(spot, X - xHightTile , Y - yHightTile - 115, paint)
+                if (T.city.type == "town") {
+                    mCanvas.drawBitmap(pl_smallcity, X - xHightTile , Y - yHightTile - 115, paint)
+                }
+                else if(T.city.type == "metropolis"){
+                    mCanvas.drawBitmap(pl_mega, X - xHightTile, Y - yHightTile - 115, paint)
+                }
+                else if (T.city.type != "town") {
+                    mCanvas.drawBitmap(pl_mediumcity, X - xHightTile, Y - yHightTile - 115, paint)
+                }
             }
-            if (T.city.type == "town") {
+            else if (T.city.type == "town") {
                 mCanvas.drawBitmap(smallcity, X - xHightTile , Y - yHightTile - 115, paint)
             }
-            else if (T.city.idInventory <=3 && T.city.idInventory != 0){
+            else if (T.city.idInventory <=3 && T.city.idInventory != 0 || T.city.idInventory == 7 || T.city.idInventory == 8){
                 mCanvas.drawBitmap(fort, X - xHightTile, Y - yHightTile - 115, paint)
             }
             else if(T.city.type == "metropolis"){
