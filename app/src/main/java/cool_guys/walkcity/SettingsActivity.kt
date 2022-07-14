@@ -25,9 +25,9 @@ class SettingsActivity : AppCompatActivity() {
         Log.d(TAG, "SettingsActivity onPause()")
         flag_back = switch_back_button.isChecked
         flag_move = switch_turns.isChecked
-        if (flag_back == false) manager.settings.backDialog = 0
+        if (!flag_back) manager.settings.backDialog = 0
         else manager.settings.backDialog = 1
-        if (flag_move == false) manager.settings.nextTurnDialog = 0
+        if (!flag_move) manager.settings.nextTurnDialog = 0
         else manager.settings.nextTurnDialog = 1
         manager.unloadSettings()
         finish()
@@ -48,12 +48,12 @@ class SettingsActivity : AppCompatActivity() {
         Log.d(TAG, "SettingsActivity onResume()")
     }
 
-    fun changeActtoBack(demo: View) {
+    private fun changeActToBack(demo: View) {
         val intent = Intent(this@SettingsActivity, MenuActivity::class.java)
         startActivity(intent)
     }
 
-    fun changeActtoBack() {
+    private fun changeActToBack() {
         val intent = Intent(this@SettingsActivity, MenuActivity::class.java)
         startActivity(intent)
     }
@@ -75,13 +75,12 @@ class SettingsActivity : AppCompatActivity() {
         }
         switch_back_button.isChecked = flag_back
         switch_turns.isChecked = flag_move
-        settings_back.setOnClickListener(::changeActtoBack)
+        settings_back.setOnClickListener(::changeActToBack)
     }
 
     override fun onBackPressed() {
-        changeActtoBack()
+        changeActToBack()
     }
-
 
     companion object {
         var flag_move = false
@@ -89,5 +88,4 @@ class SettingsActivity : AppCompatActivity() {
 
         private const val TAG = "SettingsActivity"
     }
-
 }

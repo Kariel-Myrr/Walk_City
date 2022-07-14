@@ -10,106 +10,107 @@ import cool_guys.walkcity.database.Manager
 import kotlinx.android.synthetic.main.activity_menu.*
 
 class MenuActivity : AppCompatActivity() {
-    lateinit var manager : Manager
+    lateinit var manager: Manager
 
-    fun changeActtoSettings(demo : View){
-        val intent = Intent(this@MenuActivity,SettingsActivity::class.java)
+    private fun changeActToSettings(demo: View) {
+        val intent = Intent(this@MenuActivity, SettingsActivity::class.java)
         startActivity(intent)
     }
-    fun changeActtoNewGame(demo : View){
-        Log.d("FLAG_TAG", "Pressed new game")
-        val intent = Intent(this@MenuActivity,GameMapActivity::class.java)
+
+    private fun changeActToNewGame(demo: View) {
+        Log.d(TAG, "Pressed new game")
+        val intent = Intent(this@MenuActivity, GameMapActivity::class.java)
         intent.putExtra("status", "new game")
         startActivity(intent)
     }
-    fun changeActtoContinueGame(demo : View){
-        Log.d("FLAG_TAG", "Menu test sizeCity = ${manager.tryingCity()}")
-        if(manager.tryingCity() > 0) {
-            Log.d("FLAG_TAG", "Pressed continue game")
+
+    private fun changeActToContinueGame(demo: View) {
+        Log.d(TAG, "Menu test sizeCity = ${manager.tryingCity()}")
+        if (manager.tryingCity() > 0) {
+            Log.d(TAG, "Pressed continue game")
             val intent = Intent(this@MenuActivity, GameMapActivity::class.java)
             intent.putExtra("status", "continue game")
             startActivity(intent)
-        }
-        else{
-            Log.d("FLAG_TAG", "Menu test2")
+        } else {
+            Log.d(TAG, "Menu test2")
         }
     }
 
     override fun onStart() {
         super.onStart()
-        Log.d("FLAG_TAG", "Menu_Class onStart()")
-
+        Log.d(TAG, "MenuActivity onStart()")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d("FLAG_TAG", "Menu_Class onPause()")
+        Log.d(TAG, "MenuActivity onPause()")
         finish()
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("FLAG_TAG", "Menu_Class onStop()")
+        Log.d(TAG, "MenuActivity onStop()")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("FLAG_TAG", "Menu_Class onDestroy()")
+        Log.d(TAG, "MenuActivity onDestroy()")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("FLAG_TAG", "Menu_Class onResume()")
+        Log.d(TAG, "MenuActivity onResume()")
     }
 
-    fun changeActtoBack(){
+    private fun changeActToBack() {
         finish()
     }
 
     override fun onBackPressed() {
-        changeActtoBack()
+        changeActToBack()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("FLAG_TAG", "Init manager")
+        Log.d(TAG, "Init manager")
         manager = Manager(this@MenuActivity)
-        Log.d("FLAG_TAG", "Complete init manager")
+        Log.d(TAG, "Complete init manager")
         supportActionBar?.hide()
         setContentView(R.layout.activity_menu)
-        if(manager.tryingCity() == 0){
-            play.isClickable=false
-            play.visibility= View.GONE
+        if (manager.tryingCity() == 0) {
+            play.isClickable = false
+            play.visibility = View.GONE
         }
-        play.setOnClickListener(::changeActtoContinueGame)
-        settings.setOnClickListener(::changeActtoSettings)
-        new_game.setOnClickListener(::changeActtoNewGame)
+        play.setOnClickListener(::changeActToContinueGame)
+        settings.setOnClickListener(::changeActToSettings)
+        new_game.setOnClickListener(::changeActToNewGame)
 
         var getIntentFromMenu = intent
         var statgame = ""
-        if(getIntentFromMenu.hasExtra("statgame"))
+        if (getIntentFromMenu.hasExtra("statgame"))
             statgame = getIntentFromMenu.getStringExtra("statgame")
-        if(statgame == "lose"){
+        if (statgame == "lose") {
             val builder = AlertDialog.Builder(this@MenuActivity)
             builder.setTitle("Game Info")
             builder.setMessage("You lose.")
             builder.setPositiveButton("Ok") { dialog, which ->
-                Log.d("FLAG_TAG", "You lose. Yes")
+                Log.d(TAG, "You lose. Yes")
             }
             val dialog: AlertDialog = builder.create()
             dialog.show()
-        }
-        else if(statgame == "won"){
+        } else if (statgame == "won") {
             val builder = AlertDialog.Builder(this@MenuActivity)
             builder.setTitle("Game Info")
             builder.setMessage("You won.")
             builder.setPositiveButton("Ok") { dialog, which ->
-                Log.d("FLAG_TAG", "You won. Yes")
+                Log.d(TAG, "You won. Yes")
             }
             val dialog: AlertDialog = builder.create()
             dialog.show()
         }
     }
+
+    companion object {
+        private const val TAG = "MenuActivity"
+    }
 }
-
-
