@@ -105,7 +105,7 @@ class GameMapActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         Log.d(TAG, "Game_Map_Class onCreate()")
-        setContentView(R.layout.activity_game__map)
+        setContentView(R.layout.activity_game_map)
         manager = Manager(this@GameMapActivity)
         var settings: Settings
         if (manager.tryingSettings() != 0) {
