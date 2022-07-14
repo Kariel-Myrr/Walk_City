@@ -7,13 +7,12 @@ import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.View
 import android.widget.*
-import cool_guys.walkcity.DataBase.*
+import cool_guys.walkcity.database.*
 import cool_guys.walkcity.R.layout.activity_inventory
 import kotlinx.android.synthetic.main.activity_inventory.*
-import kotlinx.android.synthetic.main.activity_menu.*
 
 
-class Inventory_Class : AppCompatActivity() {
+class InventoryActivity : AppCompatActivity() {
     lateinit var manager : Manager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +20,7 @@ class Inventory_Class : AppCompatActivity() {
         supportActionBar?.hide()
         Log.d("FLAG_TAG", "Inventory_Class onCreate()")
         setContentView(activity_inventory)
-        manager = Manager(this@Inventory_Class)
+        manager = Manager(this@InventoryActivity)
         manager.download()
         var city : CityData
         var resource : ItemResource
@@ -152,61 +151,61 @@ class Inventory_Class : AppCompatActivity() {
         craft_list_button_1.setOnClickListener{
             manager.craftWeapon(0, 1)
             manager.unload()
-            val intent = Intent(this@Inventory_Class,Inventory_Class::class.java)
+            val intent = Intent(this@InventoryActivity,InventoryActivity::class.java)
             startActivity(intent)
         }
         craft_list_button.setOnClickListener{
             manager.craftWeapon(0, 2)
             manager.unload()
-            val intent = Intent(this@Inventory_Class,Inventory_Class::class.java)
+            val intent = Intent(this@InventoryActivity,InventoryActivity::class.java)
             startActivity(intent)
         }
         craft_list_button_2.setOnClickListener{
             manager.craftWeapon(0, 3)
             manager.unload()
-            val intent = Intent(this@Inventory_Class,Inventory_Class::class.java)
+            val intent = Intent(this@InventoryActivity,InventoryActivity::class.java)
             startActivity(intent)
         }
         craft_list_button_3.setOnClickListener{
             manager.craftWeapon(0, 4)
             manager.unload()
-            val intent = Intent(this@Inventory_Class,Inventory_Class::class.java)
+            val intent = Intent(this@InventoryActivity,InventoryActivity::class.java)
             startActivity(intent)
         }
         craft_list_button_4.setOnClickListener{
             manager.craftWeapon(0, 5)
             manager.unload()
-            val intent = Intent(this@Inventory_Class,Inventory_Class::class.java)
+            val intent = Intent(this@InventoryActivity,InventoryActivity::class.java)
             startActivity(intent)
         }
         craft_list_button_5.setOnClickListener{
             manager.craftWeapon(0, 6)
             manager.unload()
-            val intent = Intent(this@Inventory_Class,Inventory_Class::class.java)
+            val intent = Intent(this@InventoryActivity,InventoryActivity::class.java)
             startActivity(intent)
         }
         craft_list_button_6.setOnClickListener{
             manager.craftProtection(0, 1)
             manager.unload()
-            val intent = Intent(this@Inventory_Class,Inventory_Class::class.java)
+            val intent = Intent(this@InventoryActivity,InventoryActivity::class.java)
             startActivity(intent)
         }
         craft_list_button_7.setOnClickListener{
             manager.craftProtection(0, 2)
             manager.unload()
-            val intent = Intent(this@Inventory_Class,Inventory_Class::class.java)
+            val intent = Intent(this@InventoryActivity,InventoryActivity::class.java)
             startActivity(intent)
         }
         craft_list_button_8.setOnClickListener{
             manager.craftProtection(0, 3)
             manager.unload()
-            val intent = Intent(this@Inventory_Class,Inventory_Class::class.java)
+            val intent = Intent(this@InventoryActivity,InventoryActivity::class.java)
             startActivity(intent)
         }
         craft_list_button_9.setOnClickListener{
             manager.craftProtection(0, 4)
             manager.unload()
-            val intent = Intent(this@Inventory_Class,Inventory_Class::class.java)
+            val intent = Intent(this@InventoryActivity,InventoryActivity::class.java)
             startActivity(intent)
         }
     }
@@ -244,7 +243,7 @@ class Inventory_Class : AppCompatActivity() {
     }
 
     fun changeActtoBack(){
-        val intent = Intent(this@Inventory_Class,Game_Map_Class::class.java)
+        val intent = Intent(this@InventoryActivity,GameMapActivity::class.java)
         intent.putExtra("status", "continue game")
         startActivity(intent)
     }

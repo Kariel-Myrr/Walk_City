@@ -1,6 +1,5 @@
 package cool_guys.walkcity
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -12,7 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.craft_list_item.*
-import cool_guys.walkcity.DataBase.Manager
+import cool_guys.walkcity.database.Manager
 
 class CraftFragment() : Fragment(){
     var imageResource: Int = cool_guys.walkcity.R.drawable.stone

@@ -1,28 +1,24 @@
 package cool_guys.walkcity
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.View
-import android.widget.Toast
-import cool_guys.walkcity.DataBase.Manager
+import cool_guys.walkcity.database.Manager
 import kotlinx.android.synthetic.main.activity_menu.*
-import kotlin.system.exitProcess
 
-class Menu_Class : AppCompatActivity() {
+class MenuActivity : AppCompatActivity() {
     lateinit var manager : Manager
 
     fun changeActtoSettings(demo : View){
-        val intent = Intent(this@Menu_Class,Settings_Class::class.java)
+        val intent = Intent(this@MenuActivity,SettingsActivity::class.java)
         startActivity(intent)
     }
     fun changeActtoNewGame(demo : View){
         Log.d("FLAG_TAG", "Pressed new game")
-        val intent = Intent(this@Menu_Class,Game_Map_Class::class.java)
+        val intent = Intent(this@MenuActivity,GameMapActivity::class.java)
         intent.putExtra("status", "new game")
         startActivity(intent)
     }
@@ -30,7 +26,7 @@ class Menu_Class : AppCompatActivity() {
         Log.d("FLAG_TAG", "Menu test sizeCity = ${manager.tryingCity()}")
         if(manager.tryingCity() > 0) {
             Log.d("FLAG_TAG", "Pressed continue game")
-            val intent = Intent(this@Menu_Class, Game_Map_Class::class.java)
+            val intent = Intent(this@MenuActivity, GameMapActivity::class.java)
             intent.putExtra("status", "continue game")
             startActivity(intent)
         }
@@ -77,7 +73,7 @@ class Menu_Class : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("FLAG_TAG", "Init manager")
-        manager = Manager(this@Menu_Class)
+        manager = Manager(this@MenuActivity)
         Log.d("FLAG_TAG", "Complete init manager")
         supportActionBar?.hide()
         setContentView(R.layout.activity_menu)
@@ -94,7 +90,7 @@ class Menu_Class : AppCompatActivity() {
         if(getIntentFromMenu.hasExtra("statgame"))
             statgame = getIntentFromMenu.getStringExtra("statgame")
         if(statgame == "lose"){
-            val builder = AlertDialog.Builder(this@Menu_Class)
+            val builder = AlertDialog.Builder(this@MenuActivity)
             builder.setTitle("Game Info")
             builder.setMessage("You lose.")
             builder.setPositiveButton("Ok") { dialog, which ->
@@ -104,7 +100,7 @@ class Menu_Class : AppCompatActivity() {
             dialog.show()
         }
         else if(statgame == "won"){
-            val builder = AlertDialog.Builder(this@Menu_Class)
+            val builder = AlertDialog.Builder(this@MenuActivity)
             builder.setTitle("Game Info")
             builder.setMessage("You won.")
             builder.setPositiveButton("Ok") { dialog, which ->

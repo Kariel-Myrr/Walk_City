@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Game_Map_Class"
+    tools:context=".GameMapActivity"
     android:noHistory = "true">
 
     <RelativeLayout
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <cool_guys.walkcity.Map.MapView
+        <cool_guys.walkcity.gamemap.MapView
             android:layout_width="1000dp"
             android:layout_height="1000dp"
             android:background="@drawable/fon"

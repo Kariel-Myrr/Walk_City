@@ -1,20 +1,16 @@
 package cool_guys.walkcity
 
-import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.util.Log
-import android.view.View
 import android.widget.Toast
-import cool_guys.walkcity.DataBase.Manager
-import cool_guys.walkcity.DataBase.Settings
+import cool_guys.walkcity.database.Manager
+import cool_guys.walkcity.database.Settings
 import kotlinx.android.synthetic.main.activity_game__map.*
 
-
-
-class Game_Map_Class : AppCompatActivity() {
+class GameMapActivity : AppCompatActivity() {
 
     lateinit var manager : Manager
 
@@ -32,7 +28,7 @@ class Game_Map_Class : AppCompatActivity() {
             status = getIntentFromMenu.getStringExtra("status")
         if(status == "new game"){
             manager.init()
-            val builder = AlertDialog.Builder(this@Game_Map_Class)
+            val builder = AlertDialog.Builder(this@GameMapActivity)
             builder.setTitle("Game Guide")
             builder.setMessage("Вы город, он выделен белыми рамками.\n" +
                     "На поле есть другие города, которые к вам враждебны.\n" +
@@ -85,7 +81,7 @@ class Game_Map_Class : AppCompatActivity() {
     }
 
     fun changeActtoBack(){
-        val intent = Intent(this@Game_Map_Class,Menu_Class::class.java)
+        val intent = Intent(this@GameMapActivity,MenuActivity::class.java)
         startActivity(intent)
     }
 
@@ -94,19 +90,19 @@ class Game_Map_Class : AppCompatActivity() {
         val stat = manager.check()
         if(stat == 1){
             //manager.delCity()
-            val intent = Intent(this@Game_Map_Class, Menu_Class::class.java)
+            val intent = Intent(this@GameMapActivity, MenuActivity::class.java)
             intent.putExtra("statgame", "lose")
             startActivity(intent)
         }
         else if(stat == 2){
             //manager.delCity()
-            val intent = Intent(this@Game_Map_Class, Menu_Class::class.java)
+            val intent = Intent(this@GameMapActivity, MenuActivity::class.java)
             intent.putExtra("statgame", "won")
             startActivity(intent)
         }
         else {
             manager.nextTurn()
-            val intent = Intent(this@Game_Map_Class, Game_Map_Class::class.java)
+            val intent = Intent(this@GameMapActivity, GameMapActivity::class.java)
             startActivity(intent)
         }
     }
@@ -116,7 +112,7 @@ class Game_Map_Class : AppCompatActivity() {
         supportActionBar?.hide()
         Log.d("FLAG_TAG", "Game_Map_Class onCreate()")
         setContentView(R.layout.activity_game__map)
-        manager = Manager(this@Game_Map_Class)
+        manager = Manager(this@GameMapActivity)
         var settings : Settings
         if(manager.tryingSettings() != 0) {
             manager.downloadSettings()
@@ -134,13 +130,13 @@ class Game_Map_Class : AppCompatActivity() {
         }
         inv.setOnClickListener{
             manager.unload()
-            val intent = Intent(this@Game_Map_Class,Inventory_Class::class.java)
+            val intent = Intent(this@GameMapActivity,InventoryActivity::class.java)
             startActivity(intent)
         }
         nt.setOnClickListener{
             if(flag_move == true)nextTurn()
             else {
-                val builder = AlertDialog.Builder(this@Game_Map_Class)
+                val builder = AlertDialog.Builder(this@GameMapActivity)
                 builder.setTitle("Confirm Turn")
                 builder.setMessage("Are you sure you want to confirm Turn?")
                 builder.setPositiveButton("YES") { dialog, which ->
@@ -158,7 +154,7 @@ class Game_Map_Class : AppCompatActivity() {
     override fun onBackPressed() {
         if (flag_back == true) changeActtoBack()
         else {
-            val builder = AlertDialog.Builder(this@Game_Map_Class)
+            val builder = AlertDialog.Builder(this@GameMapActivity)
             builder.setTitle("Exit")
             builder.setMessage("Are you sure you want to Exit game?\nAll unsaved progress will be lost.")
             builder.setPositiveButton("YES") { dialog, which ->

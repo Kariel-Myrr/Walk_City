@@ -11,15 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Menu_Class"
+        <activity android:name=".MenuActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Settings_Class" />
-        <activity android:name=".Game_Map_Class" />
-        <activity android:name=".Inventory_Class" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".GameMapActivity" />
+        <activity android:name=".InventoryActivity" />
     </application>
 </manifest>

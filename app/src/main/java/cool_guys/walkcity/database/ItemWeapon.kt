@@ -1,4 +1,4 @@
-package cool_guys.walkcity.DataBase
+package cool_guys.walkcity.database
 
 class ItemWeapon(var id : Int = 0, var slots : MutableList<Int> = mutableListOf(), var storage : MutableList<Int> = mutableListOf())
 

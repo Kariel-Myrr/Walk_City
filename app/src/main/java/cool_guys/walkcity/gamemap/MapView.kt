@@ -1,4 +1,4 @@
-package cool_guys.walkcity.Map
+package cool_guys.walkcity.gamemap
 
 import android.content.Context
 import android.graphics.*
@@ -7,18 +7,14 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
-import cool_guys.walkcity.DataBase.Tile
+import cool_guys.walkcity.database.Tile
 import org.jetbrains.anko.dip
 import java.lang.Math.abs
 import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.widget.Toast
-import cool_guys.walkcity.DataBase.CityData
-import cool_guys.walkcity.DataBase.Manager
-
-import cool_guys.walkcity.R
+import cool_guys.walkcity.database.CityData
+import cool_guys.walkcity.database.Manager
 
 
 class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
@@ -430,7 +426,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             }
             else if(Map[y][x].allocation == 2){
                 Toast.makeText(context, "My city attacked.", Toast.LENGTH_SHORT).show()
-                if(manager.attacCity(0, Map[y][x].city.id) == 1){
+                if(manager.attackCity(0, Map[y][x].city.id) == 1){
                     Map[y][x].city.active = 0
                     Toast.makeText(context, "You have destroyed enemy city.", Toast.LENGTH_SHORT).show()
                     manager.clearTile(0)

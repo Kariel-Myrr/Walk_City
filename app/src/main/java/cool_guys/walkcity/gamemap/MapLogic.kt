@@ -1,4 +1,4 @@
-package cool_guys.walkcity.Map
+package cool_guys.walkcity.gamemap
 
 class MapLogic(){
 
