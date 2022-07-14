@@ -248,8 +248,6 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                 scrollTo(scrollX, scrollY)
             }
             //вызываем перерисовку принудительно
-
-
             invalidate()
             return true
         }
