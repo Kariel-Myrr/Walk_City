@@ -10,8 +10,8 @@ import android.view.View
 import cool_guys.walkcity.database.Tile
 import org.jetbrains.anko.dip
 import android.graphics.BitmapFactory
-import android.support.v7.app.AlertDialog
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import cool_guys.walkcity.database.CityData
 import cool_guys.walkcity.database.Manager
 
@@ -216,7 +216,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         canvas.restore()
     }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
+    override fun onTouchEvent(event: MotionEvent): Boolean {
         detector.onTouchEvent(event)
         scaleGestureDetector.onTouchEvent(event)
         return true

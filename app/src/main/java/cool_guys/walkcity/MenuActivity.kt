@@ -1,11 +1,11 @@
 package cool_guys.walkcity
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import cool_guys.walkcity.database.Manager
 import kotlinx.android.synthetic.main.activity_menu.*
 
@@ -88,7 +88,7 @@ class MenuActivity : AppCompatActivity() {
         var getIntentFromMenu = intent
         var statgame = ""
         if (getIntentFromMenu.hasExtra("statgame"))
-            statgame = getIntentFromMenu.getStringExtra("statgame")
+            statgame = getIntentFromMenu.getStringExtra("statgame").orEmpty()
         if (statgame == "lose") {
             val builder = AlertDialog.Builder(this@MenuActivity)
             builder.setTitle("Game Info")

@@ -2,8 +2,8 @@ package cool_guys.walkcity.database
 
 import android.content.ContentValues
 import android.content.Context
-import android.support.v7.app.AlertDialog
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import java.util.*
 
 class Manager(private val context: Context) {
