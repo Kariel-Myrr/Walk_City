@@ -17,7 +17,6 @@ import cool_guys.walkcity.database.Manager
 
 
 class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
-
     private var mBitmap: Bitmap
     private var field: Bitmap
     private var hill: Bitmap
@@ -34,9 +33,6 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var pl_smallcity: Bitmap
     private var pl_mega: Bitmap
     private var fon: Bitmap
-
-
-    //private var fielthiscity : Bitmap
     private var mCanvas: Canvas
     private var paint: Paint
     private var mBitmapPaint: Paint
@@ -46,14 +42,14 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     //Задаем матрицу
     var map: MutableList<MutableList<Tile>>
-    var CityArr: MutableList<CityData>
+    var cityArr: MutableList<CityData>
     private val xHightTile = 150f
     private val yHightTile = 75f
-    val N = 6//должно быть четным
-    private val matrX = 950f//координаты центра поля
+    val n = 6                   //должно быть четным
+    private val matrX = 950f    //координаты центра поля
     private val matrY = 400f
-    private val dMatrX = matrX - N * xHightTile//то на сколько поле отходит от края(от х и у)
-    private val dMatrY = matrY - N * 50f
+    private val dMatrX = matrX - n * xHightTile //то на сколько поле отходит от края(от х и у)
+    private val dMatrY = matrY - n * 50f
 
     var statMyCity = 1
 
@@ -67,16 +63,13 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
 
     init {
-
-        map = MutableList(N) { MutableList(N) { Tile("field") } }
-        CityArr = MutableList(6) { CityData() }
+        map = MutableList(n) { MutableList(n) { Tile("field") } }
+        cityArr = MutableList(6) { CityData() }
 
         canvasXSize = dip(1500f).toFloat()
         canvasYSize = dip(600f).toFloat()
 
-
-        mBitmap =
-            Bitmap.createBitmap(canvasXSize.toInt(), canvasYSize.toInt(), Bitmap.Config.ARGB_8888)
+        mBitmap = Bitmap.createBitmap(canvasXSize.toInt(), canvasYSize.toInt(), Bitmap.Config.ARGB_8888)
         mBitmapPaint = Paint(Paint.DITHER_FLAG)
 
         val options = BitmapFactory.Options()
@@ -129,10 +122,9 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
     fun drawMatr() {
-
         mCanvas.drawBitmap(fon, -50f, 0f, paint)
 
-        for (i in 0 until N) {
+        for (i in 0 until n) {
             if (i % 2 == 0) paint.color = Color.GREEN
             else paint.color = Color.BLUE
             for (j in 0..i) {
@@ -277,7 +269,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             val cellX = ((event.x + scrollX) / mScaleFactor).toInt()
             val cellY = ((event.y + scrollY) / mScaleFactor).toInt()
 
-            val cord = Cord(0, 0, 0, 0, N)
+            val cord = Cord(0, 0, 0, 0, n)
 
             tileTapCord(cellX.toFloat() - dMatrX, cellY.toFloat() - dMatrY, cord)
 
@@ -292,7 +284,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             val cellX = ((event.x + scrollX) / mScaleFactor).toInt()
             val cellY = ((event.y + scrollY) / mScaleFactor).toInt()
 
-            val cord = Cord(0, 0, 0, 0, N)
+            val cord = Cord(0, 0, 0, 0, n)
 
             tileTapCord(cellX.toFloat() - dMatrX, cellY.toFloat() - dMatrY, cord)
 
@@ -323,7 +315,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                     cord.Y = sY + 1
                 }
             }
-            if (kotlin.math.abs(cord.X - N) + kotlin.math.abs(cord.Y - N) > N - 1) {
+            if (kotlin.math.abs(cord.X - n) + kotlin.math.abs(cord.Y - n) > n - 1) {
                 // println("sX = ${cord.X}, sY = ${cord.Y}, ${sX - N} ${sY - N}")
                 cord.X = -11
                 cord.Y = -11
@@ -346,7 +338,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
 
     fun logicLongTapFun(cord: Cord) {
-        if (cord.I > N - 1 || cord.J > N - 1 || cord.I < 0 || cord.J < 0) {
+        if (cord.I > n - 1 || cord.J > n - 1 || cord.I < 0 || cord.J < 0) {
         } else {
             println("I =  ${cord.I}   J =  ${cord.J} ")
             val y = cord.I
@@ -391,7 +383,7 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
     fun logicTapFun(cord: Cord) {
-        if (cord.I > N - 1 || cord.J > N - 1 || cord.I < 0 || cord.J < 0) {
+        if (cord.I > n - 1 || cord.J > n - 1 || cord.I < 0 || cord.J < 0) {
         } else if (statMyCity == 1) {
             //Map[cord.I][cord.J].type = "hill"
             val y = cord.I
@@ -430,7 +422,6 @@ class MapView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                 statMyCity = 0
             }
             drawMatr()
-            //println("aaa")
         }
     }
 }

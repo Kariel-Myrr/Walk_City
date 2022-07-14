@@ -16,7 +16,7 @@ class GameMapActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Log.d(TAG, "Game_Map_Class onStart()")
+        Log.d(TAG, "GameMapActivity onStart()")
         val getIntentFromMenu = intent
         var status = ""
         if (getIntentFromMenu.hasExtra("status"))
@@ -26,7 +26,7 @@ class GameMapActivity : AppCompatActivity() {
             val builder = AlertDialog.Builder(this@GameMapActivity)
             builder.setTitle("Game Guide")
             builder.setMessage(
-                "Вы город, он выделен белыми рамками.\n" +
+                "Вы играете за город, который выделен белыми рамками.\n" +
                         "На поле есть другие города, которые к вам враждебны.\n" +
                         "За ход можно перейти на соседнюю клету или атаковать соседний город с помощью одного клика.\n" +
                         "С помощью длинного клика можно узнать информацию о городе или о местности.\n" +
@@ -39,7 +39,7 @@ class GameMapActivity : AppCompatActivity() {
                         "6 - 20 человек village +5 очков здоровья.\n" +
                         "21 - 50 человек city +10 очков здоровья.\n" +
                         "от 50 и более человек metropolis +20 очков здоровья.\n" +
-                        "Помните, что каждое перемещение тратит 5 очков топлива и каждый ход отнимается столькоже очков еды, сколько населения в городе, при отсутствии еды каждый ход умирает 1 человек.\n" +
+                        "Помните, что каждое перемещение тратит 5 очков топлива и каждый ход отнимается столько же очков еды, сколько населения в городе, при отсутствии еды каждый ход умирает 1 человек.\n" +
                         "Условие выйгрыша: уничтожте столицу в нижнем углу."
             )
             builder.setPositiveButton("Ok") { dialog, which ->
@@ -48,32 +48,32 @@ class GameMapActivity : AppCompatActivity() {
             val dialog: AlertDialog = builder.create()
             dialog.show()
         } else manager.download()
-        ViewMap.map = manager.tile
-        ViewMap.CityArr = manager.city
-        ViewMap.manager = manager
-        ViewMap.drawMatr()
+        view_map.map = manager.tile
+        view_map.cityArr = manager.city
+        view_map.manager = manager
+        view_map.drawMatr()
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d(TAG, "Game_Map_Class onPause()")
+        Log.d(TAG, "GameMapActivity onPause()")
         manager.unload()
         finish()
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d(TAG, "Game_Map_Class onStop()")
+        Log.d(TAG, "GameMapActivity onStop()")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAG, "Game_Map_Class onDestroy()")
+        Log.d(TAG, "GameMapActivity onDestroy()")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAG, "Game_Map_Class onResume()")
+        Log.d(TAG, "GameMapActivity onResume()")
     }
 
     private fun changeActToBack() {
@@ -83,31 +83,34 @@ class GameMapActivity : AppCompatActivity() {
 
     private fun nextTurn() {
         Toast.makeText(applicationContext, "Turn made, game saved.", Toast.LENGTH_SHORT).show()
-        val stat = manager.check()
-        if (stat == 1) {
-            //manager.delCity()
-            val intent = Intent(this@GameMapActivity, MenuActivity::class.java)
-            intent.putExtra("statgame", "lose")
-            startActivity(intent)
-        } else if (stat == 2) {
-            //manager.delCity()
-            val intent = Intent(this@GameMapActivity, MenuActivity::class.java)
-            intent.putExtra("statgame", "won")
-            startActivity(intent)
-        } else {
-            manager.nextTurn()
-            val intent = Intent(this@GameMapActivity, GameMapActivity::class.java)
-            startActivity(intent)
+        when (manager.check()) {
+            1 -> {
+                //manager.delCity()
+                val intent = Intent(this@GameMapActivity, MenuActivity::class.java)
+                intent.putExtra("statgame", "lose")
+                startActivity(intent)
+            }
+            2 -> {
+                //manager.delCity()
+                val intent = Intent(this@GameMapActivity, MenuActivity::class.java)
+                intent.putExtra("statgame", "won")
+                startActivity(intent)
+            }
+            else -> {
+                manager.nextTurn()
+                val intent = Intent(this@GameMapActivity, GameMapActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
-        Log.d(TAG, "Game_Map_Class onCreate()")
+        Log.d(TAG, "GameMapActivity onCreate()")
         setContentView(R.layout.activity_game_map)
         manager = Manager(this@GameMapActivity)
-        var settings: Settings
+        val settings: Settings
         if (manager.tryingSettings() != 0) {
             manager.downloadSettings()
             settings = manager.settings()

@@ -48,10 +48,6 @@
                     android:background="@drawable/menu_button"
                     android:text="@string/settings"/>
             </LinearLayout>
-
         </RelativeLayout>
-
-
     </RelativeLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
