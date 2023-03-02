@@ -1,17 +1,13 @@
 package cool_guys.walkcity
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.util.Log
 import android.view.View
-import android.widget.Toast
-import cool_guys.walkcity.DataBase.Manager
+import cool_guys.walkcity.database.Manager
 import kotlinx.android.synthetic.main.activity_menu.*
-import kotlin.system.exitProcess
 
 class Menu_Class : AppCompatActivity() {
     lateinit var manager : Manager
@@ -92,7 +88,7 @@ class Menu_Class : AppCompatActivity() {
         var getIntentFromMenu = intent
         var statgame = ""
         if(getIntentFromMenu.hasExtra("statgame"))
-            statgame = getIntentFromMenu.getStringExtra("statgame")
+            statgame = getIntentFromMenu.getStringExtra("statgame").toString()
         if(statgame == "lose"){
             val builder = AlertDialog.Builder(this@Menu_Class)
             builder.setTitle("Game Info")

@@ -1,15 +1,13 @@
 package cool_guys.walkcity
 
-import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.util.Log
-import android.view.View
 import android.widget.Toast
-import cool_guys.walkcity.DataBase.Manager
-import cool_guys.walkcity.DataBase.Settings
+import cool_guys.walkcity.database.Manager
+import cool_guys.walkcity.database.Settings
 import kotlinx.android.synthetic.main.activity_game__map.*
 
 
@@ -29,7 +27,7 @@ class Game_Map_Class : AppCompatActivity() {
         var getIntentFromMenu = intent
         var status = ""
         if(getIntentFromMenu.hasExtra("status"))
-            status = getIntentFromMenu.getStringExtra("status")
+            status = getIntentFromMenu.getStringExtra("status").toString()
         if(status == "new game"){
             manager.init()
             val builder = AlertDialog.Builder(this@Game_Map_Class)
@@ -42,8 +40,8 @@ class Game_Map_Class : AppCompatActivity() {
             dialog.show()
         }
         else manager.download()
-        ViewMap.Map = manager.tile
-        ViewMap.CityArr = manager.city
+        ViewMap.map = manager.tile
+        ViewMap.cityArr = manager.city
         ViewMap.manager = manager
         ViewMap.drawMatr()
     }

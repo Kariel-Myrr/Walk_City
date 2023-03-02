@@ -1,12 +1,12 @@
 package cool_guys.walkcity
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import cool_guys.walkcity.DataBase.Manager
-import cool_guys.walkcity.DataBase.Settings
+import cool_guys.walkcity.database.Manager
+import cool_guys.walkcity.database.Settings
 import kotlinx.android.synthetic.main.activity_settings.*
 
 

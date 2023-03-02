@@ -1,11 +1,10 @@
-package cool_guys.walkcity.DataBase
+package cool_guys.walkcity.database
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.database.sqlite.SQLiteQueryBuilder
-import android.util.Log
 
 class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVersion) {
 
@@ -79,14 +78,16 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DBName, null, DBVe
 
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) { // Вызывается при обновлении версии БД
         p0!!.execSQL("Drop table IF EXISTS $CityDataName")
-        p0.execSQL("Drop table IF EXISTS $InventoryDataName")
-        p0.execSQL("Drop table IF EXISTS $ItemResourceName")
-        p0.execSQL("Drop table IF EXISTS $ItemWeaponName")
-        p0.execSQL("Drop table IF EXISTS $ItemProtectionName")
-        p0.execSQL("Drop table IF EXISTS $MapName")
-        p0.execSQL("Drop table IF EXISTS $TileName")
-        p0.execSQL("Drop table IF EXISTS $SettingsName")
-        onCreate(p0)
+        p0.run {
+            execSQL("Drop table IF EXISTS $InventoryDataName")
+            execSQL("Drop table IF EXISTS $ItemResourceName")
+            execSQL("Drop table IF EXISTS $ItemWeaponName")
+            execSQL("Drop table IF EXISTS $ItemProtectionName")
+            execSQL("Drop table IF EXISTS $MapName")
+            execSQL("Drop table IF EXISTS $TileName")
+            execSQL("Drop table IF EXISTS $SettingsName")
+            onCreate(this)
+        }
     }
 
     fun addCity(values: ContentValues) = sqlObj.insert(CityDataName, "", values)
